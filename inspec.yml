@@ -1,15 +1,15 @@
-name: redhat-enterprise-linux-9-stig-baseline
-title: redhat-enterprise-linux-9-stig-baseline
+name: canonical-ubuntu-22.04-lts-stig-baseline
+title: canonical-ubuntu-22.04-lts-stig-baseline
 maintainer: MITRE SAF Team
 copyright: MITRE
 license: Apache-2.0
-summary: "InSpec profile aligned to DISA STIG for RHEL9"
-version: 1.2.0
+summary: "InSpec profile aligned to DISA STIG for Canonical Ubuntu 22.0.4"
+version: 1.0.0
 inspec_version: ">= 6.0"
 
 supports:
-  - platform-name: redhat
-    release: 9.*
+  - platform-name: ubuntu
+    release: 22.*
 
 ### INPUTS ###
 # Inputs are variables that can be referenced by any control in the profile, 
