@@ -46,4 +46,19 @@ Restart the chrony service:
   tag 'documentable'
   tag cci: ['CCI-002046']
   tag nist: ['AU-8 (1) (b)']
+
+  file_path = input('chrony_config_file')
+  found_file = file(file_path)
+
+  if found_file.exist?
+    describe found_file do
+      subject { found_file }
+      its('content') { should match(/^makestep 1 -1/) }
+    end
+  else
+    describe(file_path + ' exists') do
+      subject { found_file.exist? }
+      it { should be true }
+    end
+  end
 end
