@@ -43,18 +43,11 @@ To deny access to ports, protocols, or services, use:
   tag nist: ['CM-7 b']
   tag 'host'
 
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
-  }
+  ufw_status = command('ufw status').stdout.strip.lines.first
+  value = ufw_status.split(':')[1].strip
 
-  firewalld_properties = input('firewalld_properties')
-
-  describe firewalld do
-    it { should be_running }
-  end
-  describe firewalld do
-    its('ports') { should cmp [firewalld_properties['ports']] }
-    its('protocols') { should cmp [firewalld_properties['protocols']] }
-    its('services') { should cmp [firewalld_properties['services']] }
+  describe 'UFW status' do
+    subject { value }
+    it { should cmp 'active' }
   end
 end

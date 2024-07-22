@@ -30,4 +30,9 @@ Reload the daemon to take effect:
   tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
+  
+  describe service('ctrl-alt-del.target') do
+    it {should_not be_enabled}
+    it {should_not be_running}
+  end
 end
