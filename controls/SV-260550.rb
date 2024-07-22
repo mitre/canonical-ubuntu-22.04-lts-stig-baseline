@@ -25,7 +25,25 @@ auth     required     pam_faildelay.so     delay=4000000'
   tag 'host'
   tag 'container'
 
-  describe login_defs do
-    its('FAIL_DELAY.to_i') { should cmp >= input('login_prompt_delay') }
+  if virtualization.system.eql?('docker')
+    impact 0.0
+    describe 'Control not applicable to a container' do
+      skip 'Control not applicable to a container'
+    end
+  else
+    describe file('/etc/pam.d/common-auth') do
+      it { should exist }
+    end
+
+    describe command('grep pam_faildelay /etc/pam.d/common-auth') do
+      its('exit_status') { should eq 0 }
+      its('stdout.strip') { should match(/^\s*auth\s+required\s+pam_faildelay.so\s+.*delay=([4-9][\d]{6,}|[1-9][\d]{7,}).*$/) }
+    end
+
+    file('/etc/pam.d/common-auth').content.to_s.scan(/^\s*auth\s+required\s+pam_faildelay.so\s+.*delay=(\d+).*$/).flatten.each do |entry|
+      describe entry do
+        it { should cmp >= 4_000_000 }
+      end
+    end
   end
 end

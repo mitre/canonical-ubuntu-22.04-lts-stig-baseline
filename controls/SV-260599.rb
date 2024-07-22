@@ -31,10 +31,25 @@ Reload the configuration file of the audit service to update the group ownership
   tag nist: ['AU-9', 'AU-9 a', 'SI-11 b']
   tag 'host'
 
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
-  }
-  describe file(auditd_conf('/etc/audit/auditd.conf').log_file) do
-    its('group') { should be_in input('var_log_audit_group') }
+  if virtualization.system.eql?('docker')
+    impact 0.0
+    describe 'Control not applicable to a container' do
+      skip 'Control not applicable to a container'
+    end
+  else
+    log_file = auditd_conf.log_file
+    admin_groups = input('admin_groups')
+
+    log_file_exists = !log_file.nil?
+    if log_file_exists
+      describe file(log_file) do
+        its('group') { should be_in admin_groups }
+      end
+    else
+      describe('Audit log file ' + log_file + ' exists') do
+        subject { log_file_exists }
+        it { should be true }
+      end
+    end
   end
 end

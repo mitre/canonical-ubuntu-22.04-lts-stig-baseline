@@ -31,19 +31,15 @@ Set the "lock-enabled" setting to allow graphical user interface session locks b
   tag nist: ['AC-11 b']
   tag 'host'
 
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
-  }
+  output = command('which Xorg').exit_status
 
-  lock_command = command('grep -i lock-command /etc/tmux.conf').stdout.strip
-  lock_session = command('grep -i lock-session /etc/tmux.conf').stdout.strip
-
-  describe 'tmux settings' do
-    it 'should set lock-command' do
-      expect(lock_command).to match(/set -g lock-command vlock/)
+  if output == 0
+    describe command('gsettings get org.gnome.desktop.screensaver lock-enabled').stdout.strip do
+      it { should cmp true }
     end
-    it 'should bind a specific key to lock-session' do
-      expect(lock_session).to match(/bind . lock-session/)
+  else
+    describe command('which Xorg').exit_status do
+      skip("GUI not installed.\nwhich Xorg exit_status: " + command('which Xorg').exit_status.to_s)
     end
   end
 end

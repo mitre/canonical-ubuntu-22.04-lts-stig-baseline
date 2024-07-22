@@ -26,4 +26,8 @@ If a value of "755" or less permissive is not returned, this is a finding.'
   tag 'documentable'
   tag cci: ['CCI-001314']
   tag nist: ['SI-11 b']
+  
+  describe directory('/var/log') do
+    it {should_not be_more_permissive_than('755')}
+  end
 end

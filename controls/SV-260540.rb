@@ -37,4 +37,19 @@ Configure Ubuntu 22.04 LTS to disable the ability to use USB mass storage device
   tag 'documentable'
   tag cci: ['CCI-001958']
   tag nist: ['IA-3']
+
+  if virtualization.system.eql?('docker')
+    impact 0.0
+    describe 'Control not applicable to a container' do
+      skip 'Control not applicable to a container'
+    end
+  else
+    describe command('grep usb-storage /etc/modprobe.d/* | grep "/bin/true"') do
+      its('stdout') { should_not be_empty }
+    end
+
+    describe command('grep usb-storage /etc/modprobe.d/* | grep -i "blacklist"') do
+      its('stdout') { should_not be_empty }
+    end
+  end
 end

@@ -31,11 +31,8 @@ Restart the SSH daemon for the changes to take effect:
   tag 'host'
   tag 'container-conditional'
 
-  only_if('This requirement is Not Applicable inside a container, the containers host manages the containers filesystems') {
-    !(virtualization.system.eql?('docker') && !file('/etc/ssh/sshd_config').exist?)
-  }
-
   describe sshd_config do
-    its('PermitUserEnvironment') { should eq 'no' }
+    its('PermitUserEnvironment') { should cmp 'nil' }
+    its('PermitEmptyPasswords') { should cmp 'nil' }
   end
 end

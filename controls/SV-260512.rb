@@ -24,4 +24,6 @@ If "journalctl" is not set to "740", this is a finding.'
   tag 'documentable'
   tag cci: ['CCI-001312']
   tag nist: ['SI-11 a']
+
+  
 end

@@ -24,4 +24,8 @@ If the "/var/log/syslog" file is not group-owned by "adm", this is a finding.'
   tag 'documentable'
   tag cci: ['CCI-001314']
   tag nist: ['SI-11 b']
+
+  describe file('/var/log/syslog') do
+    its('group') { should cmp 'adm' }
+  end
 end
