@@ -24,4 +24,10 @@ If "Time zone" is not set to UTC, this is a finding.'
   tag 'documentable'
   tag cci: ['CCI-001890']
   tag nist: ['AU-8 b']
+
+  time_zone = command('timedatectl status | grep -i "time zone"').stdout.strip
+
+  describe time_zone do
+    it { should match /UTC/ }
+  end
 end

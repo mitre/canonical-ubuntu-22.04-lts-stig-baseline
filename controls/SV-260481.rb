@@ -23,4 +23,8 @@ If the "ntp" package is installed, this is a finding.'
   tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
+
+  describe package('ntp') do
+    it { should_not be_installed }
+  end
 end

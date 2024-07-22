@@ -34,11 +34,24 @@ Using the path of the directory containing the audit logs, configure the audit l
   tag nist: ['AU-9', 'AU-9 a', 'SI-11 b']
   tag 'host'
 
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
-  }
-  log_dir = auditd_conf('/etc/audit/auditd.conf').log_file.split('/')[0..-2].join('/')
-  describe directory(log_dir) do
-    its('owner') { should eq 'root' }
+  if virtualization.system.eql?('docker')
+    impact 0.0
+    describe 'Control not applicable to a container' do
+      skip 'Control not applicable to a container'
+    end
+  else
+    log_file = auditd_conf.log_file
+
+    log_file_exists = !log_file.nil?
+    if log_file_exists
+      describe file(log_file) do
+        its('owner') { should cmp 'root' }
+      end
+    else
+      describe('Audit log file ' + log_file + ' exists') do
+        subject { log_file_exists }
+        it { should be true }
+      end
+    end
   end
 end
