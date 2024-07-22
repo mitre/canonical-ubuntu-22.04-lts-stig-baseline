@@ -25,8 +25,16 @@ session     required     pam_lastlog.so     showfailed'
   tag 'host'
   tag 'container'
 
-  describe pam('/etc/pam.d/postlogin') do
-    its('lines') { should match_pam_rule('session .* pam_lastlog.so').all_with_args('showfailed') }
-    its('lines') { should_not match_pam_rule('session .* pam_lastlog.so').all_without_args('silent') }
+  if virtualization.system.eql?('docker')
+    impact 0.0
+    describe 'Control not applicable to a container' do
+      skip 'Control not applicable to a container'
+    end
+  else
+    describe command('grep pam_lastlog /etc/pam.d/login') do
+      its('exit_status') { should eq 0 }
+      its('stdout.strip') { should match(/^\s*session\s+required\s+pam_lastlog.so/) }
+      its('stdout.strip') { should_not match(/^\s*session\s+required\s+pam_lastlog.so[\s\w\d\=]+.*silent/) }
+    end
   end
 end

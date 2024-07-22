@@ -28,18 +28,15 @@ Update the dconf settings:
   tag nist: ['CM-6 b', 'AC-6 (10)']
   tag 'host'
 
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
-  }
-
-  c = systemd_service('ctrl-alt-del.target')
-
-  describe.one do
-    describe c do
-      its('params.LoadState') { should eq 'masked' }
+  xorg_status = command('which Xorg').exit_status
+  if xorg_status == 0
+    describe command("grep -R logout='' /etc/dconf/db/local.d/").stdout.strip.split("\n").entries do
+      its('count') { should_not eq 0 }
     end
-    describe c do
-      its('params.LoadState') { should eq 'not-found' }
+  else
+    impact 0.0
+    describe command('which Xorg').exit_status do
+      skip('This control is Not Applicable since a GUI not installed.')
     end
   end
 end

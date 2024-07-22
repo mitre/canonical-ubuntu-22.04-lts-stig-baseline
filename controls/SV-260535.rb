@@ -54,4 +54,17 @@ Update GDM with the new configuration by using the following commands:
   tag 'documentable'
   tag cci: ['CCI-000048']
   tag nist: ['AC-8 a']
+
+  xorg_status = command('which Xorg').exit_status
+
+  if xorg_status == 0
+    describe 'banner-message-enable must be set to true' do
+      subject { command('grep banner-message-enable /etc/gdm3/greeter.dconf-defaults').stdout.strip }
+      it { should match(/banner-message-enable\s*=\s*true/) }
+    end
+  else
+    describe command('which Xorg').exit_status do
+      skip("GUI not installed.\nwhich Xorg exit_status: " + command('which Xorg').exit_status.to_s)
+    end
+  end
 end

@@ -56,9 +56,6 @@ Update GDM with the new configuration by using the following commands:
   tag nist: ['AC-8 a', 'AC-8 c 1', 'AC-8 c 2', 'AC-8 c 3']
   tag 'host'
 
-  only_if('This requirement is Not Applicable in the container', impact: 0.0) {
-    !virtualization.system.eql?('docker')
-  }
 
   no_gui = command('ls /usr/share/xsessions/*').stderr.match?(/No such file or directory/)
 

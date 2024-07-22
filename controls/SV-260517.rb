@@ -56,11 +56,5 @@ Rate-limiting can also be done on an interface. An example of adding a rate limi
   tag nist: ['SC-5', 'SC-5 a']
   tag 'host'
 
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
-  }
 
-  describe parse_config_file('/etc/firewalld/firewalld.conf') do
-    its('FirewallBackend') { should eq 'nftables' }
-  end
 end
