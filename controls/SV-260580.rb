@@ -34,4 +34,14 @@ Update the "/etc/ssl/certs" directory by using the following command:
   tag 'documentable'
   tag cci: ['CCI-002470']
   tag nist: ['SC-23 (5)']
+
+  allowed_ca_fingerprints_regex = input('allowed_ca_fingerprints_regex')
+  find_command = ''"
+  for f in $(find -L /etc/ssl/certs -type f); do
+    openssl x509 -sha256 -in $f -noout -fingerprint | cut -d= -f2 | tr -d ':' | egrep -vw '#{allowed_ca_fingerprints_regex}'
+  done
+  "''
+  describe command(find_command) do
+    its('stdout') { should cmp '' }
+  end
 end

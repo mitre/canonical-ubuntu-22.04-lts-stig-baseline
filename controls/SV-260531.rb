@@ -41,4 +41,23 @@ Restart the SSH server for the changes to take effect:
   tag 'documentable'
   tag cci: ['CCI-000068', 'CCI-002421', 'CCI-003123']
   tag nist: ['AC-17 (2)', 'SC-8 (1)', 'MA-4 (6)']
+
+  if input('disable_fips')
+    impact 0.0
+    describe 'FIPS testing has been disabled' do
+      skip 'This control has been set to Not Applicable, FIPS validation has been disabled with the `disable_fips` input'
+    end
+  elsif virtualization.system.eql?('docker')
+    describe 'FIPS validation in a container must be reviewed manually' do
+      skip 'FIPS validation in a container must be reviewed manually'
+    end
+  else
+    @ciphers_array = inspec.sshd_config.params['ciphers']
+
+    @ciphers_array = @ciphers_array.first.split(',') unless @ciphers_array.nil?
+
+    describe @ciphers_array do
+      it { should be_in %w(aes256-ctr aes192-ctr aes128-ctr) }
+    end
+  end
 end

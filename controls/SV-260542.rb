@@ -30,4 +30,13 @@ If the output does not contain "L" in the second field to indicate the account i
   tag 'documentable'
   tag cci: ['CCI-000770']
   tag nist: ['IA-2 (5)']
+
+  describe.one do
+    describe shadow.where(user: 'root') do
+      its('passwords.uniq.first') { should eq '!*' }
+    end
+  end
+  describe command('passwd -S root').stdout.strip do
+    it { should match(/^root\s+L\s+.*$/) }
+  end
 end

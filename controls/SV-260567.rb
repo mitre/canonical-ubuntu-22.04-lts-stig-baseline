@@ -37,4 +37,23 @@ Note: The value of "retry" should be between "1" and "3".'
   tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
+
+  if virtualization.system.eql?('docker')
+    impact 0.0
+    describe 'Control not applicable to a container' do
+      skip 'Control not applicable to a container'
+    end
+  else
+    describe package('libpam-pwquality') do
+      it { should be_installed }
+    end
+
+    describe parse_config_file('/etc/security/pwquality.conf') do
+      its('enforcing') { should cmp 1 }
+    end
+
+    describe file('/etc/pam.d/common-password') do
+      its('content') { should match '^password\s+requisite\s+pam_pwquality.so\s+retry=3$' }
+    end
+  end
 end

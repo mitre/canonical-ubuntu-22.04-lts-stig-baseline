@@ -28,4 +28,18 @@ The script must be located in the "/etc/cron.weekly" directory.'
   tag 'documentable'
   tag cci: ['CCI-001851']
   tag nist: ['AU-4 (1)']
+
+  cron_file = input('auditoffload_config_file')
+  cron_file_exists = file(cron_file).exist?
+
+  if cron_file_exists
+    describe file(cron_file) do
+      its('content') { should_not be_empty }
+    end
+  else
+    describe cron_file + ' exists' do
+      subject { cron_file_exists }
+      it { should be true }
+    end
+  end
 end
