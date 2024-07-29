@@ -957,7 +957,18 @@ inputs:
   - name: audit_rule_keynames_overrides
     description: The audit rules to be applied to the system
     type: Hash
-    value: {}
+    value: {
+      '/etc/sudoers.d'                : 'privilege_modification',
+      '/etc/sudoers'                  : 'privilege_modification',
+      '/var/log/journal'              : 'systemd_journal',
+      'chown'                         : 'perm_chng',
+      'fchown'                        : 'perm_chng',
+      'fchownat'                      : 'perm_chng',
+      'lchown'                        : 'perm_chng',
+      '/usr/bin/chacl'                : 'perm_chng',
+      '/usr/bin/chcon'                : 'perm_chng',
+      '/usr/bin/setfacl'              : 'perm_chng',
+    }
 
   # SV-257932
   - name: device_file_locations
