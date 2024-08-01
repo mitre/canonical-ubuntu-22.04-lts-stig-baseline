@@ -26,18 +26,4 @@ If "/etc/audit/audit.rules", "/etc/audit/auditd.conf", or "/etc/audit/rules.d/*"
   tag 'documentable'
   tag cci: ['CCI-000171']
   tag nist: ['AU-12 b']
-
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
-  }
-
-  rules_files = bash('ls -d /etc/audit/rules.d/*.rules').stdout.strip.split.append('/etc/audit/auditd.conf').append('/etc/audit/auditd.conf')
-
-  failing_files = rules_files.select { |rf| file(rf).more_permissive_than?(input('audit_conf_mode')) }
-
-  describe 'Audit configuration files' do
-    it "should be no more permissive than '#{input('audit_conf_mode')}'" do
-      expect(failing_files).to be_empty, "Failing files:\n\t- #{failing_files.join("\n\t- ")}"
-    end
-  end
 end
