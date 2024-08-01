@@ -35,4 +35,14 @@ Using the path of the directory containing the audit logs, configure the audit l
   tag 'documentable'
   tag cci: ['CCI-000164']
   tag nist: ['AU-9 a']
+
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.system.eql?('docker')
+  }
+
+  log_dir = auditd_conf('/etc/audit/auditd.conf').log_file.split('/')[0..-2].join('/')
+
+  describe directory(log_dir) do
+    it { should_not be_more_permissive_than ('0750') }
+  end
 end

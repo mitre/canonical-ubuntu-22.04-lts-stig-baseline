@@ -33,7 +33,7 @@ Note: Ubuntu Pro security certification instructions can be found at: https://ub
     !virtualization.system.eql?('docker')
   }
 
-  describe command('update-crypto-policies --show') do
-    its('stdout') { should match(/FIPS/) }
+  describe command('grep -i 1 /proc/sys/crypto/fips_enabled') do
+    its('stdout') { should match('1') }
   end
 end

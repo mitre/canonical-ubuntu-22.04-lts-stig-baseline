@@ -35,7 +35,7 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
   tag nist: ['AU-12 a', 'AU-3 a', 'AU-3 (1)', 'AU-12 c', 'MA-4 (1) (a)']
   tag 'host'
 
-  audit_command = '/usr/bin/kmod'
+  audit_command = '/bin/kmod'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !virtualization.system.eql?('docker')
@@ -43,12 +43,10 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
 
   describe 'Command' do
     it "#{audit_command} is audited properly" do
-      audit_rule = auditd.file(audit_command)
-      expect(audit_rule).to exist
-      expect(audit_rule.action.uniq).to cmp 'always'
-      expect(audit_rule.list.uniq).to cmp 'exit'
-      expect(audit_rule.fields.flatten).to include('perm=x', 'auid>=1000', 'auid!=-1')
-      expect(audit_rule.key.uniq).to include(input('audit_rule_keynames').merge(input('audit_rule_keynames_overrides'))[audit_command])
+    audit_rule = auditd.file(audit_command)
+    expect(audit_rule).to exist
+    expect(audit_rule.permissions.flatten).to include('x')
+    expect(audit_rule.key.uniq).to include(input('audit_rule_keynames').merge(input('audit_rule_keynames_overrides'))[audit_command])
     end
   end
 end

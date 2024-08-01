@@ -39,7 +39,7 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
   tag nist: ['AU-12 a', 'AU-3 a', 'AU-3 (1)', 'AU-12 c', 'MA-4 (1) (a)']
   tag 'host'
 
-  audit_syscalls = ['rename', 'unlink', 'rmdir', 'renameat', 'unlinkat']
+  audit_syscalls = ['unlink', 'unlinkat', 'rename', 'renameat', 'rmdir']
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !virtualization.system.eql?('docker')
