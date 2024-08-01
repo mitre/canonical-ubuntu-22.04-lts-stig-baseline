@@ -968,6 +968,16 @@ inputs:
       '/usr/bin/chacl'                : 'perm_chng',
       '/usr/bin/chcon'                : 'perm_chng',
       '/usr/bin/setfacl'              : 'perm_chng',
+      '/usr/lib/openssh/ssh-keysign'  : 'privileged-ssh',
+      '/bin/su'                       : 'privileged-priv_change',
+      '/usr/bin/umount'               : 'privileged-umount',
+      '/sbin/unix_update'             : 'privileged-unix-update',
+      '/etc/group'                    : 'usergroup_modification',
+      '/etc/gshadow'                  : 'usergroup_modification',
+      '/etc/security/opasswd'         : 'usergroup_modification',
+      '/etc/passwd'                   : 'usergroup_modification',
+      '/etc/shadow'                   : 'usergroup_modification',
+      'chmod'                         : 'perm_chng',
     }
 
   # SV-257932
@@ -1127,3 +1137,11 @@ inputs:
     description: Set to true if there is a requirement for this system to enable graphical user interface autorun function that is documented with the ISSO
     type: Boolean
     value: false
+
+  # SV-260503
+  - name: journal_files
+    description: Define files used by the systemd journal
+    type: Array
+    value:
+      - /run/log/journal
+      - /var/log/journal
