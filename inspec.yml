@@ -1170,14 +1170,3 @@ inputs:
     description: Array of groups that have administrative privileges
     type: Array
     value: ['root']
-
-    
-  
-
-
-  
-
-
-
-  
-
