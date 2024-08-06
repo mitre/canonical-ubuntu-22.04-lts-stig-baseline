@@ -30,4 +30,23 @@ To remove a user from the sudo group, run:
   tag 'documentable'
   tag cci: ['CCI-001084']
   tag nist: ['SC-3']
+
+  sudo_accounts = input('sudo_accounts')
+
+  if sudo_accounts.count > 0
+    sudo_accounts.each do |account|
+      describe group('sudo') do
+        its('members') { should include account }
+      end
+    end
+  else
+    describe.one do
+      describe group('sudo') do
+        its('members') { should be_nil }
+      end
+      describe group('sudo') do
+        its('members') { should be_empty }
+      end
+    end
+  end
 end

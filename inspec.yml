@@ -122,6 +122,7 @@ inputs:
       /etc/crontab: "0600"
       /etc/ssh/sshd_config: "0600"
       auditd_conf: "0640"
+      journal: "2640"
 
   # SV-257889 TODO: fold this into expected_system_file_mode
   - name: initialization_file_mode
@@ -1137,6 +1138,48 @@ inputs:
     description: Set to true if there is a requirement for this system to enable graphical user interface autorun function that is documented with the ISSO
     type: Boolean
     value: false
+
+  # SV-260520
+  - name: chrony_config_file
+    description: File to sync internal information system clocks
+    type: String
+    value: "/etc/chrony/chrony.conf"
+  
+  #SV-260526
+  - name: disable_fips
+    description: Boolean to disable/enable FIPS testing
+    type: Boolean
+    value: false
+
+  #SV-260559
+  - name: sudo_accounts
+    description: Array of users who need access to security functions are part of the sudo group.
+    type: Array
+    value: [ "ubuntu" ]
+
+  #SV-260575
+  - name: pki_disabled
+    description: Is PKI authentication used for this system
+    type: boolean
+    value: false
+
+  #SV-260580
+  - name: allowed_ca_fingerprints_regex
+    description: Certificate fingerprint regex for DoD PKI-established certificate authorities
+    type: string
+    value: (9676F287356C89A12683D65234098CB77C4F1C18F23C0E541DE0E196725B7EBE|B107B33F453E5510F68E513110C6F6944BACC263DF0137F821C1B3C2F8F863D2|559A5189452B13F8233F0022363C06F26E3C517C1D4B77445035959DF3244F74|1F4EDE9DC2A241F6521BF518424ACD49EBE84420E69DAF5BAC57AF1F8EE294A9)
+
+  #SV-260587
+  - name: auditoffload_config_file
+    description: Location of audit offload config file
+    type: String
+    value: '/etc/cron.weekly/audit-offload'
+  
+  #SV-260599, SV-260603 
+  - name: admin_groups
+    description: Array of groups that have administrative privileges
+    type: Array
+    value: ['root']
 
   # SV-260503
   - name: journal_files

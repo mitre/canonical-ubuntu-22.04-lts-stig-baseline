@@ -29,4 +29,8 @@ If the "apparmor" package is not installed, this is a finding.'
   tag 'documentable'
   tag cci: ['CCI-001764', 'CCI-001774', 'CCI-002165']
   tag nist: ['CM-7 (2)', 'CM-7 (5) (b)', 'AC-3 (4)']
+
+  describe service('apparmor') do
+    it { should be_installed }
+  end
 end
