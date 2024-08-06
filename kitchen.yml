@@ -24,8 +24,8 @@ platforms:
 
 suites:
   - name: vanilla
-    provisioner:
-      playbook: spec/ansible/roles/ansible-role-u22-vanilla.yml
+    # provisioner:
+    #   playbook: spec/ansible/roles/ansible-role-u22-vanilla.yml
 
   # - name: hardened
   #   provisioner:
