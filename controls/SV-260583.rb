@@ -64,4 +64,8 @@ End timestamp: 2024-04-01 04:29:16 +1300 (run time: 9m 16s)'
   tag 'documentable'
   tag cci: ['CCI-002696']
   tag nist: ['SI-6 a']
+
+  describe package('aide') do
+    it { should be_installed }
+  end
 end

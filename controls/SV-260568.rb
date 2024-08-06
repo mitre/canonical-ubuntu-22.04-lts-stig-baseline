@@ -24,4 +24,20 @@ password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5
   tag 'documentable'
   tag cci: ['CCI-000200']
   tag nist: ['IA-5 (1) (e)']
+
+  if virtualization.system.eql?('docker')
+    impact 0.0
+    describe 'Control not applicable to a container' do
+      skip 'Control not applicable to a container'
+    end
+  else
+    describe file('/etc/pam.d/common-password') do
+      it { should exist }
+    end
+
+    describe command("grep -i remember /etc/pam.d/common-password | sed 's/.*remember=\\([^ ]*\\).*/\\1/'") do
+      its('exit_status') { should eq 0 }
+      its('stdout.strip') { should cmp >= 5 }
+    end
+  end
 end

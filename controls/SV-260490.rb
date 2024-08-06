@@ -45,4 +45,14 @@ Restart the system for the changes to take effect.'
   tag 'documentable'
   tag cci: ['CCI-001312']
   tag nist: ['SI-11 a']
+  journal_dirs = command('sudo find /run/log/journal /var/log/journal  -type d -exec stat -c "%n" {} \;').stdout.split("\n")
+  mode = '3000'
+
+  non_compliant_journal_dirs = journal_dirs.select { |dir| file(dir).more_permissive_than?(mode) }
+
+  describe 'All journal directories' do
+    it "have a mode of '#{mode}' or less permissive" do
+      expect(non_compliant_journal_dirs).to be_empty, "Failing directories:\n\t- #{non_compliant_journal_dirs.join("\n\t- ")}"
+    end
+  end
 end

@@ -27,4 +27,8 @@ If "vlock" is not installed, this is a finding.'
   tag 'documentable'
   tag cci: ['CCI-000058', 'CCI-000060']
   tag nist: ['AC-11 a', 'AC-11 (1)']
+
+  describe package('vlock') do
+    it { should be_installed }
+  end
 end
