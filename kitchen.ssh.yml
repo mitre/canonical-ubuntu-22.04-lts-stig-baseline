@@ -1,0 +1,76 @@
+driver:
+  name: ssh
+  hostname: <%= ENV['DEFENDER_HOST'] %>
+  port: 2200
+  sudo: yes
+  # password: <%= ENV['INSPEC_PWD'] %>
+  username: root
+  ssh_key: ~/.ssh/id_ed25519
+
+provisioner:
+  name: ansible_playbook
+  hosts: all
+  require_chef_for_busser: false
+  require_ruby_for_busser: false
+  ansible_binary_path: /usr/local/bin
+  require_pip3: true
+  ansible_verbose: true
+  roles_path: spec/ansible/roles
+  galaxy_ignore_certs: true
+  requirements_path: spec/ansible/roles/requirements.yml
+  requirements_collection_path: spec/ansible/roles/requirements.yml
+  ansible_extra_flags: <%= ENV['ANSIBLE_EXTRA_FLAGS'] %>
+
+verifier:
+  input_files:
+  # ...
+
+suites:
+  - name: vanilla
+    provisioner:
+      playbook: spec/ansible/ubuntu-stig-vanilla.yml
+    driver:
+      tags:
+        Name: Vanilla-<%= ENV['USER'] %>
+        CreatedBy: test-kitchen
+  - name: hardened
+    provisioner:
+      playbook: spec/ansible/ubuntu-stig-hardening.yml
+    driver:
+      tags:
+        Name: Hardened-<%= ENV['USER'] %>
+        CreatedBy: test-kitchen
+
+lifecycle:
+  pre_converge:
+    - remote: |
+        echo "+++ Updating APT Packages +++"
+        sudo apt-get update
+        echo ""
+        echo "Download the Microsoft repository keys"
+        wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
+        echo "Register the Microsoft repository keys"
+        sudo dpkg -i packages-microsoft-prod.deb
+        echo "Delete the Microsoft repository keys file"
+        rm packages-microsoft-prod.deb
+        echo "Refresh Package Lists"
+        sudo apt-get update
+        sudo apt -y upgrade
+        echo "+++ Installing needed packages for test-kitchen workflow and other utilities +++\n\n"
+        sudo apt -y install python3 python3-pip libxml2 libxml2-dev libxslt-dev python-dev wget apt-transport-https software-properties-common exfat-utils powershell
+        # sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
+        sudo -H python3 -m pip install --user --upgrade pip
+        echo ""
+        echo "+++ Updating the ubuntu to keep sudo working after hardening phase +++\n\n"
+        sudo chage -d $(( $( date +%s ) / 86400 )) videoray
+        sudo chage -d $(( $( date +%s ) / 86400 )) user
+        echo ""
+        echo "+++ updating ubuntu sudo config for hardening phase +++\n\n"
+        #sudo chmod 600 /etc/sudoers && sudo sed -i'' "/videoray/d" /etc/sudoers && sudo chmod 400 /etc/sudoers
+        # sudo chmod 600 /etc/sudoers && sudo sed -i'' "/user/d" /etc/sudoers && sudo chmod 400 /etc/sudoers
+        echo "Add Evaluate STIG to the Workflow Post Converge"
+
+transport:
+  name: ssh
+  #https://github.com/neillturner/kitchen-ansible/issues/295
+  max_ssh_sessions: 2
