@@ -6,10 +6,10 @@ verifier:
     - cli
     - json:spec/results/%{platform}_%{suite}.json
   inspec_tests:
-    - name: RedHat 9 STIG v1r2
+    - name: Ubuntu 22.04 STIG
       path: .
   input_files:
-    - kitchen.inputs.yml
+    - inputs.yml
   <% if ENV['INSPEC_CONTROL'] %>
   controls:
     - "<%= ENV['INSPEC_CONTROL'] %>"
@@ -18,14 +18,28 @@ verifier:
   env_vars:
     - "CHEF_LICENSE=<%= ENV['CHEF_LICENSE'] %>"
 
+
+platforms:
+- name: ubuntu-2204
+
 suites:
   - name: vanilla
-    provisioner:
-      playbook: spec/ansible/roles/ansible-role-rhel-vanilla.yml
+    transport:
+      port: 2211
+      hostname: 127.0.0.1
+      ssh_key: ~/.ssh/id_ed25519
+    # provisioner:
+    #   playbook: spec/ansible/roles/ansible-role-u22-vanilla.yml
 
   - name: hardened
-    provisioner:
-      playbook: spec/ansible/roles/ansible-role-rhel-hardened.yml
+    transport:
+      port: 2200
+      hostname: 127.0.0.1
+      ssh_key: ~/.ssh/id_ed25519
+  #   provisioner:
+  #     playbook: spec/ansible/roles/ansible-role-rhel-hardened.yml
 
 transport:
   max_ssh_sessions: 6
+  # port: 2200
+  

@@ -1,26 +1,26 @@
 control 'SV-260589' do
   title 'Ubuntu 22.04 LTS must monitor remote access methods.'
-  desc 'Remote access services, such as those providing remote access to network devices and information systems, which lack automated monitoring capabilities, increase risk and make remote user access management difficult at best.  
-  
-Remote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.  
-  
+  desc 'Remote access services, such as those providing remote access to network devices and information systems, which lack automated monitoring capabilities, increase risk and make remote user access management difficult at best.
+
+Remote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.
+
 Automated monitoring of remote access sessions allows organizations to detect cyberattacks and also ensure ongoing compliance with remote access policies by auditing connection activities of remote access capabilities, such as Remote Desktop Protocol (RDP), on a variety of information system components (e.g., servers, workstations, notebook computers, smartphones, and tablets).'
-  desc 'check', %q(Verify that Ubuntu 22.04 LTS monitors all remote access methods by using the following command:  
-  
-     $  grep -Er '^(auth\.\*,authpriv\.\*|daemon\.\*)' /etc/rsyslog.* 
-     /etc/rsyslog.d/50-default.conf:auth.*,authpriv.* /var/log/secure 
-     /etc/rsyslog.d/50-default.conf:daemon.* /var/log/messages 
-  
+  desc 'check', %q(Verify that Ubuntu 22.04 LTS monitors all remote access methods by using the following command:
+
+     $  grep -Er '^(auth\.\*,authpriv\.\*|daemon\.\*)' /etc/rsyslog.*
+     /etc/rsyslog.d/50-default.conf:auth.*,authpriv.* /var/log/secure
+     /etc/rsyslog.d/50-default.conf:daemon.* /var/log/messages
+
 If "auth.*", "authpriv.*", or "daemon.*" are not configured to be logged in at least one of the config files, this is a finding.)
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to monitor all remote access methods. 
- 
-Add or modify the following line in the "/etc/rsyslog.d/50-default.conf" file: 
- 
-auth.*,authpriv.* /var/log/secure  
-daemon.* /var/log/messages  
- 
-Restart "rsyslog.service" for the changes to take effect by using the following command:  
-  
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to monitor all remote access methods.
+
+Add or modify the following line in the "/etc/rsyslog.d/50-default.conf" file:
+
+auth.*,authpriv.* /var/log/secure
+daemon.* /var/log/messages
+
+Restart "rsyslog.service" for the changes to take effect by using the following command:
+
      $ sudo systemctl restart rsyslog.service'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
@@ -47,19 +47,17 @@ Restart "rsyslog.service" for the changes to take effect by using the following 
 
   if rsyslog.exist?
 
-    auth_pattern = %r{^\s*[a-z.;*]*auth(,[a-z,]+)*\.\*\s*/*}
-    authpriv_pattern = %r{^\s*[a-z.;*]*authpriv(,[a-z,]+)*\.\*\s*/*}
-    daemon_pattern = %r{^\s*[a-z.;*]*daemon(,[a-z,]+)*\.\*\s*/*}
+    auth_pattern = %r{^\s*/etc/rsyslog\.d/\d+-default\.conf:auth\.\*,authpriv\.\*\s+/var/log/secure$}
+    daemon_pattern = %r{^\s*/etc/rsyslog\.d/\d+-default\.conf:daemon\.\*\s+/var/log/messages$}
 
-    rsyslog_conf = command('grep -E \'(auth.*|authpriv.*|daemon.*)\' /etc/rsyslog.conf')
-
+    rsyslog_conf = command('grep -Er ^\'(auth\.\*,authpriv\.\*|daemon\.\*)\' /etc/rsyslog.*')
     describe 'Logged remote access methods' do
-      it 'should include auth.*' do
+      it 'should include auth.* and authpriv*' do
         expect(rsyslog_conf.stdout).to match(auth_pattern), 'auth.* not configured for logging'
       end
-      it 'should include authpriv.*' do
-        expect(rsyslog_conf.stdout).to match(authpriv_pattern), 'authpriv.* not configured for logging'
-      end
+      # it 'should include authpriv.*' do
+      #   expect(rsyslog_conf.stdout).to match(authpriv_pattern), 'authpriv.* not configured for logging'
+      # end
       it 'should include daemon.*' do
         expect(rsyslog_conf.stdout).to match(daemon_pattern), 'daemon.* not configured for logging'
       end
