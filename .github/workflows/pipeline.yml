@@ -14,9 +14,9 @@ jobs:
     env:
       # so that we can use InSpec without manually accepting the license
       CHEF_LICENSE: accept
-      RESULTS_FILE:
-        "results/pipeline_run.json"
-        # path to our profile
+      RESULTS_FILE: "pipeline_run.json"
+
+      # path to our profile
       # PROFILE: .
     steps:
       # updating all dependencies is always a good start
