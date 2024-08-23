@@ -35,8 +35,8 @@ jobs:
         uses: actions/checkout@v4
 
       # double-check that we don't have any serious issues in our profile code
-      - name: LINT - Run InSpec Check           
-        run: inspec check .
+      - name: LINT - Run Cinc Auditor Check           
+        run: cinc-auditor check .
 
       # launch a container as the test target
       # - name: DEPLOY - Run a Docker container from nginx
@@ -65,7 +65,7 @@ jobs:
         # we dont want to stop if our InSpec run finds failures, we want to continue and record the result
         continue-on-error: true                
         run: |
-          sudo cinc-auditor exec . --input-file=inputs.yml --reporter cli json:${{ env.RESULTS_FILE }} -l debug
+          sudo cinc-auditor exec . --input-file=inputs.yml --reporter cli json:${{ env.RESULTS_FILE }}
 
       # attest
       # - name: VALIDATE - Apply an Attestation
