@@ -58,14 +58,11 @@ jobs:
       # - name: HARDEN - Run Ansible hardening
       #   run: ansible-playbook --inventory=nginx, --connection=docker ansible-nginx-stigready-hardening/hardening-playbook.yml
 
-      # - name: VALIDATE - Run InSpec
-      #   # we dont want to stop if our InSpec run finds failures, we want to continue and record the result
-      #   continue-on-error: true                
-      #   run: |
-      #     inspec exec $PROFILE \
-      #     --input-file=$PROFILE/inputs-linux.yml \
-      #     --target docker://nginx \
-      #     --reporter cli json:results/pipeline_run.json
+      - name: VALIDATE - Run InSpec
+        # we dont want to stop if our InSpec run finds failures, we want to continue and record the result
+        continue-on-error: true                
+        run: |
+          inspec exec . --reporter cli json:results/pipeline_run.json
 
       # attest
       # - name: VALIDATE - Apply an Attestation
@@ -73,10 +70,10 @@ jobs:
       #     saf attest apply -i results/pipeline_run.json attestation.json -o results/pipeline_run_attested.json
 
       # save our results to the pipeline artifacts, even if the InSpec run found failing tests
-      # - name: VALIDATE - Save Test Result JSON
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     path: results/pipeline_run_attested.json
+      - name: VALIDATE - Save Test Result JSON
+        uses: actions/upload-artifact@v4
+        with:
+          path: results/pipeline_run_attested.json
 
       # drop off the data with our dashboard
       # - name: VALIDATE - Upload to Heimdall
@@ -84,9 +81,9 @@ jobs:
       #   run: |
       #     curl -# -s -F data=@results/pipeline_run_attested.json -F "filename=${{ github.actor }}-pipeline-demo-${{ github.sha }}.json" -F "public=true" -F "evaluationTags=${{ github.repository }},${{ github.workflow }}" -H "Authorization: Api-Key ${{ secrets.HEIMDALL_API_KEY }}" "https://heimdall-demo.mitre.org/evaluations"
 
-      # - name: VERIFY - Display our results summary 
-      #   run: |
-      #     saf view summary -i results/pipeline_run_attested.json
+      - name: VERIFY - Display our results summary 
+        run: |
+          saf view summary -i results/pipeline_run_attested.json
       
       # check if the pipeline passes our defined threshold
       # - name: VERIFY - Ensure the scan meets our results threshold           
