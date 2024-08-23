@@ -76,7 +76,7 @@ jobs:
         # we dont want to stop if our InSpec run finds failures, we want to continue and record the result
         continue-on-error: true
         run: |
-          sudo cinc-auditor exec . --input-file=inputs.yml --reporter cli json:${{ env.RESULTS_FILE }}
+          sudo cinc-auditor exec . --input-file=inputs.yml --reporter cli json:${{ env.RESULTS_FILE }} --enhanced-outcomes
 
       # attest
       # - name: VALIDATE - Apply an Attestation
@@ -103,8 +103,8 @@ jobs:
         continue-on-error: true
         id: generate-summary
         run: |
-          cat ${{ env.RESULTS_FILE }} | python markdown-summary.py > ${{ env.RESULTS_FILE}}-markdown-summary.md
-          cat ${{ env.RESULTS_FILE }}-markdown-summary.md >> $GITHUB_STEP_SUMMARY
+          saf view summary -i ${{env.RESULTS_FILE }}--format=markdown --no-stdout -o output.md
+          cat output.md >> $GITHUB_STEP_SUMMARY
 
       # check if the pipeline passes our defined threshold
       # - name: VERIFY - Ensure the scan meets our results threshold
