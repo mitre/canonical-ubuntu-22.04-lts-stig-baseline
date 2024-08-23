@@ -1,5 +1,7 @@
 name: Verify Ubuntu 22.04
 
+
+
 # define the triggers for this action
 on:    
   pull_request:                                         
@@ -14,6 +16,7 @@ jobs:
     env:
        # so that we can use InSpec without manually accepting the license
       CHEF_LICENSE: accept  
+      RESULTS_FILE: 'results/pipeline_run.json'
        # path to our profile                   
       # PROFILE: .                       
     steps:
@@ -58,11 +61,11 @@ jobs:
       # - name: HARDEN - Run Ansible hardening
       #   run: ansible-playbook --inventory=nginx, --connection=docker ansible-nginx-stigready-hardening/hardening-playbook.yml
 
-      - name: VALIDATE - Run InSpec
+      - name: VALIDATE - Run Cinc Auditor
         # we dont want to stop if our InSpec run finds failures, we want to continue and record the result
         continue-on-error: true                
         run: |
-          sudo inspec exec . --input-file=inputs.yml --reporter progress-bar json:results/pipeline_run.json -l debug
+          sudo cinc-auditor exec . --input-file=inputs.yml --reporter cli json:${{ env.RESULTS_FILE }} -l debug
 
       # attest
       # - name: VALIDATE - Apply an Attestation
@@ -73,7 +76,7 @@ jobs:
       - name: VALIDATE - Save Test Result JSON
         uses: actions/upload-artifact@v4
         with:
-          path: results/pipeline_run_attested.json
+          path: ${{ env.RESULTS_FILE }}
 
       # drop off the data with our dashboard
       # - name: VALIDATE - Upload to Heimdall
@@ -83,9 +86,9 @@ jobs:
 
       - name: VERIFY - Display our results summary 
         run: |
-          saf view summary -i results/pipeline_run_attested.json
+          saf view summary -i ${{ env.RESULTS_FILE }}
       
       # check if the pipeline passes our defined threshold
       # - name: VERIFY - Ensure the scan meets our results threshold           
       #   run: |
-      #     saf validate threshold -i results/pipeline_run_attested.json -F threshold.yml
+      #     saf validate threshold -i ${{ env.RESULTS_FILE }} -F threshold.yml
