@@ -1,7 +1,5 @@
 name: Verify Ubuntu 22.04
 
-
-
 # define the triggers for this action
 on:    
   pull_request:                                         
@@ -23,6 +21,15 @@ jobs:
       # updating all dependencies is always a good start
       - name: PREP - Update runner              
         run: sudo apt-get update
+
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          calculatedSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
+
+      - name: Confirm git commit SHA output
+        run: echo ${{ env.COMMIT_SHORT_SHA }}
 
       - name: PREP - Install Cinc
         run: curl -L https://omnitruck.cinc.sh/install.sh | sudo bash -s -- -P cinc-auditor -v 6
@@ -87,6 +94,13 @@ jobs:
       - name: VERIFY - Display our results summary 
         run: |
           saf view summary -i ${{ env.RESULTS_FILE }}
+
+      - name: Generate Markdown Summary
+        continue-on-error: true
+        id: generate-summary
+        run: |
+          cat ${{ env.RESULTS_FILE }} | python markdown-summary.py > ${{ env.RESULTS_FILE}}-markdown-summary.md
+          cat ${{ env.RESULTS_FILE }}-markdown-summary.md >> $GITHUB_STEP_SUMMARY
       
       # check if the pipeline passes our defined threshold
       # - name: VERIFY - Ensure the scan meets our results threshold           
