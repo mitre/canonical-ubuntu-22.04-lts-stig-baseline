@@ -62,7 +62,7 @@ jobs:
         # we dont want to stop if our InSpec run finds failures, we want to continue and record the result
         continue-on-error: true                
         run: |
-          inspec exec . --reporter cli json:results/pipeline_run.json
+          sudo inspec exec . --input-file=inputs.yml --reporter cli json:results/pipeline_run.json
 
       # attest
       # - name: VALIDATE - Apply an Attestation
