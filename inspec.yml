@@ -979,6 +979,13 @@ inputs:
       '/etc/passwd'                   : 'usergroup_modification',
       '/etc/shadow'                   : 'usergroup_modification',
       'chmod'                         : 'perm_chng',
+      '/bin/kmod'                     : 'modules',
+      '/var/log/faillog'              : 'logins',
+      '/var/log/wtmp'                 : 'logins',
+      '/var/run/utmp'                 : 'logins',
+      '/var/log/btmp'                 : 'logins', # DOUBLES - check
+      '/var/log/wtmp'                 : 'session',
+      '/var/log/btmp'                 : 'session',
     }
 
   # SV-257932

@@ -1,10 +1,11 @@
 driver:
   name: ssh
-  hostname: <%= ENV['DEFENDER_HOST'] %>
-  port: 2200
+  # hostname: <%= ENV['TEST_BOX_HOST'] %>
+  hostname: 127.0.0.1
+  # port: 2200
   sudo: yes
   # password: <%= ENV['INSPEC_PWD'] %>
-  username: root
+  # username: patrick
   ssh_key: ~/.ssh/id_ed25519
 
 provisioner:
@@ -31,14 +32,14 @@ verifier:
 #   - name: vanilla
 #     provisioner:
 #       playbook: spec/ansible/roles/ansible-role-u22-vanilla.yml
-#     driver:
+    # driver:
 #       tags:
 #         Name: Vanilla-<%= ENV['USER'] %>
 #         CreatedBy: test-kitchen
-#   - name: hardened
+  # - name: hardened
 #     provisioner:
 #       playbook: spec/ansible/ubuntu-stig-hardening.yml
-#     driver:
+    # driver:
 #       tags:
 #         Name: Hardened-<%= ENV['USER'] %>
 #         CreatedBy: test-kitchen

@@ -24,13 +24,22 @@ platforms:
 
 suites:
   - name: vanilla
+    transport:
+      port: 2211
+      hostname: 127.0.0.1
+      ssh_key: ~/.ssh/id_ed25519
     # provisioner:
     #   playbook: spec/ansible/roles/ansible-role-u22-vanilla.yml
 
-  # - name: hardened
+  - name: hardened
+    transport:
+      port: 2200
+      hostname: 127.0.0.1
+      ssh_key: ~/.ssh/id_ed25519
   #   provisioner:
   #     playbook: spec/ansible/roles/ansible-role-rhel-hardened.yml
 
 transport:
   max_ssh_sessions: 6
-  port: 2200
+  # port: 2200
+  
