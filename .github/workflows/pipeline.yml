@@ -33,6 +33,9 @@ jobs:
       - name: PREP - Check out this repository
         uses: actions/checkout@v4
 
+      - name: Clone full repository so we can push
+        run: git fetch --prune --unshallow
+
       - name: Set short git commit SHA
         id: vars
         run: |
