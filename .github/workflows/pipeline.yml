@@ -103,7 +103,7 @@ jobs:
         continue-on-error: true
         id: generate-summary
         run: |
-          saf view summary -i ${{env.RESULTS_FILE }}--format=markdown --no-stdout -o output.md
+          saf view summary -i ${{env.RESULTS_FILE }} --format=markdown --no-stdout -o output.md
           cat output.md >> $GITHUB_STEP_SUMMARY
 
       # check if the pipeline passes our defined threshold
