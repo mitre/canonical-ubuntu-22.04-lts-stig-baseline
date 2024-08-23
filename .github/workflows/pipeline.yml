@@ -1,26 +1,37 @@
 name: Verify Ubuntu 22.04
 
 # define the triggers for this action
-on:    
-  pull_request:                                         
+on:
+  pull_request:
   push:
     # trigger this action on any push to main branch
-    branches: [ main ]                
+    branches: [main]
 
 jobs:
   gold-image:
     name: Ubuntu 22.04
     runs-on: ubuntu-22.04
     env:
-       # so that we can use InSpec without manually accepting the license
-      CHEF_LICENSE: accept  
-      RESULTS_FILE: 'results/pipeline_run.json'
-       # path to our profile                   
-      # PROFILE: .                       
+      # so that we can use InSpec without manually accepting the license
+      CHEF_LICENSE: accept
+      RESULTS_FILE:
+        "results/pipeline_run.json"
+        # path to our profile
+      # PROFILE: .
     steps:
       # updating all dependencies is always a good start
-      - name: PREP - Update runner              
+      - name: PREP - Update runner
         run: sudo apt-get update
+
+      - name: PREP - Install Cinc
+        run: curl -L https://omnitruck.cinc.sh/install.sh | sudo bash -s -- -P cinc-auditor -v 6
+
+      - name: PREP - Install SAF CLI
+        run: npm install -g @mitre/saf
+
+      # checkout the profile, because that's where our profile is!
+      - name: PREP - Check out this repository
+        uses: actions/checkout@v4
 
       - name: Set short git commit SHA
         id: vars
@@ -31,18 +42,8 @@ jobs:
       - name: Confirm git commit SHA output
         run: echo ${{ env.COMMIT_SHORT_SHA }}
 
-      - name: PREP - Install Cinc
-        run: curl -L https://omnitruck.cinc.sh/install.sh | sudo bash -s -- -P cinc-auditor -v 6
-
-      - name: PREP - Install SAF CLI
-        run: npm install -g @mitre/saf
-
-      # checkout the profile, because that's where our profile is!
-      - name: PREP - Check out this repository  
-        uses: actions/checkout@v4
-
       # double-check that we don't have any serious issues in our profile code
-      - name: LINT - Run Cinc Auditor Check           
+      - name: LINT - Run Cinc Auditor Check
         run: cinc-auditor check .
 
       # launch a container as the test target
@@ -70,7 +71,7 @@ jobs:
 
       - name: VALIDATE - Run Cinc Auditor
         # we dont want to stop if our InSpec run finds failures, we want to continue and record the result
-        continue-on-error: true                
+        continue-on-error: true
         run: |
           sudo cinc-auditor exec . --input-file=inputs.yml --reporter cli json:${{ env.RESULTS_FILE }}
 
@@ -91,7 +92,7 @@ jobs:
       #   run: |
       #     curl -# -s -F data=@results/pipeline_run_attested.json -F "filename=${{ github.actor }}-pipeline-demo-${{ github.sha }}.json" -F "public=true" -F "evaluationTags=${{ github.repository }},${{ github.workflow }}" -H "Authorization: Api-Key ${{ secrets.HEIMDALL_API_KEY }}" "https://heimdall-demo.mitre.org/evaluations"
 
-      - name: VERIFY - Display our results summary 
+      - name: VERIFY - Display our results summary
         run: |
           saf view summary -i ${{ env.RESULTS_FILE }}
 
@@ -101,8 +102,8 @@ jobs:
         run: |
           cat ${{ env.RESULTS_FILE }} | python markdown-summary.py > ${{ env.RESULTS_FILE}}-markdown-summary.md
           cat ${{ env.RESULTS_FILE }}-markdown-summary.md >> $GITHUB_STEP_SUMMARY
-      
+
       # check if the pipeline passes our defined threshold
-      # - name: VERIFY - Ensure the scan meets our results threshold           
+      # - name: VERIFY - Ensure the scan meets our results threshold
       #   run: |
       #     saf validate threshold -i ${{ env.RESULTS_FILE }} -F threshold.yml
