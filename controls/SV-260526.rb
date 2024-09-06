@@ -32,7 +32,7 @@ Restart the SSH daemon for the changes to take effect:
   tag 'container-conditional'
 
   describe sshd_config do
-    its('PermitUserEnvironment') { should cmp 'nil' }
-    its('PermitEmptyPasswords') { should cmp 'nil' }
+    its('PermitUserEnvironment') { should cmp 'no' }
+    its('PermitEmptyPasswords') { should cmp 'no' }
   end
 end
