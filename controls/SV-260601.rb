@@ -1,18 +1,18 @@
 control 'SV-260601' do
   title 'Ubuntu 22.04 LTS must be configured so that audit configuration files are not write-accessible by unauthorized users.'
-  desc "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events.  
-  
+  desc "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events.
+
 Misconfigured audits may degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one."
-  desc 'check', %q(Verify that "/etc/audit/audit.rules", "/etc/audit/auditd.conf", and "/etc/audit/rules.d/*" files have a mode of "640" or less permissive by using the following command:  
-  
-     $ sudo ls -al /etc/audit/audit.rules /etc/audit/auditd.conf /etc/audit/rules.d/* | awk '{print $1, $9}' 
-     -rw-r----- /etc/audit/audit.rules 
-     -rw-r----- /etc/audit/auditd.conf 
-     -rw-r----- /etc/audit/rules.d/audit.rules 
- 
+  desc 'check', %q(Verify that "/etc/audit/audit.rules", "/etc/audit/auditd.conf", and "/etc/audit/rules.d/*" files have a mode of "640" or less permissive by using the following command:
+
+     $ sudo ls -al /etc/audit/audit.rules /etc/audit/auditd.conf /etc/audit/rules.d/* | awk '{print $1, $9}'
+     -rw-r----- /etc/audit/audit.rules
+     -rw-r----- /etc/audit/auditd.conf
+     -rw-r----- /etc/audit/rules.d/audit.rules
+
 If "/etc/audit/audit.rules", "/etc/audit/auditd.conf", or "/etc/audit/rules.d/*" files have a mode more permissive than "640", this is a finding.)
-  desc 'fix', 'Configure /etc/audit/audit.rules", "/etc/audit/auditd.conf", and "/etc/audit/rules.d/*" files to have a mode of "640" by using the following command:  
-  
+  desc 'fix', 'Configure /etc/audit/audit.rules", "/etc/audit/auditd.conf", and "/etc/audit/rules.d/*" files to have a mode of "640" by using the following command:
+
      $ sudo chmod -R 640 /etc/audit/audit.rules /etc/audit/auditd.conf /etc/audit/rules.d/*'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

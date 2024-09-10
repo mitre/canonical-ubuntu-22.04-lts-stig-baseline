@@ -1,29 +1,29 @@
 control 'SV-260567' do
   title 'Ubuntu 22.04 LTS must be configured so that when passwords are changed or new passwords are established, pwquality must be used.'
   desc 'Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. "pwquality" enforces complex password construction configuration and has the ability to limit brute-force attacks on the system.'
-  desc 'check', 'Verify Ubuntu 22.04 LTS enforces password complexity rules by using the following command:   
- 
-     $ grep -i enforcing /etc/security/pwquality.conf  
-     enforcing = 1  
-  
-If "enforcing" is not "1", is commented out, or is missing, this is a finding.  
-  
-Check for the use of "pwquality" by using the following command:  
-  
-     $ cat /etc/pam.d/common-password | grep requisite | grep pam_pwquality 
-      password     requisite     pam_pwquality.so retry=3  
-  
+  desc 'check', 'Verify Ubuntu 22.04 LTS enforces password complexity rules by using the following command:
+
+     $ grep -i enforcing /etc/security/pwquality.conf
+     enforcing = 1
+
+If "enforcing" is not "1", is commented out, or is missing, this is a finding.
+
+Check for the use of "pwquality" by using the following command:
+
+     $ cat /etc/pam.d/common-password | grep requisite | grep pam_pwquality
+      password     requisite     pam_pwquality.so retry=3
+
 If "retry" is set to "0" or is greater than "3", or is missing, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to enforce password complexity rules. 
-  
-Add or modify the following line in the "/etc/security/pwquality.conf" file: 
-  
-enforcing = 1  
-  
-Add or modify the following line in the "/etc/pam.d/common-password" file: 
-  
-password requisite pam_pwquality.so retry=3  
-  
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to enforce password complexity rules.
+
+Add or modify the following line in the "/etc/security/pwquality.conf" file:
+
+enforcing = 1
+
+Add or modify the following line in the "/etc/pam.d/common-password" file:
+
+password requisite pam_pwquality.so retry=3
+
 Note: The value of "retry" should be between "1" and "3".'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

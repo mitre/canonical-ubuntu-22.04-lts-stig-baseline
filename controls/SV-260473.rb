@@ -1,20 +1,20 @@
 control 'SV-260473' do
   title 'Ubuntu 22.04 LTS must disable kernel core dumps so that it can fail to a secure state if system initialization fails, shutdown fails or aborts fail.'
   desc 'Kernel core dumps may contain the full contents of system memory at the time of the crash. Kernel core dumps may consume a considerable amount of disk space and may result in denial of service by exhausting the available space on the target file system partition.'
-  desc 'check', 'Verify that kernel core dumps are disabled unless needed by using the following command:  
-  
-     $ systemctl status kdump.service 
-     kdump.service 
-          Loaded: masked (Reason: Unit kdump.service is masked.) 
-          Active: inactive (dead) 
-  
-If "kdump.service" is not masked and inactive, ask the system administrator (SA) if the use of the service is required and documented with the information system security officer (ISSO).  
-  
+  desc 'check', 'Verify that kernel core dumps are disabled unless needed by using the following command:
+
+     $ systemctl status kdump.service
+     kdump.service
+          Loaded: masked (Reason: Unit kdump.service is masked.)
+          Active: inactive (dead)
+
+If "kdump.service" is not masked and inactive, ask the system administrator (SA) if the use of the service is required and documented with the information system security officer (ISSO).
+
 If the service is active and is not documented, this is a finding.'
-  desc 'fix', 'If kernel core dumps are not required, disable and mask "kdump.service" by using the following command:  
- 
-     $ sudo systemctl mask kdump --now 
-  
+  desc 'fix', 'If kernel core dumps are not required, disable and mask "kdump.service" by using the following command:
+
+     $ sudo systemctl mask kdump --now
+
 If kernel core dumps are required, document the need with the ISSO.'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

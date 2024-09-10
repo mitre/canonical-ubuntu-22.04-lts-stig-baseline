@@ -1,16 +1,16 @@
 control 'SV-260550' do
   title 'Ubuntu 22.04 LTS must enforce a delay of at least four seconds between logon prompts following a failed logon attempt.'
   desc 'Limiting the number of logon attempts over a certain time interval reduces the chances that an unauthorized user may gain access to an account.'
-  desc 'check', 'Verify Ubuntu 22.04 LTS enforces a delay of at least four seconds between logon prompts following a failed logon attempt by using the following command:  
-  
-     $ grep pam_faildelay /etc/pam.d/common-auth 
-     auth     required     pam_faildelay.so     delay=4000000  
-  
+  desc 'check', 'Verify Ubuntu 22.04 LTS enforces a delay of at least four seconds between logon prompts following a failed logon attempt by using the following command:
+
+     $ grep pam_faildelay /etc/pam.d/common-auth
+     auth     required     pam_faildelay.so     delay=4000000
+
 If "delay" is not set to "4000000" or greater, the line is commented out, or is missing, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to enforce a delay of at least four seconds between logon prompts following a failed logon attempt. 
- 
-Add or modify the following line in the "/etc/pam.d/common-auth" file: 
- 
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to enforce a delay of at least four seconds between logon prompts following a failed logon attempt.
+
+Add or modify the following line in the "/etc/pam.d/common-auth" file:
+
 auth     required     pam_faildelay.so     delay=4000000'
   impact 0.3
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

@@ -1,26 +1,26 @@
 control 'SV-260590' do
   title 'Ubuntu 22.04 LTS must have the "auditd" package installed.'
-  desc 'Without establishing the when, where, type, source, and outcome of events that occurred, it would be difficult to establish, correlate, and investigate the events leading up to an outage or attack.  
-  
-Without the capability to generate audit records, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.  
-  
-Audit record content that may be necessary to satisfy this requirement includes, for example, time stamps, source and destination addresses, user/process identifiers, event descriptions, success/fail indications, filenames involved, and access control or flow control rules invoked.  
-  
-Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information.  
-  
-Successful incident response and auditing relies on timely, accurate system information and analysis in order to allow the organization to identify and respond to potential incidents in a proficient manner. If the operating system does not provide the ability to centrally review the operating system logs, forensic analysis is negatively impacted.  
-  
+  desc 'Without establishing the when, where, type, source, and outcome of events that occurred, it would be difficult to establish, correlate, and investigate the events leading up to an outage or attack.
+
+Without the capability to generate audit records, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.
+
+Audit record content that may be necessary to satisfy this requirement includes, for example, time stamps, source and destination addresses, user/process identifiers, event descriptions, success/fail indications, filenames involved, and access control or flow control rules invoked.
+
+Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information.
+
+Successful incident response and auditing relies on timely, accurate system information and analysis in order to allow the organization to identify and respond to potential incidents in a proficient manner. If the operating system does not provide the ability to centrally review the operating system logs, forensic analysis is negatively impacted.
+
 Associating event types with detected events in Ubuntu 22.04 LTS audit logs provides a means of investigating an attack; recognizing resource utilization or capacity thresholds; or identifying an improperly configured operating system.
 
 '
-  desc 'check', 'Verify the "auditd" package is installed by using the following command:  
-  
-     $ dpkg -l | grep auditd 
-     ii     libauditd     1:3.0.7-1build1     amd64     User space tools for security auditing 
- 
+  desc 'check', 'Verify the "auditd" package is installed by using the following command:
+
+     $ dpkg -l | grep auditd
+     ii     libauditd     1:3.0.7-1build1     amd64     User space tools for security auditing
+
 If the "auditd" package is not installed, this is a finding.'
-  desc 'fix', 'Install the "auditd" package by using the following command:  
-  
+  desc 'fix', 'Install the "auditd" package by using the following command:
+
      $ sudo apt-get install auditd'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

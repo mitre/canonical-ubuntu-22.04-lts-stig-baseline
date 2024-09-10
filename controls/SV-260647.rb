@@ -1,26 +1,26 @@
 control 'SV-260647' do
   title 'Ubuntu 22.04 LTS must generate audit records when successful/unsuccessful attempts to modify the /etc/sudoers.d directory occur.'
-  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. 
- 
+  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.
+
 Audit records can be generated from various components within the information system (e.g., module or policy filter).'
-  desc 'check', 'Verify Ubuntu 22.04 LTS generates audit records for all modifications that affect "/etc/sudoers.d" directory by using the following command:   
-  
-     $ sudo auditctl -l | grep sudoers.d  
-     -w /etc/sudoers.d -p wa -k privilege_modification  
-  
-If the command does not return a line that matches the example or the line is commented out, this is a finding.  
-  
+  desc 'check', 'Verify Ubuntu 22.04 LTS generates audit records for all modifications that affect "/etc/sudoers.d" directory by using the following command:
+
+     $ sudo auditctl -l | grep sudoers.d
+     -w /etc/sudoers.d -p wa -k privilege_modification
+
+If the command does not return a line that matches the example or the line is commented out, this is a finding.
+
 Note: The "-k" value is arbitrary and can be different from the example output above.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to generate audit records for all modifications that affect "/etc/sudoers.d" directory.   
- 
-Add or modify the following line to "/etc/audit/rules.d/stig.rules":  
- 
--w /etc/sudoers.d -p wa -k privilege_modification  
- 
-To reload the rules file, issue the following command:  
- 
-     $ sudo augenrules --load 
- 
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to generate audit records for all modifications that affect "/etc/sudoers.d" directory.
+
+Add or modify the following line to "/etc/audit/rules.d/stig.rules":
+
+-w /etc/sudoers.d -p wa -k privilege_modification
+
+To reload the rules file, issue the following command:
+
+     $ sudo augenrules --load
+
 Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning to help during an audit investigation.  he <keyname> does not need to match the example above.'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

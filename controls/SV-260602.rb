@@ -1,18 +1,18 @@
 control 'SV-260602' do
   title 'Ubuntu 22.04 LTS must permit only authorized accounts to own the audit configuration files.'
-  desc "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events.   
-  
+  desc "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events.
+
 Misconfigured audits may degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one."
-  desc 'check', %q(Verify that "/etc/audit/audit.rules", "/etc/audit/auditd.conf", and "/etc/audit/rules.d/*" files are owned by root account by using the following command:  
-  
-     $ sudo ls -al /etc/audit/audit.rules /etc/audit/auditd.conf /etc/audit/rules.d/* | awk '{print $3, $9}' 
-     root /etc/audit/audit.rules 
-     root /etc/audit/auditd.conf 
-     root /etc/audit/rules.d/audit.rules 
- 
+  desc 'check', %q(Verify that "/etc/audit/audit.rules", "/etc/audit/auditd.conf", and "/etc/audit/rules.d/*" files are owned by root account by using the following command:
+
+     $ sudo ls -al /etc/audit/audit.rules /etc/audit/auditd.conf /etc/audit/rules.d/* | awk '{print $3, $9}'
+     root /etc/audit/audit.rules
+     root /etc/audit/auditd.conf
+     root /etc/audit/rules.d/audit.rules
+
 If "/etc/audit/audit.rules", "/etc/audit/auditd.conf", or "/etc/audit/rules.d/*" files are owned by a user other than "root", this is a finding.)
-  desc 'fix', 'Configure "/etc/audit/audit.rules", "/etc/audit/rules.d/*", and "/etc/audit/auditd.conf" files to be owned by root by using the following command:  
-  
+  desc 'fix', 'Configure "/etc/audit/audit.rules", "/etc/audit/rules.d/*", and "/etc/audit/auditd.conf" files to be owned by root by using the following command:
+
      $ sudo chown -R root /etc/audit/audit.rules /etc/audit/auditd.conf /etc/audit/rules.d/*'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

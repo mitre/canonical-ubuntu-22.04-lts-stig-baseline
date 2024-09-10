@@ -1,20 +1,20 @@
 control 'SV-260539' do
   title 'Ubuntu 22.04 LTS must disable the x86 Ctrl-Alt-Delete key sequence if a graphical user interface is installed.'
   desc 'A locally logged-on user who presses Ctrl-Alt-Delete, when at the console, can reboot the system. If accidentally pressed, as could happen in the case of a mixed OS environment, this can create the risk of short-term loss of availability of systems due to unintentional reboot. In the graphical environment, risk of unintentional reboot from the Ctrl-Alt-Delete sequence is reduced because the user will be prompted before any action is taken.'
-  desc 'check', 'Verify Ubuntu 22.04 LTS is not configured to reboot the system when Ctrl-Alt-Delete is pressed when using a graphical user interface by using the following command: 
- 
-Note: If no graphical user interface is installed, this requirement is not applicable. 
- 
-     $ gsettings get org.gnome.settings-daemon.plugins.media-keys logout 
-     @as [] 
- 
+  desc 'check', 'Verify Ubuntu 22.04 LTS is not configured to reboot the system when Ctrl-Alt-Delete is pressed when using a graphical user interface by using the following command:
+
+Note: If no graphical user interface is installed, this requirement is not applicable.
+
+     $ gsettings get org.gnome.settings-daemon.plugins.media-keys logout
+     @as []
+
 If the "logout" key is bound to an action, is commented out, or is missing, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to disable the Ctrl-Alt-Delete sequence when using a graphical user interface. 
- 
-     $ gsettings set org.gnome.settings-daemon.plugins.media-keys logout [] 
- 
-Update the dconf settings: 
- 
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to disable the Ctrl-Alt-Delete sequence when using a graphical user interface.
+
+     $ gsettings set org.gnome.settings-daemon.plugins.media-keys logout []
+
+Update the dconf settings:
+
      # dconf update'
   impact 0.7
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

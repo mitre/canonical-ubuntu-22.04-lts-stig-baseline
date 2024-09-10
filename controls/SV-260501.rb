@@ -1,23 +1,23 @@
 control 'SV-260501' do
   title 'Ubuntu 22.04 LTS must configure the directories used by the system journal to be owned by "root".'
-  desc "Only authorized personnel should be aware of errors and the details of the errors. Error messages are an indicator of an organization's operational state or can identify the operating system or platform. Additionally, personally identifiable information (PII) and operational information must not be revealed through error messages to unauthorized personnel or their designated representatives.  
-  
+  desc "Only authorized personnel should be aware of errors and the details of the errors. Error messages are an indicator of an organization's operational state or can identify the operating system or platform. Additionally, personally identifiable information (PII) and operational information must not be revealed through error messages to unauthorized personnel or their designated representatives.
+
 The structure and content of error messages must be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements."
-  desc 'check', 'Verify the /run/log/journal and /var/log/journal directories are owned by "root" by using the following command: 
- 
-     $ sudo find /run/log/journal /var/log/journal  -type d -exec stat -c "%n %U" {} \\; 
-     /run/log/journal root 
-     /var/log/journal root 
-     /var/log/journal/3b018e681c904487b11671b9c1987cce root 
- 
+  desc 'check', 'Verify the /run/log/journal and /var/log/journal directories are owned by "root" by using the following command:
+
+     $ sudo find /run/log/journal /var/log/journal  -type d -exec stat -c "%n %U" {} \\;
+     /run/log/journal root
+     /var/log/journal root
+     /var/log/journal/3b018e681c904487b11671b9c1987cce root
+
 If any output returned is not owned by "root", this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to set the appropriate ownership to the directories used by the systemd journal: 
- 
-Add or modify the following lines in the "/usr/lib/tmpfiles.d/systemd.conf" file: 
- 
-z /run/log/journal 2640 root systemd-journal - - 
-z /var/log/journal 2640 root systemd-journal - - 
- 
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to set the appropriate ownership to the directories used by the systemd journal:
+
+Add or modify the following lines in the "/usr/lib/tmpfiles.d/systemd.conf" file:
+
+z /run/log/journal 2640 root systemd-journal - -
+z /var/log/journal 2640 root systemd-journal - -
+
 Restart the system for the changes to take effect.'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

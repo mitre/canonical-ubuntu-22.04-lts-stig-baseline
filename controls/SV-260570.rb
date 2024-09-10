@@ -1,10 +1,10 @@
 control 'SV-260570' do
   title 'Ubuntu 22.04 LTS must not allow accounts configured with blank or null passwords.'
   desc 'If an account has an empty password, anyone could log on and run commands with the privileges of that account. Accounts with empty passwords must never be used in operational environments.'
-  desc 'check', 'To verify that null passwords cannot be used, run the following command:  
- 
-     $ grep nullok /etc/pam.d/common-password 
- 
+  desc 'check', 'To verify that null passwords cannot be used, run the following command:
+
+     $ grep nullok /etc/pam.d/common-password
+
 If this produces any output, this is a finding.'
   desc 'fix', 'Remove any instances of the "nullok" option in "/etc/pam.d/common-password" to prevent logons with empty passwords.'
   impact 0.7

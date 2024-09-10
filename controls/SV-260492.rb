@@ -1,26 +1,26 @@
 control 'SV-260492' do
   title 'Ubuntu 22.04 LTS must configure audit tools with a mode of "755" or less permissive.'
-  desc 'Protecting audit information also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit information.  
-  
-Operating systems providing tools to interface with audit information will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys in order to make access decisions regarding the access to audit tools.  
-  
+  desc 'Protecting audit information also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit information.
+
+Operating systems providing tools to interface with audit information will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys in order to make access decisions regarding the access to audit tools.
+
 Audit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.'
-  desc 'check', 'Verify Ubuntu 22.04 LTS configures the audit tools to have a file permission of "755" or less to prevent unauthorized access by using the following command:  
-  
-     $ stat -c "%n %a" /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/audispd* /sbin/augenrules 
-     /sbin/auditctl 755 
-     /sbin/aureport 755 
-     /sbin/ausearch 755 
-     /sbin/autrace 755 
-     /sbin/auditd 755 
-     /sbin/audispd-zos-remote 755 
-     /sbin/augenrules 755 
-  
+  desc 'check', 'Verify Ubuntu 22.04 LTS configures the audit tools to have a file permission of "755" or less to prevent unauthorized access by using the following command:
+
+     $ stat -c "%n %a" /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/audispd* /sbin/augenrules
+     /sbin/auditctl 755
+     /sbin/aureport 755
+     /sbin/ausearch 755
+     /sbin/autrace 755
+     /sbin/auditd 755
+     /sbin/audispd-zos-remote 755
+     /sbin/augenrules 755
+
 If any of the audit tools have a mode more permissive than "0755", this is a finding.'
-  desc 'fix', 'Configure the audit tools on Ubuntu 22.04 LTS to be protected from unauthorized access by setting the correct permissive mode using the following command:  
-  
-     $ sudo chmod 755 <audit_tool_name>  
-  
+  desc 'fix', 'Configure the audit tools on Ubuntu 22.04 LTS to be protected from unauthorized access by setting the correct permissive mode using the following command:
+
+     $ sudo chmod 755 <audit_tool_name>
+
 Replace "<audit_tool_name>" with the audit tool that does not have the correct permissions.'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

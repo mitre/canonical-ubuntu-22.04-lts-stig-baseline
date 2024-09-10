@@ -1,26 +1,26 @@
 control 'SV-260628' do
   title 'Ubuntu 22.04 LTS must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/group.'
-  desc 'Once an attacker establishes access to a system, the attacker often attempts to create a persistent method of reestablishing access. One way to accomplish this is for the attacker to create an account. Auditing account creation actions provides logging that can be used for forensic purposes.  
-  
+  desc 'Once an attacker establishes access to a system, the attacker often attempts to create a persistent method of reestablishing access. One way to accomplish this is for the attacker to create an account. Auditing account creation actions provides logging that can be used for forensic purposes.
+
 To address access requirements, many operating systems may be integrated with enterprise level authentication/access/auditing mechanisms that meet or exceed access control policy requirements.'
-  desc 'check', 'Verify Ubuntu 22.04 LTS generates audit records for all account creations, modifications, disabling, and termination events that affect "/etc/group" by using the following command: 
- 
-     $ sudo auditctl -l | grep group 
-     -w /etc/group -p wa -k usergroup_modification 
- 
-If the command does not return a line that matches the example or the line is commented out, this is a finding. 
- 
+  desc 'check', 'Verify Ubuntu 22.04 LTS generates audit records for all account creations, modifications, disabling, and termination events that affect "/etc/group" by using the following command:
+
+     $ sudo auditctl -l | grep group
+     -w /etc/group -p wa -k usergroup_modification
+
+If the command does not return a line that matches the example or the line is commented out, this is a finding.
+
 Note: The "-k" value is arbitrary and can be different from the example output above.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to generate audit records for all account creations, modifications, disabling, and termination events that affect "/etc/group". 
- 
-Add or modify the following line to "/etc/audit/rules.d/stig.rules": 
- 
--w /etc/group -p wa -k usergroup_modification 
- 
-To reload the rules file, issue the following command: 
- 
-     $ sudo augenrules --load 
- 
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to generate audit records for all account creations, modifications, disabling, and termination events that affect "/etc/group".
+
+Add or modify the following line to "/etc/audit/rules.d/stig.rules":
+
+-w /etc/group -p wa -k usergroup_modification
+
+To reload the rules file, issue the following command:
+
+     $ sudo augenrules --load
+
 Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning to help during an audit investigation. The <keyname> does not need to match the example above.'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

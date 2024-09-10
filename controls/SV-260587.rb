@@ -1,20 +1,20 @@
 control 'SV-260587' do
   title 'Ubuntu 22.04 LTS must have a crontab script running weekly to offload audit events of standalone systems.'
-  desc 'Information stored in one location is vulnerable to accidental or incidental deletion or alteration.  
-  
+  desc 'Information stored in one location is vulnerable to accidental or incidental deletion or alteration.
+
 Offloading is a common process in information systems with limited audit storage capacity.'
-  desc 'check', 'Verify there is a script that offloads audit data and that script runs weekly by using the following command: 
- 
-Note: If the system is not connected to a network, this requirement is not applicable. 
-  
-     $ ls /etc/cron.weekly 
-     <audit_offload_script_name> 
-  
-Check if the script inside the file does offloading of audit logs to external media.  
-  
+  desc 'check', 'Verify there is a script that offloads audit data and that script runs weekly by using the following command:
+
+Note: If the system is not connected to a network, this requirement is not applicable.
+
+     $ ls /etc/cron.weekly
+     <audit_offload_script_name>
+
+Check if the script inside the file does offloading of audit logs to external media.
+
 If the script file does not exist or does not offload audit logs, this is a finding.'
-  desc 'fix', 'Create a script that offloads audit logs to external media and runs weekly.  
-  
+  desc 'fix', 'Create a script that offloads audit logs to external media and runs weekly.
+
 The script must be located in the "/etc/cron.weekly" directory.'
   impact 0.3
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

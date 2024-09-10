@@ -1,12 +1,12 @@
 control 'SV-260558' do
   title 'Ubuntu 22.04 LTS must require users to reauthenticate for privilege escalation or when changing roles.'
-  desc 'Without reauthentication, users may access resources or perform tasks for which they do not have authorization.   
-  
+  desc 'Without reauthentication, users may access resources or perform tasks for which they do not have authorization.
+
 When operating systems provide the capability to escalate a functional capability, it is critical the user reauthenticate.'
-  desc 'check', %q(Verify the "/etc/sudoers" file has no occurrences of "NOPASSWD" or "!authenticate" by using the following command:  
-  
-     $ sudo grep -Ei '(nopasswd|!authenticate)' /etc/sudoers /etc/sudoers.d/* 
-  
+  desc 'check', %q(Verify the "/etc/sudoers" file has no occurrences of "NOPASSWD" or "!authenticate" by using the following command:
+
+     $ sudo grep -Ei '(nopasswd|!authenticate)' /etc/sudoers /etc/sudoers.d/*
+
 If any occurrences of "NOPASSWD" or "!authenticate" return from the command, this is a finding.)
   desc 'fix', 'Remove any occurrence of "NOPASSWD" or "!authenticate" found in "/etc/sudoers" file or files in the "/etc/sudoers.d" directory.'
   impact 0.5

@@ -1,16 +1,16 @@
 control 'SV-260551' do
   title 'Ubuntu 22.04 LTS must display the date and time of the last successful account logon upon logon.'
   desc 'Configuration settings are the set of parameters that can be changed in hardware, software, or firmware components of the system that affect the security posture and/or functionality of the system. Security-related parameters are those parameters impacting the security state of the system, including the parameters required to satisfy other security control requirements. Security-related parameters include, for example: registry settings; account, file, directory permission settings; and settings for functions, ports, protocols, services, and remote connections.'
-  desc 'check', 'Verify users are provided with feedback on when account accesses last occurred by using the following command:  
-  
-     $ grep pam_lastlog /etc/pam.d/login 
-     session     required     pam_lastlog.so     showfailed 
-  
+  desc 'check', 'Verify users are provided with feedback on when account accesses last occurred by using the following command:
+
+     $ grep pam_lastlog /etc/pam.d/login
+     session     required     pam_lastlog.so     showfailed
+
 If the line containing "pam_lastlog" is not set to "required", or the "silent" option is present, the "showfailed" option is missing, the line is commented out, or the line is missing , this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to provide users with feedback on when account accesses last occurred. 
-  
-Add or modify the following line at the top in the "/etc/pam.d/login" file:  
-  
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to provide users with feedback on when account accesses last occurred.
+
+Add or modify the following line at the top in the "/etc/pam.d/login" file:
+
 session     required     pam_lastlog.so     showfailed'
   impact 0.3
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
