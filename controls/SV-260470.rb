@@ -45,7 +45,20 @@ Generate an updated "grub.conf" file with the new password by using the followin
   tag 'host'
   tag 'container'
 
-  describe ini('/usr/lib/systemd/system/rescue.service') do
-    its('Service.ExecStart') { should match %r{^-/usr/lib/systemd/systemd-sulogin-shell rescue$} }
+  only_if('Control not applicable within a container without sudo enabled', impact: 0.0) do
+    !virtualization.system.eql?('docker')
+  end
+
+  grub_conf_path = input('grub_conf_path')
+
+  if file('/sys/firmware/efi').exist?
+    impact 0.0
+    describe 'System running UEFI' do
+      skip 'The System is running UEFI, this control is Not Applicable.'
+    end
+  else
+    describe parse_config_file(grub_user_file) do
+      its('GRUB2_PASSWORD') { should include 'grub.pbkdf2.sha512' }
+    end
   end
 end
