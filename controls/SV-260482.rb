@@ -1,17 +1,17 @@
 control 'SV-260482' do
   title 'Ubuntu 22.04 LTS must not have the "rsh-server" package installed.'
-  desc 'It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.  
-  
-Remote Shell (RSH) is a client/server application protocol that provides an unencrypted remote access service, which does not provide for the confidentiality and integrity of user passwords or the remote session. If users were allowed to login to a system using RSH, the privileged user passwords and communications could be compromised. 
- 
+  desc 'It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.
+
+Remote Shell (RSH) is a client/server application protocol that provides an unencrypted remote access service, which does not provide for the confidentiality and integrity of user passwords or the remote session. If users were allowed to login to a system using RSH, the privileged user passwords and communications could be compromised.
+
 Removing the "rsh-server" package decreases the risk of accidental or intentional activation of the RSH service.'
-  desc 'check', 'Verify the "rsh-server" package is not installed by using the following command:  
-  
-     $ dpkg -l | grep rsh-server 
-  
+  desc 'check', 'Verify the "rsh-server" package is not installed by using the following command:
+
+     $ dpkg -l | grep rsh-server
+
 If the "rsh-server" package is installed, this is a finding.'
-  desc 'fix', 'Remove the "rsh-server" package by using the following command:  
- 
+  desc 'fix', 'Remove the "rsh-server" package by using the following command:
+
      $ sudo apt-get remove rsh-server'
   impact 0.7
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

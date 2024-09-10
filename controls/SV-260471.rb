@@ -2,22 +2,22 @@ control 'SV-260471' do
   title 'Ubuntu 22.04 LTS must initiate session audits at system startup.'
   desc 'If auditing is enabled late in the startup process, the actions of some startup processes may not be audited. Some audit systems also maintain state information only available if auditing is enabled before a given process is created.'
   desc 'check', 'Verify that Ubuntu 22.04 LTS enables auditing at system startup in grub by using the following command:
-  
-     $ grep "^\\s*linux" /boot/grub/grub.cfg 
- 
-     linux   /vmlinuz-5.15.0-89-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro audit=1 
-          linux   /vmlinuz-5.15.0-89-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro audit=1 
-          linux   /vmlinuz-5.15.0-89-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro single nomodeset dis_ucode_ldr audit=1 
-          linux   /vmlinuz-5.15.0-83-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro audit=1 
-          linux   /vmlinuz-5.15.0-83-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro single nomodeset dis_ucode_ldr audit=1 
- 
+
+     $ grep "^\\s*linux" /boot/grub/grub.cfg
+
+     linux   /vmlinuz-5.15.0-89-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro audit=1
+          linux   /vmlinuz-5.15.0-89-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro audit=1
+          linux   /vmlinuz-5.15.0-89-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro single nomodeset dis_ucode_ldr audit=1
+          linux   /vmlinuz-5.15.0-83-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro audit=1
+          linux   /vmlinuz-5.15.0-83-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro single nomodeset dis_ucode_ldr audit=1
+
 If any linux lines do not contain "audit=1", this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to produce audit records at system startup.   
-  
-Edit the "/etc/default/grub" file and add "audit=1" to the "GRUB_CMDLINE_LINUX" option.  
-  
-To update the grub config file, run:  
-  
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to produce audit records at system startup.
+
+Edit the "/etc/default/grub" file and add "audit=1" to the "GRUB_CMDLINE_LINUX" option.
+
+To update the grub config file, run:
+
      $ sudo update-grub'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

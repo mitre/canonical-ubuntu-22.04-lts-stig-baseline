@@ -1,26 +1,26 @@
 control 'SV-260627' do
   title 'Ubuntu 22.04 LTS must generate audit records for successful/unsuccessful uses of the usermod command.'
-  desc 'Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.  
-  
+  desc 'Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.
+
 Audit records can be generated from various components within the information system (e.g., module or policy filter).'
-  desc 'check', 'Verify that an audit event is generated for any successful/unsuccessful use of the "usermod" command by using the following command:  
-  
-     $ sudo auditctl -l | grep -w usermod 
-     -a always,exit -S all -F path=/usr/sbin/usermod -F perm=x -F auid>=1000 -F auid!=-1 -F key=privileged-usermod  
-  
-If the command does not return a line that matches the example or the line is commented out, this is a finding.  
-  
+  desc 'check', 'Verify that an audit event is generated for any successful/unsuccessful use of the "usermod" command by using the following command:
+
+     $ sudo auditctl -l | grep -w usermod
+     -a always,exit -S all -F path=/usr/sbin/usermod -F perm=x -F auid>=1000 -F auid!=-1 -F key=privileged-usermod
+
+If the command does not return a line that matches the example or the line is commented out, this is a finding.
+
 Note: The "key=" value is arbitrary and can be different from the example output above.'
-  desc 'fix', 'Configure the audit system to generate an audit event for any successful/unsuccessful uses of the "usermod" command.   
-  
-Add or modify the following line in the "/etc/audit/rules.d/stig.rules" file:  
-  
--a always,exit -F path=/usr/sbin/usermod -F perm=x -F auid>=1000 -F auid!=unset -k privileged-usermod 
-    
-To reload the rules file, issue the following command:  
-  
-     $ sudo augenrules --load 
- 
+  desc 'fix', 'Configure the audit system to generate an audit event for any successful/unsuccessful uses of the "usermod" command.
+
+Add or modify the following line in the "/etc/audit/rules.d/stig.rules" file:
+
+-a always,exit -F path=/usr/sbin/usermod -F perm=x -F auid>=1000 -F auid!=unset -k privileged-usermod
+
+To reload the rules file, issue the following command:
+
+     $ sudo augenrules --load
+
 Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning to help during an audit investigation. The <keyname> does not need to match the example above.'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

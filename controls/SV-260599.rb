@@ -1,22 +1,22 @@
 control 'SV-260599' do
   title 'Ubuntu 22.04 LTS must permit only authorized groups ownership of the audit log files.'
-  desc 'Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.  
-  
+  desc 'Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.
+
 Audit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit operating system activity.'
-  desc 'check', 'Verify the group owner of newly created audit logs is "root" by using the following command:  
- 
-     $ sudo grep -iw log_group /etc/audit/auditd.conf 
-     log_group = root 
- 
+  desc 'check', 'Verify the group owner of newly created audit logs is "root" by using the following command:
+
+     $ sudo grep -iw log_group /etc/audit/auditd.conf
+     log_group = root
+
 If "log_group" is not set to "root", this is a finding.'
-  desc 'fix', 'Configure the group owner of newly created audit logs to be "root". 
- 
-Add or modify the following lines in the "/etc/audit/auditd.conf " file: 
- 
-log_group = root 
- 
-Reload the configuration file of the audit service to update the group ownership of existing files: 
- 
+  desc 'fix', 'Configure the group owner of newly created audit logs to be "root".
+
+Add or modify the following lines in the "/etc/audit/auditd.conf " file:
+
+log_group = root
+
+Reload the configuration file of the audit service to update the group ownership of existing files:
+
      $ sudo systemctl kill auditd -s SIGHUP'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

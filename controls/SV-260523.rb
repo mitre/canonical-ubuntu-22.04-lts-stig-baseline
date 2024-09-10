@@ -16,16 +16,16 @@ can be accomplished by physical means (e.g., employing physical distribution
 systems) or by logical means (e.g., employing cryptographic techniques). If
 physical means of protection are employed, then logical means (cryptography) do
 not have to be employed, and vice versa.'
-  desc 'check', 'Verify the SSH package is installed by using the following command:  
-  
-     $ sudo dpkg -l | grep openssh 
-     ii     openssh-client     1:8.9p1-3ubuntu0.4     amd64     secure shell (SSH) client, for secure access to remote machines 
-     ii  openssh-server     1:8.9p1-3ubuntu0.4     amd64     secure shell (SSH) server, for secure access from remote machines 
-     ii  openssh-sftp-server     1:8.9p1-3ubuntu0.4     amd64     secure shell (SSH) sftp server module, for SFTP access from remote machines  
- 
+  desc 'check', 'Verify the SSH package is installed by using the following command:
+
+     $ sudo dpkg -l | grep openssh
+     ii     openssh-client     1:8.9p1-3ubuntu0.4     amd64     secure shell (SSH) client, for secure access to remote machines
+     ii  openssh-server     1:8.9p1-3ubuntu0.4     amd64     secure shell (SSH) server, for secure access from remote machines
+     ii  openssh-sftp-server     1:8.9p1-3ubuntu0.4     amd64     secure shell (SSH) sftp server module, for SFTP access from remote machines
+
 If the "openssh" server package is not installed, this is a finding.'
-  desc 'fix', 'Install the "ssh" meta-package by using the following command:  
-  
+  desc 'fix', 'Install the "ssh" meta-package by using the following command:
+
      $ sudo apt install ssh'
   impact 0.7
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

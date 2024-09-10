@@ -1,15 +1,15 @@
 control 'SV-260481' do
   title 'Ubuntu 22.04 LTS must not have the "ntp" package installed.'
-  desc 'Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events. Sources outside the configured acceptable allowance (drift) may be inaccurate.  
+  desc 'Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events. Sources outside the configured acceptable allowance (drift) may be inaccurate.
 
 Organizations must consider endpoints that may not have regular access to the authoritative time server (e.g., mobile, teleworking, and tactical endpoints).'
-  desc 'check', 'Verify that the "ntp" package is not installed by using the following command: 
- 
-     $ dpkg -l | grep ntp 
- 
+  desc 'check', 'Verify that the "ntp" package is not installed by using the following command:
+
+     $ dpkg -l | grep ntp
+
 If the "ntp" package is installed, this is a finding.'
-  desc 'fix', 'Uninstall the "ntp" package by using the following command: 
- 
+  desc 'fix', 'Uninstall the "ntp" package by using the following command:
+
      $ sudo dpkg -P --force-all ntp'
   impact 0.3
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

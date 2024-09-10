@@ -3,13 +3,13 @@ control 'SV-260480' do
   desc 'Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events. Sources outside the configured acceptable allowance (drift) may be inaccurate.
 
 Organizations must consider endpoints that may not have regular access to the authoritative time server (e.g., mobile, teleworking, and tactical endpoints).'
-  desc 'check', 'Verify that the "systemd-timesyncd" package is not installed by using the following command: 
- 
-     $ dpkg -l | grep systemd-timesyncd 
- 
+  desc 'check', 'Verify that the "systemd-timesyncd" package is not installed by using the following command:
+
+     $ dpkg -l | grep systemd-timesyncd
+
 If the "systemd-timesyncd" package is installed, this is a finding.'
-  desc 'fix', 'The "systemd-timesyncd" package will be uninstalled as part of the "chrony" package install. The remaining configuration files for "systemd-timesyncd" must be purged from the operating system: 
- 
+  desc 'fix', 'The "systemd-timesyncd" package will be uninstalled as part of the "chrony" package install. The remaining configuration files for "systemd-timesyncd" must be purged from the operating system:
+
      $ sudo dpkg -P --force-all systemd-timesyncd'
   impact 0.3
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

@@ -1,16 +1,16 @@
 control 'SV-260568' do
   title 'Ubuntu 22.04 LTS must prohibit password reuse for a minimum of five generations.'
   desc 'Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. If the information system or application allows the user to consecutively reuse their password when that password has exceeded its defined lifetime, the end result is a password that is not changed as per policy requirements.'
-  desc 'check', 'Verify Ubuntu 22.04 LTS prevents passwords from being reused for a minimum of five generations by using the following command: 
- 
-     $ grep -i remember /etc/pam.d/common-password 
-     password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5 rounds=5000 
- 
+  desc 'check', 'Verify Ubuntu 22.04 LTS prevents passwords from being reused for a minimum of five generations by using the following command:
+
+     $ grep -i remember /etc/pam.d/common-password
+     password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5 rounds=5000
+
 If "remember" is not greater than or equal to "5", is commented out, or is missing, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to prevent passwords from being reused for a minimum of five generations. 
- 
-Add or modify the following line in the "/etc/pam.d/common-password" file: 
- 
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to prevent passwords from being reused for a minimum of five generations.
+
+Add or modify the following line in the "/etc/pam.d/common-password" file:
+
 password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5 rounds=5000'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

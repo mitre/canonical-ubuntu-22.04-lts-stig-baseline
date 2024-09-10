@@ -1,22 +1,22 @@
 control 'SV-260554' do
   title 'Ubuntu 22.04 LTS must automatically exit interactive command shell user sessions after 15 minutes of inactivity.'
   desc 'Terminating an idle interactive command shell user session within a short time period reduces the window of opportunity for unauthorized personnel to take control of it when left unattended in a virtual terminal or physical console.'
-  desc 'check', 'Verify Ubuntu 22.04 LTS is configured to automatically exit interactive command shell user sessions after 15 minutes of inactivity or less by using the following command: 
-  
-     $ sudo grep -E "\\bTMOUT=[0-9]+" /etc/bash.bashrc /etc/profile.d/* 
-     /etc/profile.d/99-terminal_tmout.sh:TMOUT=900 
-  
+  desc 'check', 'Verify Ubuntu 22.04 LTS is configured to automatically exit interactive command shell user sessions after 15 minutes of inactivity or less by using the following command:
+
+     $ sudo grep -E "\\bTMOUT=[0-9]+" /etc/bash.bashrc /etc/profile.d/*
+     /etc/profile.d/99-terminal_tmout.sh:TMOUT=900
+
 If "TMOUT" is not set to "900" or less, is set to "0", is commented out, or missing, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to exit interactive command shell user sessions after 15 minutes of inactivity. 
- 
-Create and/or append a custom file under "/etc/profile.d/" by using the following command: 
- 
-     $ sudo su -c "echo TMOUT=900 >> /etc/profile.d/99-terminal_tmout.sh" 
-  
-This will set a timeout value of 15 minutes for all future sessions.  
-  
-To set the timeout for the current sessions, execute the following command over the terminal session:  
-  
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to exit interactive command shell user sessions after 15 minutes of inactivity.
+
+Create and/or append a custom file under "/etc/profile.d/" by using the following command:
+
+     $ sudo su -c "echo TMOUT=900 >> /etc/profile.d/99-terminal_tmout.sh"
+
+This will set a timeout value of 15 minutes for all future sessions.
+
+To set the timeout for the current sessions, execute the following command over the terminal session:
+
      $ export TMOUT=900'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

@@ -16,17 +16,17 @@ can be accomplished by physical means (e.g., employing physical distribution
 systems) or by logical means (e.g., employing cryptographic techniques). If
 physical means of protection are employed, then logical means (cryptography) do
 not have to be employed, and vice versa.'
-  desc 'check', 'Verify the "ssh.service" is enabled and active by using the following commands:  
-  
-     $ sudo systemctl is-enabled ssh 
-     enabled 
- 
-     $ sudo systemctl is-active ssh 
-     active 
- 
+  desc 'check', 'Verify the "ssh.service" is enabled and active by using the following commands:
+
+     $ sudo systemctl is-enabled ssh
+     enabled
+
+     $ sudo systemctl is-active ssh
+     active
+
 If "ssh.service" is not enabled and active, this is a finding.'
-  desc 'fix', 'Enable and start the "ssh.service" by using the following command:  
-  
+  desc 'fix', 'Enable and start the "ssh.service" by using the following command:
+
      $ sudo systemctl enable ssh.service --now'
   impact 0.7
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

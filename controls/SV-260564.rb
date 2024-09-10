@@ -1,16 +1,16 @@
 control 'SV-260564' do
   title 'Ubuntu 22.04 LTS must prevent the use of dictionary words for passwords.'
   desc 'If Ubuntu 22.04 LTS allows the user to select passwords based on dictionary words, then this increases the chances of password compromise by increasing the opportunity for successful guesses and brute-force attacks.'
-  desc 'check', 'Verify Ubuntu 22.04 LTS prevents the use of dictionary words for passwords by using the following command: 
- 
-     $ grep -i dictcheck /etc/security/pwquality.conf 
-     dictcheck = 1  
-  
+  desc 'check', 'Verify Ubuntu 22.04 LTS prevents the use of dictionary words for passwords by using the following command:
+
+     $ grep -i dictcheck /etc/security/pwquality.conf
+     dictcheck = 1
+
 If "dictcheck" is not set to "1", is commented out, or is missing, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to prevent the use of dictionary words for passwords. 
-  
-Add or modify the following line in the "/etc/security/pwquality.conf" file: 
-  
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to prevent the use of dictionary words for passwords.
+
+Add or modify the following line in the "/etc/security/pwquality.conf" file:
+
 dictcheck = 1'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'

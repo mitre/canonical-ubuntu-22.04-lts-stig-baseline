@@ -1,36 +1,36 @@
 control 'SV-260538' do
   title 'Ubuntu 22.04 LTS must initiate a graphical session lock after 15 minutes of inactivity.'
-  desc 'A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.  
-  
-The session lock is implemented at the point where session activity can be determined.  
-  
+  desc 'A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.
+
+The session lock is implemented at the point where session activity can be determined.
+
 Regardless of where the session lock is determined and implemented, once invoked, a session lock of Ubuntu 22.04 LTS must remain in place until the user reauthenticates. No other activity aside from reauthentication must unlock the system.'
-  desc 'check', 'Verify Ubuntu 22.04 LTS has a graphical user interface session lock configured to activate after 15 minutes of inactivity by using the following commands:   
-  
-Note: If no graphical user interface is installed, this requirement is not applicable. 
- 
-Get the following settings to verify the graphical user interface session is configured to lock the graphical user session after 15 minutes of inactivity:  
-   
-     $ gsettings get org.gnome.desktop.screensaver lock-enabled 
-     true 
- 
-     $ gsettings get org.gnome.desktop.screensaver lock-delay 
-     uint32 0 
- 
-     $ gsettings get org.gnome.desktop.session idle-delay 
-     uint32 900 
- 
-If "lock-enabled" is not set to "true", is commented out, or is missing, this is a finding. 
- 
+  desc 'check', 'Verify Ubuntu 22.04 LTS has a graphical user interface session lock configured to activate after 15 minutes of inactivity by using the following commands:
+
+Note: If no graphical user interface is installed, this requirement is not applicable.
+
+Get the following settings to verify the graphical user interface session is configured to lock the graphical user session after 15 minutes of inactivity:
+
+     $ gsettings get org.gnome.desktop.screensaver lock-enabled
+     true
+
+     $ gsettings get org.gnome.desktop.screensaver lock-delay
+     uint32 0
+
+     $ gsettings get org.gnome.desktop.session idle-delay
+     uint32 900
+
+If "lock-enabled" is not set to "true", is commented out, or is missing, this is a finding.
+
 If "lock-delay" is set to a value greater than "0", or if "idle-delay" is set to a value greater than "900", is commented out, or is missing, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to lock the current graphical user interface session after 15 minutes of inactivity.   
-  
-Set the following settings to allow graphical user interface session lock to initiate after 15 minutes of inactivity:   
-  
-     $ gsettings set org.gnome.desktop.screensaver lock-enabled true 
- 
-     $ gsettings set org.gnome.desktop.screensaver lock-delay 0 
- 
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to lock the current graphical user interface session after 15 minutes of inactivity.
+
+Set the following settings to allow graphical user interface session lock to initiate after 15 minutes of inactivity:
+
+     $ gsettings set org.gnome.desktop.screensaver lock-enabled true
+
+     $ gsettings set org.gnome.desktop.screensaver lock-delay 0
+
      $ gsettings set org.gnome.desktop.session idle-delay 900'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
