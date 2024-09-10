@@ -56,7 +56,7 @@ Restart the SSH server for the changes to take effect:
 
     @ciphers_array = @ciphers_array.first.split(',') unless @ciphers_array.nil?
 
-    approved_cipher_openssh_server_conf = input('approved_openssh_server_conf')['ciphers']
+    approved_cipher_openssh_server_conf = input('approved_openssh_server_conf')['ciphers'].split(',')
 
     @ciphers_array.each do |cipher|
       describe cipher do
