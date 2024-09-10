@@ -690,6 +690,7 @@ inputs:
       system-auth: /etc/pam.d/system-auth
       password-auth: /etc/pam.d/password-auth
       smartcard-auth: /etc/pam.d/smartcard-auth
+      common-password: /etc/pam.d/common-password
 
   # SV-258056
   - name: security_faillock_conf
