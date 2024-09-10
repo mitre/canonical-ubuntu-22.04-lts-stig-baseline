@@ -854,7 +854,7 @@ inputs:
   - name: alternate_firewall_tool
     description: Alternate firewall tool (other than firewalld) in use for the system - leave blank if using default OS tools
     type: String
-    value: ""
+    value: "ufw"
 
   # SV-258040
   - name: wifi_hardware

@@ -1,16 +1,16 @@
 control 'SV-260516' do
   title 'Ubuntu 22.04 LTS must have an application firewall enabled.'
   desc 'Firewalls protect computers from network attacks by blocking or limiting access to open network ports. Application firewalls limit which applications are allowed to communicate over the network.'
-  desc 'check', 'Verify the Uncomplicated Firewall (ufw) is enabled on the system with the following command:  
-  
-     $ systemctl status ufw.service | grep -i "active:" 
-     Active: active (exited) since Thu 2022-12-25 00:00:01 NZTD; 365 days 11h ago 
-  
-If "ufw.service" is "inactive", this is a finding.  
-  
+  desc 'check', 'Verify the Uncomplicated Firewall (ufw) is enabled on the system with the following command:
+
+     $ systemctl status ufw.service | grep -i "active:"
+     Active: active (exited) since Thu 2022-12-25 00:00:01 NZTD; 365 days 11h ago
+
+If "ufw.service" is "inactive", this is a finding.
+
 If the ufw is not installed, ask the system administrator if another application firewall is installed. If no application firewall is installed, this is a finding.'
-  desc 'fix', 'Enable and start the ufw by using the following command:  
-  
+  desc 'fix', 'Enable and start the ufw by using the following command:
+
      $ sudo systemctl enable ufw.service --now'
   impact 0.5
   ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
