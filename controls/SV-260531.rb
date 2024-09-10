@@ -58,7 +58,7 @@ Restart the SSH server for the changes to take effect:
 
     @ciphers_array.each do |cipher|
       describe cipher do
-        it { should be_in %w(aes256-ctr,aes256-gcm@openssh.com,aes192-ctr,aes128-ctr,aes128-gcm@openssh.com ) }
+        it { should be_in %w(aes256-ctr aes256-gcm@openssh.com aes192-ctr aes128-ctr aes128-gcm@openssh.com ) }
       end
     end
   end
