@@ -28,7 +28,6 @@ password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5
   pam_auth_files = input('pam_auth_files')
 
   describe pam(pam_auth_files['common-password']) do
-    #its('lines') { should match_pam_rule('password.*pam_unix.so.*sha512') }
     its('lines') { should match_pam_rule('password .* pam_unix.so .* sha512 .*') }
   end
 end
