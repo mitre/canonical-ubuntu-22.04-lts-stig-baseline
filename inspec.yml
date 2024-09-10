@@ -933,7 +933,7 @@ inputs:
       '/usr/bin/sudo'                 : 'priv_cmd',
       '/usr/sbin/usermod'             : 'privileged-usermod',
       '/usr/bin/chacl'                : 'perm_mod',
-      '/usr/bin/kmod'                 : 'modules',
+      '/bin/kmod'                 : 'modules',
       '/var/log/faillock'             : 'logins',
       '/var/log/lastlog'              : 'logins',
       '/usr/bin/sudoedit'             : 'priv_cmd',
