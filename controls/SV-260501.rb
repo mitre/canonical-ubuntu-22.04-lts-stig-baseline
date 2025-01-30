@@ -31,4 +31,14 @@ Restart the system for the changes to take effect.'
   tag 'documentable'
   tag cci: ['CCI-001314']
   tag nist: ['SI-11 b']
+
+  describe directory('/run/log/journal') do
+    it { should exist }
+    its('owner') { should eq 'root' }
+  end
+
+  describe directory('/var/log/journal') do
+    it { should exist }
+    its('owner') { should eq 'root' }
+  end
 end

@@ -1,6 +1,6 @@
 galaxy_info:
   author: Will Dower
-  description: Ansible Role for RHEL 9 Vanilla install
+  description: Ansible Role for Ubuntu 22.04 Vanilla install
   company: MITRE
 
   # If the issue tracker for your role is not on github, uncomment the

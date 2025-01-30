@@ -3,7 +3,7 @@ control 'SV-260503' do
   desc "Only authorized personnel should be aware of errors and the details of the errors. Error messages are an indicator of an organization's operational state or can identify the operating system or platform. Additionally, personally identifiable information (PII) and operational information must not be revealed through error messages to unauthorized personnel or their designated representatives.  
   
 The structure and content of error messages must be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements."
-  desc 'check', 'Verify the /run/log/journal and /var/log/journal files are owned by "root" by using the following command: 
+  desc 'check', 'Verify the /run/log/journal and /run/log/journal files are owned by "root" by using the following command: 
  
      $ sudo find /run/log/journal /var/log/journal  -type f -exec stat -c "%n %U" {} \\; 
      /var/log/journal/3b018e681c904487b11671b9c1987cce/system@99dcc72bb1134aaeae4bf157aa7606f4-0000000000003c7a-0006073f8d1c0fec.journal root 
@@ -37,4 +37,12 @@ Restart the system for the changes to take effect.'
   tag 'documentable'
   tag cci: ['CCI-001314']
   tag nist: ['SI-11 b']
+  
+  failing_files = command("find #{input('journal_files').join(' ')} -type f ! -user root -exec ls -d {} \\;").stdout.split("\n")
+
+  describe 'Journal files' do
+    it 'should be owned by root' do
+      expect(failing_files).to be_empty, "Files not owned by root:\n\t- #{failing_files.join("\n\t- ")}"
+    end
+  end
 end
