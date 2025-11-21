@@ -56,5 +56,7 @@ Rate-limiting can also be done on an interface. An example of adding a rate limi
   tag nist: ['SC-5', 'SC-5 a']
   tag 'host'
 
-
+  describe 'Must be reviewed manually' do
+    skip 'Must be reviewed manually'
+  end
 end

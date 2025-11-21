@@ -27,6 +27,6 @@ If the "/var/log" directory is not group-owned by "syslog", this is a finding.'
 
   describe directory('/var/log') do
     it { should exist }
-    its('group') { should eq 'root' }
+    its('group') { should eq 'syslog' }
   end
 end

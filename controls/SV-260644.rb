@@ -41,7 +41,7 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
     !virtualization.system.eql?('docker')
   }
 
-  audit_command = '/var/log/faillock'
+  audit_command = '/var/log/faillog'
 
   describe 'Command' do
     it "#{audit_command} is audited properly" do

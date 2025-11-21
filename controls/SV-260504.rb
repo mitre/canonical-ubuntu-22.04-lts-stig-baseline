@@ -37,4 +37,12 @@ Restart the system for the changes to take effect.'
   tag 'documentable'
   tag cci: ['CCI-001314']
   tag nist: ['SI-11 b']
+
+  failing_files = command("find #{input('journal_files').join(' ')} -type f ! -group systemd-journal -exec ls -d {} \\;").stdout.split("\n")
+
+  describe 'Journal files' do
+    it 'should be group-owned by systemd-journal' do
+      expect(failing_files).to be_empty, "Files not group-owned by systemd-journal:\n\t- #{failing_files.join("\n\t- ")}"
+    end
+  end
 end

@@ -30,4 +30,8 @@ Restart the SSH server for changes to take effect:
   tag 'documentable'
   tag cci: ['CCI-000068']
   tag nist: ['AC-17 (2)']
+
+  describe 'Must be reviewed manually' do
+    skip 'Must be reviewed manually'
+  end
 end

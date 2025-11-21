@@ -28,4 +28,8 @@ If the system is missing an "/etc/pam_pkcs11/" directory and an "/etc/pam_pkcs11
   tag 'documentable'
   tag cci: ['CCI-001991']
   tag nist: ['IA-5 (2) (d)']
+
+  describe 'Must be reviewed manually' do
+    skip 'Must be reviewed manually'
+  end
 end
