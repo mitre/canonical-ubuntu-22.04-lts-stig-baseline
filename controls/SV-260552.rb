@@ -15,11 +15,10 @@ Add or modify the following line at the top of the "/etc/security/limits.conf" f
   
 * hard maxlogins 10'
   impact 0.3
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'low'
   tag gtitle: 'SRG-OS-000027-GPOS-00008'
   tag gid: 'V-260552'
-  tag rid: 'SV-260552r953469_rule'
+  tag rid: 'SV-260552r958398_rule'
   tag stig_id: 'UBTU-22-412020'
   tag fix_id: 'F-64189r953468_fix'
   tag cci: ['CCI-000054']

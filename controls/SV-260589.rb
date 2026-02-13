@@ -23,11 +23,10 @@ Restart "rsyslog.service" for the changes to take effect by using the following 
   
      $ sudo systemctl restart rsyslog.service'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000032-GPOS-00013'
   tag gid: 'V-260589'
-  tag rid: 'SV-260589r953580_rule'
+  tag rid: 'SV-260589r958406_rule'
   tag stig_id: 'UBTU-22-652015'
   tag fix_id: 'F-64226r953579_fix'
   tag cci: ['CCI-000067']

@@ -11,11 +11,10 @@ If "libpam-pwquality" is not installed, this is a finding.'
   
      $ sudo apt-get install libpam-pwquality'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64207r953245_chk'
   tag severity: 'medium'
   tag gid: 'V-260478'
-  tag rid: 'SV-260478r953247_rule'
+  tag rid: 'SV-260478r991587_rule'
   tag stig_id: 'UBTU-22-215010'
   tag gtitle: 'SRG-OS-000480-GPOS-00225'
   tag fix_id: 'F-64115r953246_fix'

@@ -23,18 +23,17 @@ To reload the rules file, issue the following command:
  
 Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning to help during an audit investigation. The <keyname> does not need to match the example above.'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64341r953647_chk'
   tag severity: 'medium'
   tag gid: 'V-260612'
-  tag rid: 'SV-260612r953649_rule'
+  tag rid: 'SV-260612r958446_rule'
   tag stig_id: 'UBTU-22-654050'
   tag gtitle: 'SRG-OS-000064-GPOS-00033'
   tag fix_id: 'F-64249r953648_fix'
   tag 'documentable'
   tag cci: ['CCI-000172']
   tag nist: ['AU-12 c']
-  
+
   audit_command = '/usr/bin/gpasswd'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

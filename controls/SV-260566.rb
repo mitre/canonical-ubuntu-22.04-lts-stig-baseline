@@ -17,17 +17,16 @@ Add or modify the following line in the "/etc/security/pwquality.conf" file:
  
 difok = 8'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64295r953509_chk'
   tag severity: 'medium'
   tag gid: 'V-260566'
-  tag rid: 'SV-260566r953998_rule'
+  tag rid: 'SV-260566r1015017_rule'
   tag stig_id: 'UBTU-22-611040'
   tag gtitle: 'SRG-OS-000072-GPOS-00040'
   tag fix_id: 'F-64203r953510_fix'
   tag 'documentable'
-  tag cci: ['CCI-000195']
-  tag nist: ['IA-5 (1) (b)']
+  tag cci: ['CCI-000195', 'CCI-004066']
+  tag nist: ['IA-5 (1) (b)', 'IA-5 (1) (h)']
   tag 'host'
   tag 'container'
 

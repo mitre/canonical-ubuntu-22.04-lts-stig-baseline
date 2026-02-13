@@ -14,11 +14,10 @@ If the "telnetd" package is installed, this is a finding.'
   
      $ sudo apt-get remove telnetd'
   impact 0.7
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'high'
   tag gtitle: 'SRG-OS-000074-GPOS-00042'
   tag gid: 'V-260483'
-  tag rid: 'SV-260483r953262_rule'
+  tag rid: 'SV-260483r987796_rule'
   tag stig_id: 'UBTU-22-215035'
   tag fix_id: 'F-64120r953261_fix'
   tag cci: ['CCI-000381', 'CCI-000197']

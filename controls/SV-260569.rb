@@ -4,24 +4,23 @@ control 'SV-260569' do
   desc 'check', 'Verify the Ubuntu operating stores only encrypted representations of passwords with the following command: 
  
      $ grep pam_unix.so /etc/pam.d/common-password 
-     password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5 rounds=5000 
+     password [success=1 default=ignore] pam_unix.so obscure sha512 shadow rounds=100000
  
-If "sha512" is missing from the "pam_unix.so" line, this is a finding.'
+If "sha512" is missing from the "pam_unix.so" line, or if the "rounds" is set to less than 100000, this is a finding.'
   desc 'fix', 'Configure Ubuntu 22.04 LTS to store encrypted representations of passwords. 
  
 Add or modify the following line in the "/etc/pam.d/common-password" file: 
  
-password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5 rounds=5000'
+password [success=1 default=ignore] pam_unix.so obscure sha512 shadow rounds=100000'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000073-GPOS-00041'
   tag gid: 'V-260569'
-  tag rid: 'SV-260569r953999_rule'
+  tag rid: 'SV-260569r1101736_rule'
   tag stig_id: 'UBTU-22-611055'
-  tag fix_id: 'F-64206r953519_fix'
-  tag cci: ['CCI-000803', 'CCI-000196']
-  tag nist: ['IA-7', 'IA-5 (1) (c)']
+  tag fix_id: 'F-64206r1101735_fix'
+  tag cci: ['CCI-000803', 'CCI-000196', 'CCI-004062']
+  tag nist: ['IA-7', 'IA-5 (1) (c)', 'IA-5 (1) (d)']
   tag 'host'
   tag 'container'
 

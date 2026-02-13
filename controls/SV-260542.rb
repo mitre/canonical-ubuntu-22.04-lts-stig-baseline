@@ -19,16 +19,15 @@ If the output does not contain "L" in the second field to indicate the account i
   
      $ sudo passwd -l root'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64271r953437_chk'
   tag severity: 'medium'
   tag gid: 'V-260542'
-  tag rid: 'SV-260542r954004_rule'
+  tag rid: 'SV-260542r1015006_rule'
   tag stig_id: 'UBTU-22-411010'
   tag gtitle: 'SRG-OS-000109-GPOS-00056'
   tag fix_id: 'F-64179r953438_fix'
   tag 'documentable'
-  tag cci: ['CCI-000770']
+  tag cci: ['CCI-000770', 'CCI-004045']
   tag nist: ['IA-2 (5)']
 
   describe.one do

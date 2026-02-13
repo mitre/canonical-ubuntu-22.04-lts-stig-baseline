@@ -11,7 +11,7 @@ This requirement verifies that a certification path to an accepted trust anchor 
   
 Determine which pkcs11 module is being used via the "use_pkcs11_module" in "/etc/pam_pkcs11/pam_pkcs11.conf" and then ensure "ca" is enabled in "cert_policy" by using the following command:  
    
-     $ sudo grep use_pkcs11_module /etc/pam_pkcs11/pam_pkcs11.conf | awk '/pkcs11_module opensc {/,/}/' /etc/pam_pkcs11/pam_pkcs11.conf | grep cert_policy | grep ca   
+     $ sudo grep use_pkcs11_module /etc/pam_pkcs11/pam_pkcs11.conf | sudo awk '/pkcs11_module opensc {/,/}/' /etc/pam_pkcs11/pam_pkcs11.conf | grep cert_policy | grep ca   
      cert_policy = ca,signature,ocsp_on;  
   
 If "cert_policy" is not set to "ca", the line is commented out, or is missing, this is a finding.)
@@ -23,16 +23,15 @@ cert_policy = ca,signature,ocsp_on;
   
 Note: If the system is missing an "/etc/pam_pkcs11/" directory and an "/etc/pam_pkcs11/pam_pkcs11.conf", find an example to copy into place and modify accordingly at "/usr/share/doc/libpam-pkcs11/examples/pam_pkcs11.conf.example.gz".'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000066-GPOS-00034'
   tag satisfies: ['SRG-OS-000066-GPOS-00034', 'SRG-OS-000384-GPOS-00167']
   tag gid: 'V-260577'
-  tag rid: 'SV-260577r953544_rule'
+  tag rid: 'SV-260577r1069112_rule'
   tag stig_id: 'UBTU-22-612030'
   tag fix_id: 'F-64214r953543_fix'
-  tag cci: ['CCI-000185', 'CCI-001991']
-  tag nist: ['IA-5 (2) (a)', 'IA-5 (2) (b) (1)', 'IA-5 (2) (d)']
+  tag cci: ['CCI-000185', 'CCI-001991', 'CCI-004909']
+  tag nist: ['IA-5 (2) (a)', 'IA-5 (2) (b) (1)', 'IA-5 (2) (d)', 'SC-17 b']
   tag 'host'
   tag 'container'
 

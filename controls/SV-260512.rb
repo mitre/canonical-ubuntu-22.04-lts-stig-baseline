@@ -13,17 +13,14 @@ If "journalctl" is not set to "740", this is a finding.'
  
      $ sudo chmod 740 /usr/bin/journalctl'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64241r953347_chk'
   tag severity: 'medium'
   tag gid: 'V-260512'
-  tag rid: 'SV-260512r953349_rule'
+  tag rid: 'SV-260512r958564_rule'
   tag stig_id: 'UBTU-22-232140'
   tag gtitle: 'SRG-OS-000205-GPOS-00083'
   tag fix_id: 'F-64149r953348_fix'
   tag 'documentable'
   tag cci: ['CCI-001312']
   tag nist: ['SI-11 a']
-
-  
 end

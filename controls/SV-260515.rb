@@ -15,11 +15,10 @@ If the above command returns the status as "inactive" or any type of error, this
   
      $ sudo ufw enable'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64244r953356_chk'
   tag severity: 'medium'
   tag gid: 'V-260515'
-  tag rid: 'SV-260515r953358_rule'
+  tag rid: 'SV-260515r958672_rule'
   tag stig_id: 'UBTU-22-251015'
   tag gtitle: 'SRG-OS-000297-GPOS-00115'
   tag fix_id: 'F-64152r953357_fix'

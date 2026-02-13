@@ -12,9 +12,9 @@ Note: If the system is not networked, this requirement is not applicable.
 Check the value of "makestep" by using the following command:  
   
      $ grep -ir makestep /etc/chrony* 
-     makestep 1 1 
+     makestep 1 -1 
  
-If "makestep" is not set to "1 1", is commented out, or is missing, this is a finding. 
+If "makestep" is not set to "1 -1", is commented out, or is missing, this is a finding. 
  
 Verify the NTP service is active and the system clock is synchronized with the authoritative time source: 
  
@@ -29,23 +29,22 @@ If the system clock is not synchronized, this is a finding.)
   
 Edit the "/etc/chrony/chrony.conf" file and add:  
  
-     makestep 1 1 
+     makestep 1 -1 
  
 Restart the chrony service:  
   
      $ sudo systemctl restart chrony.service'
   impact 0.3
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
-  tag check_id: 'C-64249r953371_chk'
+  tag check_id: 'C-64249r1044774_chk'
   tag severity: 'low'
   tag gid: 'V-260520'
-  tag rid: 'SV-260520r954018_rule'
+  tag rid: 'SV-260520r1044776_rule'
   tag stig_id: 'UBTU-22-252015'
   tag gtitle: 'SRG-OS-000356-GPOS-00144'
-  tag fix_id: 'F-64157r953372_fix'
+  tag fix_id: 'F-64157r1044775_fix'
   tag 'documentable'
-  tag cci: ['CCI-002046']
-  tag nist: ['AU-8 (1) (b)']
+  tag cci: ['CCI-002046', 'CCI-004926']
+  tag nist: ['AU-8 (1) (b)', 'SC-45 (1) (b)']
 
   file_path = input('chrony_config_file')
   found_file = file(file_path)

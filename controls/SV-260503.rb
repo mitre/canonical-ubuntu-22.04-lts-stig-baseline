@@ -26,11 +26,10 @@ z /var/log/journal/%m/system.journal 0640 root systemd-journal - -
  
 Restart the system for the changes to take effect.'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64232r953320_chk'
   tag severity: 'medium'
   tag gid: 'V-260503'
-  tag rid: 'SV-260503r953322_rule'
+  tag rid: 'SV-260503r958566_rule'
   tag stig_id: 'UBTU-22-232090'
   tag gtitle: 'SRG-OS-000206-GPOS-00084'
   tag fix_id: 'F-64140r953321_fix'

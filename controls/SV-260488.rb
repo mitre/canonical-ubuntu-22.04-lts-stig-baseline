@@ -15,18 +15,17 @@ If a value of "755" or less permissive is not returned, this is a finding.'
  
      $ sudo chmod 0755 /var/log'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64217r953275_chk'
   tag severity: 'medium'
   tag gid: 'V-260488'
-  tag rid: 'SV-260488r953277_rule'
+  tag rid: 'SV-260488r958566_rule'
   tag stig_id: 'UBTU-22-232025'
   tag gtitle: 'SRG-OS-000206-GPOS-00084'
   tag fix_id: 'F-64125r953276_fix'
   tag 'documentable'
   tag cci: ['CCI-001314']
   tag nist: ['SI-11 b']
-  
+
   describe directory('/var/log') do
     it {should_not be_more_permissive_than('755')}
   end

@@ -26,11 +26,10 @@ password requisite pam_pwquality.so retry=3
   
 Note: The value of "retry" should be between "1" and "3".'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64296r953512_chk'
   tag severity: 'medium'
   tag gid: 'V-260567'
-  tag rid: 'SV-260567r953514_rule'
+  tag rid: 'SV-260567r991587_rule'
   tag stig_id: 'UBTU-22-611045'
   tag gtitle: 'SRG-OS-000480-GPOS-00225'
   tag fix_id: 'F-64204r953513_fix'

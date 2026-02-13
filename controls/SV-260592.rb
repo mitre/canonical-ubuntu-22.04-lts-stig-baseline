@@ -29,7 +29,7 @@ Check that audisp-remote plugin is configured to send audit logs to a different 
 If the "remote_server" parameter is not set, is set with a local IP address, or is set with an invalid IP address, this is a finding.'
   desc 'fix', %q(Configure the audit event multiplexor to offload audit records to a different system from the system being audited.  
   
-Install the "audisp-plugins" package by using the following command:  
+Install the "audispd-plugins" package by using the following command:  
   
      $ sudo apt-get install audispd-plugins 
   
@@ -45,14 +45,13 @@ Restart the "auditd.service" for the changes to take effect:
   
      $ sudo systemctl restart auditd.service)
   impact 0.3
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64321r953587_chk'
   tag severity: 'low'
   tag gid: 'V-260592'
-  tag rid: 'SV-260592r953589_rule'
+  tag rid: 'SV-260592r1101709_rule'
   tag stig_id: 'UBTU-22-653020'
   tag gtitle: 'SRG-OS-000342-GPOS-00133'
-  tag fix_id: 'F-64229r953588_fix'
+  tag fix_id: 'F-64229r1101708_fix'
   tag 'documentable'
   tag cci: ['CCI-001851']
   tag nist: ['AU-4 (1)']

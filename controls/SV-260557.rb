@@ -4,9 +4,7 @@ control 'SV-260557' do
   
 Some of the programs, installed by default, may be harmful or may not be necessary to support essential organizational operations (e.g., key missions, functions). Removal of executable programs is not always possible; therefore, establishing a method of preventing program execution is critical to maintaining a secure system baseline.  
   
-Methods for complying with this requirement include restricting execution of programs in certain environments, while preventing execution in other environments; or limiting execution of certain program functionality based on organization-defined criteria (e.g., privileges, subnets, sandboxed environments, or roles).
-
-'
+Methods for complying with this requirement include restricting execution of programs in certain environments, while preventing execution in other environments; or limiting execution of certain program functionality based on organization-defined criteria (e.g., privileges, subnets, sandboxed environments, or roles).'
   desc 'check', 'Verify Ubuntu 22.04 LTS AppArmor is active by using the following commands:  
  
      $ systemctl is-enabled apparmor.service 
@@ -35,11 +33,10 @@ If no profiles are loaded and enforced, this is a finding.'
   
 Note: AppArmor must have properly configured profiles for applications and home directories. All configurations will be based on the actual system setup and organization and normally are on a per role basis. See the AppArmor documentation for more information on configuring profiles.'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64286r953482_chk'
   tag severity: 'medium'
   tag gid: 'V-260557'
-  tag rid: 'SV-260557r953484_rule'
+  tag rid: 'SV-260557r958804_rule'
   tag stig_id: 'UBTU-22-431015'
   tag gtitle: 'SRG-OS-000368-GPOS-00154'
   tag fix_id: 'F-64194r953483_fix'

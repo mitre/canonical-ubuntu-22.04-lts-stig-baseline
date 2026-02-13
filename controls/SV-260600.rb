@@ -24,11 +24,10 @@ Using the path of the directory containing the audit logs, configure the audit l
   
      $ sudo chmod -R  g-w,o-rwx /var/log/audit'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64329r953611_chk'
   tag severity: 'medium'
   tag gid: 'V-260600'
-  tag rid: 'SV-260600r953613_rule'
+  tag rid: 'SV-260600r958438_rule'
   tag stig_id: 'UBTU-22-653060'
   tag gtitle: 'SRG-OS-000059-GPOS-00029'
   tag fix_id: 'F-64237r953612_fix'

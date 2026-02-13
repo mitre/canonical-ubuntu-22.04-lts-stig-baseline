@@ -23,24 +23,24 @@ Get the following settings to verify the graphical user interface session is con
 If "lock-enabled" is not set to "true", is commented out, or is missing, this is a finding. 
  
 If "lock-delay" is set to a value greater than "0", or if "idle-delay" is set to a value greater than "900", is commented out, or is missing, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to lock the current graphical user interface session after 15 minutes of inactivity.   
-  
-Set the following settings to allow graphical user interface session lock to initiate after 15 minutes of inactivity:   
-  
-     $ gsettings set org.gnome.desktop.screensaver lock-enabled true 
- 
-     $ gsettings set org.gnome.desktop.screensaver lock-delay 0 
- 
-     $ gsettings set org.gnome.desktop.session idle-delay 900'
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to lock the current graphical user interface session after 15 minutes of inactivity.  
+
+Create or edit a file named /etc/dconf/db/local.d/00-screensaver with the following contents:
+
+[org/gnome/desktop/screensaver]
+lock-enabled=true
+lock-delay=0
+
+[org/gnome/desktop/session]
+idle-delay=600'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000029-GPOS-00010'
   tag satisfies: ['SRG-OS-000029-GPOS-00010', 'SRG-OS-000031-GPOS-00012']
   tag gid: 'V-260538'
-  tag rid: 'SV-260538r953427_rule'
+  tag rid: 'SV-260538r1069119_rule'
   tag stig_id: 'UBTU-22-271025'
-  tag fix_id: 'F-64175r953426_fix'
+  tag fix_id: 'F-64175r1069118_fix'
   tag cci: ['CCI-000057', 'CCI-000060']
   tag nist: ['AC-11 a', 'AC-11 (1)']
   tag 'host'

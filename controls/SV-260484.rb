@@ -29,12 +29,11 @@ If any partitions other than the boot partition or pseudo file systems (such as 
   
 Note: Encrypting a partition in an already-installed system is more difficult because it will need to be resized and existing partitions changed.'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000185-GPOS-00079'
   tag satisfies: ['SRG-OS-000185-GPOS-00079', 'SRG-OS-000404-GPOS-00183', 'SRG-OS-000405-GPOS-00184']
   tag gid: 'V-260484'
-  tag rid: 'SV-260484r953265_rule'
+  tag rid: 'SV-260484r958552_rule'
   tag stig_id: 'UBTU-22-231010'
   tag fix_id: 'F-64121r953264_fix'
   tag cci: ['CCI-001199', 'CCI-002475', 'CCI-002476']

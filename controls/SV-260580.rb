@@ -23,11 +23,10 @@ Update the "/etc/ssl/certs" directory by using the following command:
   
      $ sudo dpkg-reconfigure ca-certificates'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64309r953551_chk'
   tag severity: 'medium'
   tag gid: 'V-260580'
-  tag rid: 'SV-260580r953553_rule'
+  tag rid: 'SV-260580r958868_rule'
   tag stig_id: 'UBTU-22-631010'
   tag gtitle: 'SRG-OS-000403-GPOS-00182'
   tag fix_id: 'F-64217r953552_fix'

@@ -4,9 +4,7 @@ control 'SV-260556' do
   
 Some of the programs, installed by default, may be harmful or may not be necessary to support essential organizational operations (e.g., key missions, functions). Removal of executable programs is not always possible; therefore, establishing a method of preventing program execution is critical to maintaining a secure system baseline.  
   
-Methods for complying with this requirement include restricting execution of programs in certain environments, while preventing execution in other environments; or limiting execution of certain program functionality based on organization-defined criteria (e.g., privileges, subnets, sandboxed environments, or roles).
-
-'
+Methods for complying with this requirement include restricting execution of programs in certain environments, while preventing execution in other environments; or limiting execution of certain program functionality based on organization-defined criteria (e.g., privileges, subnets, sandboxed environments, or roles).'
   desc 'check', 'Verify Ubuntu 22.04 LTS has the "apparmor" package installed by using the following command: 
   
      $ dpkg -l | grep apparmor  
@@ -17,11 +15,10 @@ If the "apparmor" package is not installed, this is a finding.'
   
      $ sudo apt-get install apparmor'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64285r953479_chk'
   tag severity: 'medium'
   tag gid: 'V-260556'
-  tag rid: 'SV-260556r953481_rule'
+  tag rid: 'SV-260556r958702_rule'
   tag stig_id: 'UBTU-22-431010'
   tag gtitle: 'SRG-OS-000312-GPOS-00124'
   tag fix_id: 'F-64193r953480_fix'

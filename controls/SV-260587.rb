@@ -17,11 +17,10 @@ If the script file does not exist or does not offload audit logs, this is a find
   
 The script must be located in the "/etc/cron.weekly" directory.'
   impact 0.3
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64316r953572_chk'
   tag severity: 'low'
   tag gid: 'V-260587'
-  tag rid: 'SV-260587r953574_rule'
+  tag rid: 'SV-260587r959008_rule'
   tag stig_id: 'UBTU-22-651035'
   tag gtitle: 'SRG-OS-000479-GPOS-00224'
   tag fix_id: 'F-64224r953573_fix'

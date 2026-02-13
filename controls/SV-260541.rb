@@ -32,12 +32,11 @@ For each module from the system, execute the following command to remove it:
   
      $ sudo modprobe -r <module_name>'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000481-GPOS-00481'
   tag satisfies: ['SRG-OS-000299-GPOS-00117', 'SRG-OS-000300-GPOS-00118', 'SRG-OS-000481-GPOS-000481', 'SRG-OS-000424-GPOS-00188', 'SRG-OS-000481-GPOS-00481']
   tag gid: 'V-260541'
-  tag rid: 'SV-260541r953436_rule'
+  tag rid: 'SV-260541r958358_rule'
   tag stig_id: 'UBTU-22-291015'
   tag fix_id: 'F-64178r953435_fix'
   tag cci: ['CCI-001444', 'CCI-001443', 'CCI-002418', 'CCI-002421']

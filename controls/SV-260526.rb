@@ -19,11 +19,10 @@ Restart the SSH daemon for the changes to take effect:
   
      $ sudo systemctl restart sshd.service'
   impact 0.7
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'high'
   tag gtitle: 'SRG-OS-000480-GPOS-00229'
   tag gid: 'V-260526'
-  tag rid: 'SV-260526r953391_rule'
+  tag rid: 'SV-260526r991591_rule'
   tag stig_id: 'UBTU-22-255025'
   tag fix_id: 'F-64163r953390_fix'
   tag cci: ['CCI-000366']

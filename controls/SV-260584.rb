@@ -15,11 +15,10 @@ Add or modify the following line in the "/etc/default/aide" file:
  
 SILENTREPORTS=no'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64313r953563_chk'
   tag severity: 'medium'
   tag gid: 'V-260584'
-  tag rid: 'SV-260584r953565_rule'
+  tag rid: 'SV-260584r958794_rule'
   tag stig_id: 'UBTU-22-651020'
   tag gtitle: 'SRG-OS-000363-GPOS-00150'
   tag fix_id: 'F-64221r953564_fix'

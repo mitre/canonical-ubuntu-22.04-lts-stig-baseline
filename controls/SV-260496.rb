@@ -14,11 +14,10 @@ If any system commands are returned that are not Set Group ID upon execution (SG
   
      $ sudo chgrp root <command_name>'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000259-GPOS-00100'
   tag gid: 'V-260496'
-  tag rid: 'SV-260496r953301_rule'
+  tag rid: 'SV-260496r991560_rule'
   tag stig_id: 'UBTU-22-232055'
   tag fix_id: 'F-64133r953300_fix'
   tag cci: ['CCI-001499']

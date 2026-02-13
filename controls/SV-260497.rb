@@ -12,11 +12,10 @@ If any systemwide library directory is returned, this is a finding.)
   
      $ sudo find /lib /usr/lib /lib64 ! -user root -type d -exec chown root '{}' \\;"
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64226r953302_chk'
   tag severity: 'medium'
   tag gid: 'V-260497'
-  tag rid: 'SV-260497r953304_rule'
+  tag rid: 'SV-260497r991560_rule'
   tag stig_id: 'UBTU-22-232060'
   tag gtitle: 'SRG-OS-000259-GPOS-00100'
   tag fix_id: 'F-64134r953303_fix'

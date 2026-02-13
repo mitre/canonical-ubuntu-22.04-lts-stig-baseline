@@ -15,15 +15,14 @@ Add or modify the following line in the "/etc/security/pwquality.conf" file:
  
 minlen = 15'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000078-GPOS-00046'
   tag gid: 'V-260565'
-  tag rid: 'SV-260565r954001_rule'
+  tag rid: 'SV-260565r1015016_rule'
   tag stig_id: 'UBTU-22-611035'
   tag fix_id: 'F-64202r953507_fix'
-  tag cci: ['CCI-000205']
-  tag nist: ['IA-5 (1) (a)']
+  tag cci: ['CCI-000205', 'CCI-004066']
+  tag nist: ['IA-5 (1) (a)', 'IA-5 (1) (h)']
   tag 'host'
   tag 'container'
 

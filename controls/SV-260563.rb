@@ -17,15 +17,14 @@ Add or modify the following line in the "/etc/security/pwquality.conf" file:
  
 ocredit = -1'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000266-GPOS-00101'
   tag gid: 'V-260563'
-  tag rid: 'SV-260563r954008_rule'
+  tag rid: 'SV-260563r1015015_rule'
   tag stig_id: 'UBTU-22-611025'
   tag fix_id: 'F-64200r953501_fix'
-  tag cci: ['CCI-001619']
-  tag nist: ['IA-5 (1) (a)']
+  tag cci: ['CCI-001619', 'CCI-004066']
+  tag nist: ['IA-5 (1) (a)', 'IA-5 (1) (h)']
   tag 'host'
   tag 'container'
 

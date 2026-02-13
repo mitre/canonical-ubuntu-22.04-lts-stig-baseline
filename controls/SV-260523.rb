@@ -28,12 +28,11 @@ If the "openssh" server package is not installed, this is a finding.'
   
      $ sudo apt install ssh'
   impact 0.7
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'high'
   tag gtitle: 'SRG-OS-000423-GPOS-00187'
   tag satisfies: ['SRG-OS-000423-GPOS-00187', 'SRG-OS-000424-GPOS-00188', 'SRG-OS-000425-GPOS-00189', 'SRG-OS-000426-GPOS-00190']
   tag gid: 'V-260523'
-  tag rid: 'SV-260523r953382_rule'
+  tag rid: 'SV-260523r958908_rule'
   tag stig_id: 'UBTU-22-255010'
   tag fix_id: 'F-64160r953381_fix'
   tag cci: ['CCI-002418', 'CCI-002420', 'CCI-002421', 'CCI-002422']

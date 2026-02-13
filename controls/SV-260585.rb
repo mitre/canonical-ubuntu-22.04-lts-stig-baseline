@@ -32,11 +32,10 @@ Copy it to the cron.daily directory:
  
      $  sudo cp -f /usr/share/aide/config/cron.daily/aide /etc/cron.daily/aide'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64314r953566_chk'
   tag severity: 'medium'
   tag gid: 'V-260585'
-  tag rid: 'SV-260585r953568_rule'
+  tag rid: 'SV-260585r958946_rule'
   tag stig_id: 'UBTU-22-651025'
   tag gtitle: 'SRG-OS-000446-GPOS-00200'
   tag fix_id: 'F-64222r953567_fix'

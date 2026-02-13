@@ -23,11 +23,10 @@ To reload the rules file, issue the following command:
  
 Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning to help during an audit investigation. The <keyname> does not need to match the example above.'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64333r953623_chk'
   tag severity: 'medium'
   tag gid: 'V-260604'
-  tag rid: 'SV-260604r953625_rule'
+  tag rid: 'SV-260604r958446_rule'
   tag stig_id: 'UBTU-22-654010'
   tag gtitle: 'SRG-OS-000064-GPOS-00033'
   tag fix_id: 'F-64241r953624_fix'

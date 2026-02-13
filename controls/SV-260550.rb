@@ -13,11 +13,10 @@ Add or modify the following line in the "/etc/pam.d/common-auth" file:
  
 auth     required     pam_faildelay.so     delay=4000000'
   impact 0.3
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'low'
   tag gtitle: 'SRG-OS-000480-GPOS-00226'
   tag gid: 'V-260550'
-  tag rid: 'SV-260550r953463_rule'
+  tag rid: 'SV-260550r991588_rule'
   tag stig_id: 'UBTU-22-412010'
   tag fix_id: 'F-64187r953462_fix'
   tag cci: ['CCI-000366']

@@ -15,11 +15,10 @@ If "/etc/audit/audit.rules", "/etc/audit/auditd.conf", or "/etc/audit/rules.d/*"
   
      $ sudo chmod -R 640 /etc/audit/audit.rules /etc/audit/auditd.conf /etc/audit/rules.d/*'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000063-GPOS-00032'
   tag gid: 'V-260601'
-  tag rid: 'SV-260601r953616_rule'
+  tag rid: 'SV-260601r958444_rule'
   tag stig_id: 'UBTU-22-653065'
   tag fix_id: 'F-64238r953615_fix'
   tag cci: ['CCI-000171']

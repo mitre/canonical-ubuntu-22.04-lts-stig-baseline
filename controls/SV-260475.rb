@@ -18,11 +18,10 @@ If no output is returned, this is a finding.'
   
 If the installed CPU is hardware capable of NX protection, check if the system's BIOS/UEFI setup configuration permits toggling the "NX bit" or "no execution bit", and set it to "enabled".)
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000433-GPOS-00192'
   tag gid: 'V-260475'
-  tag rid: 'SV-260475r953238_rule'
+  tag rid: 'SV-260475r958928_rule'
   tag stig_id: 'UBTU-22-213025'
   tag fix_id: 'F-64112r953237_fix'
   tag cci: ['CCI-002824']

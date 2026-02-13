@@ -16,11 +16,10 @@ Set the sticky bit on all public directories using the following command, replac
   
      $ sudo chmod +t  <public_directory_name>'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64242r953350_chk'
   tag severity: 'medium'
   tag gid: 'V-260513'
-  tag rid: 'SV-260513r953352_rule'
+  tag rid: 'SV-260513r1137695_rule'
   tag stig_id: 'UBTU-22-232145'
   tag gtitle: 'SRG-OS-000138-GPOS-00069'
   tag fix_id: 'F-64150r953351_fix'

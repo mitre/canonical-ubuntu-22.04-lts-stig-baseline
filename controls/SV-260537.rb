@@ -15,18 +15,18 @@ Note: If no graphical user interface is installed, this requirement is not appli
 If "lock-enabled" is not set to "true", is commented out, or is missing, this is a finding.'
   desc 'fix', 'Configure Ubuntu 22.04 LTS to allow a user to lock the current graphical user interface session.   
   
-Set the "lock-enabled" setting to allow graphical user interface session locks by using the following command:   
-  
-     $ gsettings set org.gnome.desktop.screensaver lock-enabled true'
+Create or edit a file named /etc/dconf/db/local.d/00-screensaver with the following contents:
+
+[org/gnome/desktop/screensaver]
+lock-enabled=true'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000028-GPOS-00009'
   tag satisfies: ['SRG-OS-000028-GPOS-00009', 'SRG-OS-000030-GPOS-00011']
   tag gid: 'V-260537'
-  tag rid: 'SV-260537r953424_rule'
+  tag rid: 'SV-260537r1069101_rule'
   tag stig_id: 'UBTU-22-271020'
-  tag fix_id: 'F-64174r953423_fix'
+  tag fix_id: 'F-64174r1069100_fix'
   tag cci: ['CCI-000056']
   tag nist: ['AC-11 b']
   tag 'host'

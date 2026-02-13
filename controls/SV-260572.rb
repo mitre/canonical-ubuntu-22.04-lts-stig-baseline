@@ -13,11 +13,10 @@ Add or modify the following line in the "/etc/login.defs" file:
   
 ENCRYPT_METHOD SHA512'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000120-GPOS-00061'
   tag gid: 'V-260572'
-  tag rid: 'SV-260572r953529_rule'
+  tag rid: 'SV-260572r971535_rule'
   tag stig_id: 'UBTU-22-611070'
   tag fix_id: 'F-64209r953528_fix'
   tag cci: ['CCI-000196', 'CCI-000803']

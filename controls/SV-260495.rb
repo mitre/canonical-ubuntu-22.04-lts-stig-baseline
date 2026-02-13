@@ -12,11 +12,10 @@ If any system commands are returned and are not owned by a required system accou
   
      $ sudo chown root <command_name>'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000259-GPOS-00100'
   tag gid: 'V-260495'
-  tag rid: 'SV-260495r953298_rule'
+  tag rid: 'SV-260495r991560_rule'
   tag stig_id: 'UBTU-22-232050'
   tag fix_id: 'F-64132r953297_fix'
   tag cci: ['CCI-001499']

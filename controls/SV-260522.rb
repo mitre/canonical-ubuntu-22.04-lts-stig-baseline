@@ -25,14 +25,13 @@ If "1" is not the system's default value, add or update the following line in "/
   
      net.ipv4.tcp_syncookies = 1)
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64251r953377_chk'
   tag severity: 'medium'
   tag gid: 'V-260522'
-  tag rid: 'SV-260522r953379_rule'
+  tag rid: 'SV-260522r1069097_rule'
   tag stig_id: 'UBTU-22-253010'
   tag gtitle: 'SRG-OS-000142-GPOS-00071'
-  tag fix_id: 'F-64159r953378_fix'
+  tag fix_id: 'F-64159r1069096_fix'
   tag satisfies: ['SRG-OS-000480-GPOS-00227', 'SRG-OS-000420-GPOS-00186', 'SRG-OS-000142-GPOS-00071']
   tag 'documentable'
   tag cci: ['CCI-000366', 'CCI-001095', 'CCI-002385']

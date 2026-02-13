@@ -3,23 +3,22 @@ control 'SV-260558' do
   desc 'Without reauthentication, users may access resources or perform tasks for which they do not have authorization.   
   
 When operating systems provide the capability to escalate a functional capability, it is critical the user reauthenticate.'
-  desc 'check', %q(Verify the "/etc/sudoers" file has no occurrences of "NOPASSWD" or "!authenticate" by using the following command:  
+  desc 'check', %q(Verify the "/etc/sudoers" file has no occurrences of "NOPASSWD" or "!authenticate" by using the following command:
   
-     $ sudo grep -Ei '(nopasswd|!authenticate)' /etc/sudoers /etc/sudoers.d/* 
+$ sudo egrep -iR '!authenticate' /etc/sudoers /etc/sudoers.d/
   
-If any occurrences of "NOPASSWD" or "!authenticate" return from the command, this is a finding.)
-  desc 'fix', 'Remove any occurrence of "NOPASSWD" or "!authenticate" found in "/etc/sudoers" file or files in the "/etc/sudoers.d" directory.'
+If any occurrences of "!authenticate" return from the command, this is a finding.)
+  desc 'fix', 'Remove any occurrence of "!authenticate" found in "/etc/sudoers" file or files in the "/etc/sudoers.d" directory.'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000373-GPOS-00156'
   tag satisfies: ['SRG-OS-000373-GPOS-00156', 'SRG-OS-000373-GPOS-00157', 'SRG-OS-000373-GPOS-00158']
   tag gid: 'V-260558'
-  tag rid: 'SV-260558r954043_rule'
+  tag rid: 'SV-260558r1155216_rule'
   tag stig_id: 'UBTU-22-432010'
-  tag fix_id: 'F-64195r953486_fix'
-  tag cci: ['CCI-002038']
-  tag nist: ['IA-11']
+  tag fix_id: 'F-64195r1155200_fix'
+  tag cci: ['CCI-002038', 'CCI-004895']
+  tag nist: ['IA-11', 'SC-11 b']
   tag 'host'
   tag 'container-conditional'
 

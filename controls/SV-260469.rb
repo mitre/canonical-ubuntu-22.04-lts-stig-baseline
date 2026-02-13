@@ -19,18 +19,17 @@ Reload the daemon to take effect:
  
      $ sudo systemctl daemon-reload'
   impact 0.7
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64198r953218_chk'
   tag severity: 'high'
   tag gid: 'V-260469'
-  tag rid: 'SV-260469r953220_rule'
+  tag rid: 'SV-260469r991589_rule'
   tag stig_id: 'UBTU-22-211015'
   tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag fix_id: 'F-64106r953219_fix'
   tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
-  
+
   describe service('ctrl-alt-del.target') do
     it {should_not be_enabled}
     it {should_not be_running}

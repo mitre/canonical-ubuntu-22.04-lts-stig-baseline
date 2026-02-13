@@ -13,11 +13,10 @@ If the "/var/log/syslog" file is not owned by "syslog", this is a finding.'
   
      $ sudo chown syslog /var/log/syslog'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64239r953341_chk'
   tag severity: 'medium'
   tag gid: 'V-260510'
-  tag rid: 'SV-260510r953343_rule'
+  tag rid: 'SV-260510r958566_rule'
   tag stig_id: 'UBTU-22-232130'
   tag gtitle: 'SRG-OS-000206-GPOS-00084'
   tag fix_id: 'F-64147r953342_fix'

@@ -35,11 +35,10 @@ Set the auditd server to point to the mount point where the audit records must b
   
 where <audit_partition_mountpoint> is the aforementioned mount point.)
   impact 0.3
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'low'
   tag gtitle: 'SRG-OS-000341-GPOS-00132'
   tag gid: 'V-260595'
-  tag rid: 'SV-260595r953598_rule'
+  tag rid: 'SV-260595r958752_rule'
   tag stig_id: 'UBTU-22-653035'
   tag fix_id: 'F-64232r953597_fix'
   tag cci: ['CCI-001849', 'CCI-001851']

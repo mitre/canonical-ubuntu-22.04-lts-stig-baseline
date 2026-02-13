@@ -13,11 +13,10 @@ If the ufw is not installed, ask the system administrator if another application
   
      $ sudo systemctl enable ufw.service --now'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000480-GPOS-00232'
   tag gid: 'V-260516'
-  tag rid: 'SV-260516r953361_rule'
+  tag rid: 'SV-260516r991593_rule'
   tag stig_id: 'UBTU-22-251020'
   tag fix_id: 'F-64153r953360_fix'
   tag cci: ['CCI-002314', 'CCI-000366', 'CCI-000382', 'CCI-002322']

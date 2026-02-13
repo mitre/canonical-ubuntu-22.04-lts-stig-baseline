@@ -19,12 +19,11 @@ To set the timeout for the current sessions, execute the following command over 
   
      $ export TMOUT=900'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000279-GPOS-00109'
   tag satisfies: ['SRG-OS-000029-GPOS-00010', 'SRG-OS-000031-GPOS-00012']
   tag gid: 'V-260554'
-  tag rid: 'SV-260554r953475_rule'
+  tag rid: 'SV-260554r958636_rule'
   tag stig_id: 'UBTU-22-412030'
   tag fix_id: 'F-64191r953474_fix'
   tag cci: ['CCI-000057', 'CCI-000060', 'CCI-002361']

@@ -25,11 +25,10 @@ Restart the "auditd" service for the changes to take effect:
   
 Note: If the "space_left_action" parameter is set to "exec", ensure the command being executed notifies the SA and ISSO.'
   impact 0.3
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'low'
   tag gtitle: 'SRG-OS-000343-GPOS-00134'
   tag gid: 'V-260596'
-  tag rid: 'SV-260596r953601_rule'
+  tag rid: 'SV-260596r971542_rule'
   tag stig_id: 'UBTU-22-653040'
   tag fix_id: 'F-64233r953600_fix'
   tag cci: ['CCI-001855']

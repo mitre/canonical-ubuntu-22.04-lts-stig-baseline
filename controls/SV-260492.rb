@@ -23,11 +23,10 @@ If any of the audit tools have a mode more permissive than "0755", this is a fin
   
 Replace "<audit_tool_name>" with the audit tool that does not have the correct permissions.'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000256-GPOS-00097'
   tag gid: 'V-260492'
-  tag rid: 'SV-260492r953289_rule'
+  tag rid: 'SV-260492r991557_rule'
   tag stig_id: 'UBTU-22-232035'
   tag fix_id: 'F-64129r953288_fix'
   tag cci: ['CCI-001493', 'CCI-001494']

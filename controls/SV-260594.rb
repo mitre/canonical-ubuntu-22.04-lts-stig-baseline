@@ -25,11 +25,10 @@ Restart the "auditd" service for the changes to take effect:
  
 Note: If system availability has been determined to be more important, and this decision is documented with the ISSO, configure Ubuntu 22.04 LTS to notify system administration staff and ISSO staff in the event of an audit processing failure by setting the "disk_full_action" to "SYSLOG" or "SINGLE".'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000047-GPOS-00023'
   tag gid: 'V-260594'
-  tag rid: 'SV-260594r953595_rule'
+  tag rid: 'SV-260594r1038966_rule'
   tag stig_id: 'UBTU-22-653030'
   tag fix_id: 'F-64231r953594_fix'
   tag cci: ['CCI-000140']

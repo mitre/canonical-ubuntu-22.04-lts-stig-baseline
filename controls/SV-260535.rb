@@ -43,11 +43,10 @@ Update GDM with the new configuration by using the following commands:
      $ sudo dconf update  
      $ sudo systemctl restart gdm3'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64264r953416_chk'
   tag severity: 'medium'
   tag gid: 'V-260535'
-  tag rid: 'SV-260535r953418_rule'
+  tag rid: 'SV-260535r958390_rule'
   tag stig_id: 'UBTU-22-271010'
   tag gtitle: 'SRG-OS-000023-GPOS-00006'
   tag fix_id: 'F-64172r953417_fix'

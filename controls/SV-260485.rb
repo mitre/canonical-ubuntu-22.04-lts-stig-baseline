@@ -14,17 +14,17 @@ If any directories are found to be group-writable or world-writable, this is a f
   
      $ sudo find /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -perm /022 -type d -exec chmod -R 755 '{}' \\;"
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64214r953266_chk'
   tag severity: 'medium'
   tag gid: 'V-260485'
-  tag rid: 'SV-260485r953268_rule'
+  tag rid: 'SV-260485r991559_rule'
   tag stig_id: 'UBTU-22-232010'
   tag gtitle: 'SRG-OS-000258-GPOS-00099'
   tag fix_id: 'F-64122r953267_fix'
   tag 'documentable'
   tag cci: ['CCI-001495']
   tag nist: ['AU-9']
+
   system_commands = command('find -L /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -perm /022 -type d').stdout.strip.split("\n").entries
   valid_system_commands = Set[]
 

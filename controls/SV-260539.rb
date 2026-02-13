@@ -9,21 +9,23 @@ Note: If no graphical user interface is installed, this requirement is not appli
      @as [] 
  
 If the "logout" key is bound to an action, is commented out, or is missing, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to disable the Ctrl-Alt-Delete sequence when using a graphical user interface. 
- 
-     $ gsettings set org.gnome.settings-daemon.plugins.media-keys logout [] 
- 
-Update the dconf settings: 
- 
-     # dconf update'
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to disable the Ctrl-Alt-Delete sequence when using a graphical user interface.
+
+Create or edit a file named /etc/dconf/db/local.d/00-screensaver with the following contents:
+
+[org/gnome/settings-daemon/plugins/media-keys]
+logout=""
+
+Update the dconf settings:
+
+$ sudo dconf update'
   impact 0.7
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'high'
   tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag gid: 'V-260539'
-  tag rid: 'SV-260539r953430_rule'
+  tag rid: 'SV-260539r1069103_rule'
   tag stig_id: 'UBTU-22-271030'
-  tag fix_id: 'F-64176r953429_fix'
+  tag fix_id: 'F-64176r1069102_fix'
   tag cci: ['CCI-000366', 'CCI-002235']
   tag nist: ['CM-6 b', 'AC-6 (10)']
   tag 'host'

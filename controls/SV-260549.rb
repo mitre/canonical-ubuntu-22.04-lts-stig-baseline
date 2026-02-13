@@ -45,11 +45,10 @@ deny = 3
 fail_interval = 900 
 unlock_time = 0'
   impact 0.3
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64278r953458_chk'
   tag severity: 'low'
   tag gid: 'V-260549'
-  tag rid: 'SV-260549r953460_rule'
+  tag rid: 'SV-260549r958388_rule'
   tag stig_id: 'UBTU-22-411045'
   tag gtitle: 'SRG-OS-000021-GPOS-00005'
   tag fix_id: 'F-64186r953459_fix'

@@ -15,10 +15,9 @@ To address this risk, audit tools must be cryptographically signed in order to p
      /sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512  
      /sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512  
      /sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512  
-     /sbin/audispd p+i+n+u+g+s+b+acl+xattrs+sha512  
      /sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512  
   
-If any of the seven lines do not appear as shown, are commented out, or are missing, this is a finding."
+If any of the lines do not appear as shown, are commented out, or are missing, this is a finding."
   desc 'fix', 'Configure AIDE to protect the integrity of audit tools: 
  
 Add or modify the following lines in the "/etc/aide/aide.conf" file: 
@@ -29,16 +28,14 @@ Add or modify the following lines in the "/etc/aide/aide.conf" file:
 /sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512  
 /sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512  
 /sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512  
-/sbin/audispd p+i+n+u+g+s+b+acl+xattrs+sha512  
 /sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000278-GPOS-00108'
   tag gid: 'V-260586'
-  tag rid: 'SV-260586r953571_rule'
+  tag rid: 'SV-260586r1069107_rule'
   tag stig_id: 'UBTU-22-651030'
-  tag fix_id: 'F-64223r953570_fix'
+  tag fix_id: 'F-64223r1044778_fix'
   tag cci: ['CCI-001496', 'CCI-001493', 'CCI-001494', 'CCI-001495']
   tag nist: ['AU-9 (3)', 'AU-9 a', 'AU-9']
   tag 'host'

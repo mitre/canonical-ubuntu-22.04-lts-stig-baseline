@@ -73,12 +73,11 @@ Restart the SSH daemon for the changes to take effect and then signal the SSH se
   
      $ sudo systemctl -s SIGHUP kill sshd)
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000023-GPOS-00006'
   tag satisfies: ['SRG-OS-000023-GPOS-00006', 'SRG-OS-000228-GPOS-00088']
   tag gid: 'V-260525'
-  tag rid: 'SV-260525r953388_rule'
+  tag rid: 'SV-260525r958390_rule'
   tag stig_id: 'UBTU-22-255020'
   tag fix_id: 'F-64162r953387_fix'
   tag cci: ['CCI-000048', 'CCI-001384', 'CCI-001385', 'CCI-001386', 'CCI-001387', 'CCI-001388']

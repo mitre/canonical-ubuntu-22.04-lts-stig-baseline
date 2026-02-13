@@ -13,11 +13,10 @@ If "Time zone" is not set to UTC, this is a finding.'
   
      $ sudo timedatectl set-timezone Etc/UTC'
   impact 0.3
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64250r953374_chk'
   tag severity: 'low'
   tag gid: 'V-260521'
-  tag rid: 'SV-260521r953376_rule'
+  tag rid: 'SV-260521r958788_rule'
   tag stig_id: 'UBTU-22-252020'
   tag gtitle: 'SRG-OS-000359-GPOS-00146'
   tag fix_id: 'F-64158r953375_fix'

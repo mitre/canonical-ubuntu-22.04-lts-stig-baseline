@@ -13,11 +13,10 @@ If the "/var/log" directory is not group-owned by "syslog", this is a finding.'
   
      $ sudo chgrp syslog /var/log'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000206-GPOS-00084'
   tag gid: 'V-260509'
-  tag rid: 'SV-260509r953340_rule'
+  tag rid: 'SV-260509r958566_rule'
   tag stig_id: 'UBTU-22-232125'
   tag fix_id: 'F-64146r953339_fix'
   tag cci: ['CCI-001314']

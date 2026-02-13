@@ -12,11 +12,10 @@ If any systemwide shared library directory is returned, this is a finding.)
   
      $ sudo find /lib /usr/lib /lib64 ! -group root -type d -exec chgrp root '{}' \\;"
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64227r953305_chk'
   tag severity: 'medium'
   tag gid: 'V-260498'
-  tag rid: 'SV-260498r953307_rule'
+  tag rid: 'SV-260498r991560_rule'
   tag stig_id: 'UBTU-22-232065'
   tag gtitle: 'SRG-OS-000259-GPOS-00100'
   tag fix_id: 'F-64135r953306_fix'

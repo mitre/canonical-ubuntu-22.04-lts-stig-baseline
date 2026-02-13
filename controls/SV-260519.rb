@@ -34,16 +34,15 @@ Restart "chrony.service" for the changes to take effect by using the following c
   
      $ sudo systemctl restart chrony.service'
   impact 0.3
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'low'
   tag gtitle: 'SRG-OS-000355-GPOS-00143'
   tag satisfies: ['SRG-OS-000355-GPOS-00143', 'SRG-OS-000356-GPOS-00144', 'SRG-OS-000359-GPOS-00146']
   tag gid: 'V-260519'
-  tag rid: 'SV-260519r954017_rule'
+  tag rid: 'SV-260519r1038944_rule'
   tag stig_id: 'UBTU-22-252010'
   tag fix_id: 'F-64156r953369_fix'
-  tag cci: ['CCI-001891', 'CCI-001890', 'CCI-002046']
-  tag nist: ['AU-8 (1) (a)', 'AU-8 b', 'AU-8 (1) (b)']
+  tag cci: ['CCI-001891', 'CCI-001890', 'CCI-002046', 'CCI-004923']
+  tag nist: ['AU-8 (1) (a)', 'AU-8 b', 'AU-8 (1) (b)', 'SC-45 (1) (a)']
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {

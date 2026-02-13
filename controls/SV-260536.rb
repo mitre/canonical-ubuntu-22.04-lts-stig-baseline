@@ -44,18 +44,16 @@ Update GDM with the new configuration by using the following commands:
  
      $ sudo systemctl restart gdm3'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000023-GPOS-00006'
   tag satisfies: ['SRG-OS-000023-GPOS-00006', 'SRG-OS-000228-GPOS-00088']
   tag gid: 'V-260536'
-  tag rid: 'SV-260536r953421_rule'
+  tag rid: 'SV-260536r958390_rule'
   tag stig_id: 'UBTU-22-271015'
   tag fix_id: 'F-64173r953420_fix'
   tag cci: ['CCI-000048', 'CCI-001384', 'CCI-001385', 'CCI-001386', 'CCI-001387', 'CCI-001388']
   tag nist: ['AC-8 a', 'AC-8 c 1', 'AC-8 c 2', 'AC-8 c 3']
   tag 'host'
-
 
   no_gui = command('ls /usr/share/xsessions/*').stderr.match?(/No such file or directory/)
 

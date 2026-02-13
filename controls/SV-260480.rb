@@ -12,11 +12,10 @@ If the "systemd-timesyncd" package is installed, this is a finding.'
  
      $ sudo dpkg -P --force-all systemd-timesyncd'
   impact 0.3
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64209r953251_chk'
   tag severity: 'low'
   tag gid: 'V-260480'
-  tag rid: 'SV-260480r953253_rule'
+  tag rid: 'SV-260480r991589_rule'
   tag stig_id: 'UBTU-22-215020'
   tag gtitle: 'SRG-OS-000480-GPOS-00227'
   tag fix_id: 'F-64117r953252_fix'

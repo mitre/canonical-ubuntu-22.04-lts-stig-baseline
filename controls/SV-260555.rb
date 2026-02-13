@@ -15,11 +15,10 @@ Add or modify the following line in the "/etc/login.defs" file:
  
 UMASK 077'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000480-GPOS-00228'
   tag gid: 'V-260555'
-  tag rid: 'SV-260555r953478_rule'
+  tag rid: 'SV-260555r991590_rule'
   tag stig_id: 'UBTU-22-412035'
   tag fix_id: 'F-64192r953477_fix'
   tag cci: ['CCI-000366']

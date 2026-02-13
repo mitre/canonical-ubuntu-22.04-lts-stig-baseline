@@ -13,11 +13,10 @@ If a value of "640" or less permissive is not returned, this is a finding.'
   
      $ sudo chmod 0640 /var/log/syslog'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64220r953284_chk'
   tag severity: 'medium'
   tag gid: 'V-260491'
-  tag rid: 'SV-260491r953286_rule'
+  tag rid: 'SV-260491r958566_rule'
   tag stig_id: 'UBTU-22-232030'
   tag gtitle: 'SRG-OS-000206-GPOS-00084'
   tag fix_id: 'F-64128r953285_fix'
