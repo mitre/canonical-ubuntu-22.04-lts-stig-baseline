@@ -25,4 +25,26 @@ ALL     ALL=(ALL:ALL) ALL'
   tag 'documentable'
   tag cci: ['CCI-002038', 'CCI-004895']
   tag nist: ['IA-11', 'SC-11 b']
+
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.system.eql?('docker')
+  }
+
+  sudo = sudoers(input('sudoers_config_files'))
+
+  disallowed = sudo.rules.where {
+    users == 'ALL' &&
+      hosts == 'ALL' &&
+      (!run_as.nil? && (run_as == 'ALL' || run_as == 'ALL:ALL')) &&
+      commands == 'ALL'
+  }.entries
+
+  disallowed_details = disallowed.map { |r| "#{r[:users]} #{r[:hosts]}=(#{r[:run_as]}) #{r[:commands]}" }.join('; ')
+
+  describe 'Disallowed ALL-to-ALL sudoers entries' do
+    subject { disallowed }
+    it 'should be empty (no lines allowing ALL users to execute ALL commands as ALL)' do
+      expect(subject).to be_empty, "Found disallowed sudoers entries: #{disallowed_details}"
+    end
+  end
 end

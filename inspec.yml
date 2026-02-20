@@ -915,6 +915,8 @@ inputs:
       '/usr/bin/gpasswd'              : 'privileged-gpasswd',
       'delete_module'                 : 'module_chng',
       '/usr/bin/crontab'              : 'privileged-crontab',
+      '/etc/cron.d'                   : 'cronjobs',
+      '/var/spool/cron'               : 'cronjobs',
       '/usr/bin/chsh'                 : 'priv_cmd',
       'truncate'                      : 'perm_access',
       'ftruncate'                     : 'perm_access',

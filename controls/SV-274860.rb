@@ -27,4 +27,36 @@ $ sudo find /etc/sudoers /etc/sudoers.d -type f -exec sed -i '/NOPASSWD/ s/^/# /
   tag 'documentable'
   tag cci: ['CCI-002038', 'CCI-004895']
   tag nist: ['IA-11', 'SC-11 b']
+
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.system.eql?('docker')
+  }
+
+  sudo = sudoers(input('sudoers_config_files'))
+  approved_groups = Array(input('passwordless_admins'))
+
+  # Identify NOPASSWD rules
+  nopass = sudo.rules.where { !tags.nil? && tags.include?('NOPASSWD:') }
+
+  # Allow only NOPASSWD rules for ISSO-approved admin groups (group entries begin with '%')
+  unauthorized = nopass.entries.reject do |r|
+    userspec = r[:users]
+    next false if userspec.nil?
+
+    if userspec.start_with?('%')
+      grp = userspec.sub(/^%/, '')
+      approved_groups.include?(grp)
+    else
+      false
+    end
+  end
+
+  unauthorized_details = unauthorized.map { |r| "#{r[:users]} #{r[:hosts]}= #{r[:commands]}" }.join('; ')
+
+  describe 'Disallowed NOPASSWD entries in sudoers' do
+    subject { unauthorized }
+    it 'should be empty (only ISSO-approved admin groups using MFA may be NOPASSWD)' do
+      expect(subject).to be_empty, "Unauthorized NOPASSWD entries: #{unauthorized_details}"
+    end
+  end
 end
