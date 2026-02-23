@@ -1,6 +1,6 @@
 roles:
   - name: rhel9STIG
-    src: https://github.com/ansible-lockdown/RHEL9-STIG
+    src: https://github.com/ansible-lockdown/UBUNTU22-STIG
     version: 1.0.0
 
 collections:
