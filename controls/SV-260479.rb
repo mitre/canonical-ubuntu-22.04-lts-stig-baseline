@@ -1,16 +1,16 @@
 control 'SV-260479' do
   title 'Ubuntu 22.04 LTS must have the "chrony" package installed.'
-  desc 'Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events. Sources outside the configured acceptable allowance (drift) may be inaccurate.  
+  desc 'Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events. Sources outside the configured acceptable allowance (drift) may be inaccurate.
 
 Organizations must consider endpoints that may not have regular access to the authoritative time server (e.g., mobile, teleworking, and tactical endpoints).'
-  desc 'check', 'Verify the "chrony" package is installed using the following command: 
-  
-     $ dpkg -l | grep chrony 
-     ii     chrony     4.2-2ubuntu2     amd64     Versatile implementation of the Network Time Protocol 
- 
+  desc 'check', 'Verify the "chrony" package is installed using the following command:
+
+     $ dpkg -l | grep chrony
+     ii     chrony     4.2-2ubuntu2     amd64     Versatile implementation of the Network Time Protocol
+
 If the "chrony" package is not installed, this is a finding.'
-  desc 'fix', 'Install the "chrony" network time protocol package using the following command: 
- 
+  desc 'fix', 'Install the "chrony" network time protocol package using the following command:
+
      $ sudo apt-get install chrony'
   impact 0.3
   tag check_id: 'C-64208r953248_chk'
@@ -25,6 +25,10 @@ If the "chrony" package is not installed, this is a finding.'
   tag nist: ['AU-8 (1) (a)', 'CM-6 b']
   tag 'host'
   tag 'container'
+
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.system.eql?('docker')
+  }
 
   describe package('chrony') do
     it { should be_installed }
