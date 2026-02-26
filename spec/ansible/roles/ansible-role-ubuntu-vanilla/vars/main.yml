@@ -1,6 +1,5 @@
 ---
-- hosts: all
+– hosts: all
 become: yes
 roles:
-  - { role: "ansible-role-ubuntu-vanilla" }
-
+– { role: “ansible-role-ubuntu-vanilla” }
