@@ -2,8 +2,8 @@
 # Use this file for simple hardening tasks to support the full STIG hardening role
 
 # make sure all executables have restricted perms
-# NOTE: the role we use for STIG hardening does the same thing in task RHEL-08-010300, but allows root-owned
-# executables to have perms greater than 755
+# NOTE: the upstream STIG hardening role performs an equivalent task but allows root-owned
+# executables to have permissions greater than 755
 # the STIG does not allow perms over 755 regardless of whether they are root-owned, so
 # we will fix it here
 - name: Find files with permissions set too high
@@ -18,7 +18,7 @@
     path: "{{ item }}"
     owner: root
     group: root
-    mode: "{{ rhel8stig_sys_commands_perm }}"
+    mode: "{{ ubtu22stig_sys_commands_perm }}"
     force: true
   with_items:
       - "{{ files_with_too_high_perms.stdout_lines }}"

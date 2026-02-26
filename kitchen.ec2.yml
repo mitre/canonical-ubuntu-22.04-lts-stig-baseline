@@ -36,7 +36,7 @@ provisioner:
 suites:
   - name: vanilla
     provisioner:
-      playbook: spec/ansible/roles/ansible-role-rhel-vanilla.yml
+      playbook: spec/ansible/roles/ansible-role-ubuntu-vanilla.yml
     driver:
       tags:
         Name: Vanilla-<%= ENV['USER'] %>
@@ -44,7 +44,7 @@ suites:
 
   - name: hardened
     provisioner:
-      playbook: spec/ansible/roles/ansible-role-rhel-hardened.yml
+      playbook: spec/ansible/roles/ansible-role-ubuntu-hardened.yml
     driver:
       tags:
         Name: Hardened-<%= ENV['USER'] %>

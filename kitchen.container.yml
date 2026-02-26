@@ -12,7 +12,7 @@ transport:
   name: dokken
 
 platforms:
-  - name: ubi9
+  - name: ubuntu-22
 
 suites:
   - name: vanilla

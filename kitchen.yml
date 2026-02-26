@@ -6,7 +6,7 @@ verifier:
     - cli
     - json:spec/results/%{platform}_%{suite}.json
   inspec_tests:
-    - name: RedHat 9 STIG v1r2
+    - name: Ubuntu 22.04 LTS STIG v1r2
       path: .
   input_files:
     - kitchen.inputs.yml
@@ -21,11 +21,11 @@ verifier:
 suites:
   - name: vanilla
     provisioner:
-      playbook: spec/ansible/roles/ansible-role-rhel-vanilla.yml
+      playbook: spec/ansible/roles/ansible-role-ubuntu-vanilla.yml
 
   - name: hardened
     provisioner:
-      playbook: spec/ansible/roles/ansible-role-rhel-hardened.yml
+      playbook: spec/ansible/roles/ansible-role-ubuntu-hardened.yml
 
 transport:
   max_ssh_sessions: 6

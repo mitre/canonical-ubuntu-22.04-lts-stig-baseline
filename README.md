@@ -1,21 +1,21 @@
-# RedHat Enterprise Linux 9.x Security Technical Implementation Guide InSpec Profile
+# Ubuntu 22.04 LTS Security Technical Implementation Guide InSpec Profile
 
-The Redhat Enterprise Linux 9.X Security Technical Implementation Guide (RHEL9.x STIG) InSpec Profile can help programs automate their compliance checks of RedHat Enterprise Linux 9.x System to Department of Defense (DoD) requirements.
+The Ubuntu 22.04 LTS Security Technical Implementation Guide (Ubuntu 22 STIG) InSpec Profile can help programs automate their compliance checks of Ubuntu 22.04 LTS systems to Department of Defense (DoD) requirements.
 
 - Profile Version: `1.2.0`
-- RedHat Enterprise Linux 9 Security Technical Implementation Guide v1r2
+- Ubuntu 22.04 LTS Security Technical Implementation Guide v1r2
 
 This profile was developed to reduce the time it takes to perform a security checks based upon the STIG Guidance from the Defense Information Systems Agency (DISA) in partnership between the DISA Services Directorate (SD) and the DISA Risk Management Executive (RME) office.
 
 The results of a profile run will provide information needed to support an Authority to Operate (ATO) decision for the applicable technology.
 
-The RHEL8 STIG Profile uses the [InSpec](https://github.com/inspec/inspec) open-source compliance validation language to support automation of the required compliance, security and policy testing for Assessment and Authorization (A&A) and Authority to Operate (ATO) decisions and Continuous Authority to Operate (cATO) processes.
+The Ubuntu 22.04 LTS STIG Profile uses the [InSpec](https://github.com/inspec/inspec) open-source compliance validation language to support automation of the required compliance, security and policy testing for Assessment and Authorization (A&A) and Authority to Operate (ATO) decisions and Continuous Authority to Operate (cATO) processes.
 
 Table of Contents
 =================
 
-* [RedHat Enterprise Linux 9.x Security Technical Implementation Guide InSpec Profile](#redhat-enterprise-linux-9x-security-technical-implementation-guide-inspec-profile)
-   * [RedHat 9.x Enterprise Linux Security Technical Implementation Guide (RHEL9 STIG)](#redhat-9x-enterprise-linux-security-technical-implementation-guide-rhel9-stig)
+* [Ubuntu 22.04 LTS Security Technical Implementation Guide InSpec Profile](#ubuntu-2204-lts-security-technical-implementation-guide-inspec-profile)
+   * [Ubuntu 22.04 LTS Security Technical Implementation Guide (Ubuntu 22 STIG)](#ubuntu-2204-lts-security-technical-implementation-guide-ubuntu-22-stig)
 * [Getting Started and Intended Usage](#getting-started-and-intended-usage)
    * [Intended Usage - main vs releases](#intended-usage---main-vs-releases)
    * [Environment Aware Testing](#environment-aware-testing)
@@ -26,25 +26,25 @@ Table of Contents
    * [Different Run Options](#different-run-options)
 * [Using Heimdall for Viewing Test Results and Exporting for Checklist and eMASS](#using-heimdall-for-viewing-test-results-and-exporting-for-checklist-and-emass)
 
-## RedHat 9.x Enterprise Linux Security Technical Implementation Guide (RHEL9 STIG)
+## Ubuntu 22.04 LTS Security Technical Implementation Guide (Ubuntu 22 STIG)
 
 The DISA RME and DISA SD Office, along with their vendor partners, create and maintain a set of Security Technical Implementation Guides for applications, computer systems and networks connected to the Department of Defense (DoD). These guidelines are the primary security standards used by the DoD agencies. In addition to defining security guidelines, the STIGs also stipulate how security training should proceed and when security checks should occur. Organizations must stay compliant with these guidelines or they risk having their access to the DoD terminated.
 
-The RHEL9 STIG (see public.cyber.mil/stigs/) offers a comprehensive compliance guide for the configuration and operation your RedHat Enterprise Linux 9.x system.
+The Ubuntu 22 STIG (see public.cyber.mil/stigs/) offers a comprehensive compliance guide for the configuration and operation of your Ubuntu 22.04 LTS system.
 
-The requirements associated with the RHEL9 STIG are derived from the [Security Requirements Guides](https://csrc.nist.gov/glossary/term/security_requirements_guide) and align to the [National Institute of Standards and Technology](https://www.nist.gov/) (NIST) [Special Publication (SP) 800-53](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#!/800-53) Security Controls, [DoD Control Correlation Identifier](https://public.cyber.mil/stigs/cci/) and related standards.
+The requirements associated with the Ubuntu 22 STIG are derived from the [Security Requirements Guides](https://csrc.nist.gov/glossary/term/security_requirements_guide) and align to the [National Institute of Standards and Technology](https://www.nist.gov/) (NIST) [Special Publication (SP) 800-53](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#!/800-53) Security Controls, [DoD Control Correlation Identifier](https://public.cyber.mil/stigs/cci/) and related standards.
 
-The RHEL9.x STIG profile checks were developed to provide technical implementation validation to the defined DoD requirements, the guidance can provide insight for any organizations wishing to enhance their security posture and can be tailored easily for use in your organization.
+The Ubuntu 22.04 LTS STIG profile checks were developed to provide technical implementation validation to the defined DoD requirements, the guidance can provide insight for any organizations wishing to enhance their security posture and can be tailored easily for use in your organization.
 
 ### Source Guidance
 
-- RedHat Enterprise Linux 9 Security Technical Implementation Guide v1r2
+- Ubuntu 22.04 LTS Security Technical Implementation Guide v1r2
 
 ### Current Profile Statistics
 
-The profile will be tested on every commit and every release against both `vanilla` and `hardened` ubi and ec2 images using a CI/CD pipeline. The `vanilla` images are unmodified base images sourced from Red Hat itself. The `hardened` images have had their settings configured for security according to STIG guidance. Testing both vanilla and hardened configurations of both containerized and virtual machine implementations of RHEL9 is necessary to ensure the profile works in multiple environments.
+The profile will be tested on every commit and every release against both `vanilla` and `hardened` Ubuntu container and EC2 images using a CI/CD pipeline. The `vanilla` images are unmodified base images sourced from Ubuntu. The `hardened` images have had their settings configured for security according to STIG guidance. Testing both vanilla and hardened configurations of both containerized and virtual machine implementations of Ubuntu 22.04 LTS is necessary to ensure the profile works in multiple environments.
 
-Further pipelines may be employed to test different hardening content sources (e.g., Ansible code sourced directly from DISA or Red Hat).
+Further pipelines may be employed to test different hardening content sources (e.g., Ansible code sourced directly from DISA or Canonical).
 
 # Getting Started and Intended Usage
 
@@ -64,7 +64,7 @@ Further pipelines may be employed to test different hardening content sources (e
 
 ## Environment Aware Testing
 
-The RHEL9.x STIG profile is `container aware` and is able to determine when the profile is being executed inside or outside a `docker container` and will only run the tests that are approporate for the enviroment it is testing in. The tests are all tagged as `host` or `host, container`.
+The Ubuntu 22.04 LTS STIG profile is `container aware` and is able to determine when the profile is being executed inside or outside a `docker container` and will only run the tests that are approporate for the enviroment it is testing in. The tests are all tagged as `host` or `host, container`.
 
 All the profile's tests (`controls`) apply to the `host` but many of the controls are `Not Applicable` when running inside a `docker container` (such as, for example, controls that test the system's GUI). When running inside a `docker container`, the tests that only applicable to the host will be marked as `Not Applicable` automatically.
 
@@ -100,7 +100,7 @@ Example Inputs
 ## (connected) Running the Profile Directly
 
 ```
-inspec exec https://github.com/mitre/redhat-enterprise-linux-9-stig-baseline/archive/main.tar.gz --input-file=<your_inputs_file.yml> -t ssh://<hostname>:<port> --sudo --reporter=cli json:<your_results_file.json>
+inspec exec https://github.com/mitre/canonical-ubuntu-22.04-lts-stig-baseline/archive/main.tar.gz --input-file=<your_inputs_file.yml> -t ssh://<hostname>:<port> --sudo --reporter=cli json:<your_results_file.json>
 ```
 
 ## (disconnected) Running the profile from a local archive copy
@@ -114,8 +114,8 @@ When the **"runner"** host uses this profile overlay for the first time, follow 
 ```
 mkdir profiles
 cd profiles
-git clone https://github.com/mitre/redhat-enterprise-linux-9-stig-baseline.git
-inspec archive redhat-enterprise-linux-9-stig-baseline
+git clone https://github.com/mitre/canonical-ubuntu-22.04-lts-stig-baseline.git
+inspec archive canonical-ubuntu-22.04-lts-stig-baseline
 <sneakerNet your archive>
 inspec exec <name of generated archive> --input-file=<your_inputs_file.yml> -t ssh://<hostname>:<port> --sudo --reporter=cli json:<your_results_file.json>
 ```
@@ -126,10 +126,10 @@ For every successive run, follow these steps to always have the latest version o
 2. Update your archive with the following steps
 
 ```
-cd redhat-enterprise-linux-9-stig-baseline
+cd canonical-ubuntu-22.04-lts-stig-baseline
 git pull
 cd ..
-inspec archive redhat-enterprise-linux-9-stig-baseline
+inspec archive canonical-ubuntu-22.04-lts-stig-baseline
 ```
 
 ## Different Run Options
