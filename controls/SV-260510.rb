@@ -30,7 +30,7 @@ If the "/var/log/syslog" file is not owned by "syslog", this is a finding.'
 
   describe.one do
     describe file('/var/log/syslog') do
-      its('owner') { should cmp 'root' }
+      its('owner') { should cmp 'syslog' }
     end
     describe file('/var/log/syslog') do
       it { should_not exist }

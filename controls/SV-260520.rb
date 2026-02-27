@@ -56,7 +56,16 @@ Restart the chrony service:
   if found_file.exist?
     describe found_file do
       subject { found_file }
-      its('content') { should match(/^makestep 1 -1/) }
+      its('content') { should match(/^\s*makestep\s+1\s+-1/) }
+    end
+    timedatectl = command('timedatectl').stdout
+    describe 'NTP and clock synchronization' do
+      it 'should have NTP service active' do
+        expect(timedatectl).to match(/NTP service:\s*(active|enabled)/i)
+      end
+      it 'should have system clock synchronized' do
+        expect(timedatectl).to match(/System clock synchronized:\s*yes/i)
+      end
     end
   else
     describe(file_path + ' exists') do

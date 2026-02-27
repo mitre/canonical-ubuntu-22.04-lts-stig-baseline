@@ -39,10 +39,7 @@ Restart the system for the changes to take effect.'
   journal_bases = %w[/run/log/journal /var/log/journal]
 
   journal_bases.each do |base|
-    describe.one do
-      describe file(base) do
-        it { should_not exist }
-      end
+    if file(base).exist?
       describe "Systemd journal directory ownership under #{base}" do
         subject do
           command("find -L #{base} -type d ! -user root -print 2>/dev/null").stdout.split("\n").reject(&:empty?)
@@ -51,6 +48,10 @@ Restart the system for the changes to take effect.'
         it 'should have all directories owned by root' do
           expect(subject).to be_empty, "Directories under #{base} not owned by root:\n\t- #{subject.join("\n\t- ")}"
         end
+      end
+    else
+      describe "Systemd journal directory #{base}" do
+        skip "#{base} does not exist; skipping ownership validation per applicability"
       end
     end
   end

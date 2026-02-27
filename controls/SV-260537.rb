@@ -1,20 +1,20 @@
 control 'SV-260537' do
   title "Ubuntu 22.04 LTS must retain a user's session lock until that user reestablishes access using established identification and authentication procedures."
-  desc 'A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.  
-  
-The session lock is implemented at the point where session activity can be determined.  
-  
+  desc 'A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.
+
+The session lock is implemented at the point where session activity can be determined.
+
 Regardless of where the session lock is determined and implemented, once invoked, a session lock of Ubuntu 22.04 LTS must remain in place until the user reauthenticates. No other activity aside from reauthentication must unlock the system.'
-  desc 'check', 'Verify Ubuntu 22.04 LTS has a graphical user interface session lock enabled by using the following command: 
-  
-Note: If no graphical user interface is installed, this requirement is not applicable. 
-  
-     $ sudo gsettings get org.gnome.desktop.screensaver lock-enabled 
-     true 
-  
+  desc 'check', 'Verify Ubuntu 22.04 LTS has a graphical user interface session lock enabled by using the following command:
+
+Note: If no graphical user interface is installed, this requirement is not applicable.
+
+     $ sudo gsettings get org.gnome.desktop.screensaver lock-enabled
+     true
+
 If "lock-enabled" is not set to "true", is commented out, or is missing, this is a finding.'
-  desc 'fix', 'Configure Ubuntu 22.04 LTS to allow a user to lock the current graphical user interface session.   
-  
+  desc 'fix', 'Configure Ubuntu 22.04 LTS to allow a user to lock the current graphical user interface session.
+
 Create or edit a file named /etc/dconf/db/local.d/00-screensaver with the following contents:
 
 [org/gnome/desktop/screensaver]

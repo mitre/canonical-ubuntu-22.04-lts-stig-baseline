@@ -36,9 +36,15 @@ If kernel core dumps are required, document the need with the ISSO.'
     !virtualization.system.eql?('docker')
   }
 
-  describe service('kdump') do
-    it { should_not be_running }
-    its('params.LoadState') { should cmp 'masked' }
-    its('params.UnitFileState') { should cmp 'masked' }
+  describe.one do
+    describe package('kdump-tools') do
+      it { should_not be_installed }
+    end
+
+    describe service('kdump-tools') do
+      it { should_not be_running }
+      its('params.LoadState') { should cmp 'masked' }
+      its('params.UnitFileState') { should cmp 'masked' }
+    end
   end
 end
