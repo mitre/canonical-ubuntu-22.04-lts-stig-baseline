@@ -55,9 +55,12 @@ $ sudo systemctl restart sshd.service'
 
     describe 'SSH ciphers' do
       it 'should contain only approved FIPS ciphers' do
+        unapproved_ciphers = ciphers.nil? ? [] : (ciphers - approved)
+        missing_approved_ciphers = ciphers.nil? ? approved : (approved - ciphers)
+
         expect(ciphers).to_not be_nil, 'Ciphers directive missing from sshd_config'
-        expect(ciphers - approved).to eq([]), 'Non-approved ciphers present'
-        expect(approved - ciphers).to eq([]), 'Approved ciphers missing'
+        expect(unapproved_ciphers).to eq([]), "Non-approved ciphers present (#{unapproved_ciphers.length}): #{unapproved_ciphers.join(', ')}"
+        expect(missing_approved_ciphers).to eq([]), "Approved ciphers missing (#{missing_approved_ciphers.length}): #{missing_approved_ciphers.join(', ')}"
       end
     end
   end

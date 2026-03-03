@@ -35,27 +35,23 @@ Note: If the system is missing an "/etc/pam_pkcs11/" directory and an "/etc/pam_
   tag 'host'
   tag 'container'
 
-  only_if('If the System Administrator demonstrates the use of an approved alternate multifactor authentication method, this requirement is not applicable.', impact: 0.0) {
-    !input('smart_card_enabled')
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.system.eql?('docker')
   }
 
-  root_ca_file = input('root_ca_file')
-  describe file(root_ca_file) do
-    it { should exist }
-  end
+  pkcs11_conf = '/etc/pam_pkcs11/pam_pkcs11.conf'
 
-  describe 'Ensure the RootCA is a DoD-issued certificate with a valid date' do
-    if file(root_ca_file).exist?
-      subject { x509_certificate(root_ca_file) }
-      it 'has the correct issuer_dn' do
-        expect(subject.issuer_dn).to match('/C=US/O=U.S. Government/OU=DoD/OU=PKI/CN=DoD Root CA 3')
-      end
-      it 'has the correct subject_dn' do
-        expect(subject.subject_dn).to match('/C=US/O=U.S. Government/OU=DoD/OU=PKI/CN=DoD Root CA 3')
-      end
-      it 'is valid' do
-        expect(subject.validity_in_days).to be > 0
-      end
+  # Determine applicability: treat as in use if pam_pkcs11 config exists or the module is referenced in PAM stack.
+  pki_used = file(pkcs11_conf).exist? || !command('grep -R "pam_pkcs11\\.so" /etc/pam.d 2>/dev/null | head -n1').stdout.strip.empty?
+
+  if !pki_used
+    describe 'Smart card authentication usage' do
+      skip 'Smart card authentication (pam_pkcs11) is not in use on this system; this control is Not Applicable.'
+    end
+  else
+    describe file(pkcs11_conf) do
+      it { should exist }
+      its('content') { should match(/^\s*cert_policy\s*=\s*[^#\n]*\bca\b[^#\n]*;/) }
     end
   end
 end

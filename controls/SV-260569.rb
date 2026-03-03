@@ -27,6 +27,6 @@ password [success=1 default=ignore] pam_unix.so obscure sha512 shadow rounds=100
   pam_auth_files = input('pam_auth_files')
 
   describe pam(pam_auth_files['system-auth']) do
-    its('lines') { should match_pam_rule('password sufficient pam_unix.so sha512').any_with_integer_arg('rounds', :>=, 100_000) }
+    its('lines') { should match_pam_rule('password [success=1 default=ignore] pam_unix.so obscure sha512').any_with_integer_arg('rounds', :>=, 100_000) }
   end
 end

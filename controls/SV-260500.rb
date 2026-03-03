@@ -23,7 +23,7 @@ $ sudo find /lib /lib64 /usr/lib /usr/lib64 -type f -name '*.so*' ! -group root 
   tag 'host'
   tag 'container'
 
-  failing_files = command("find -L #{input('system_libraries').join(' ')} -type f -name '*.so*' ! -group root -exec ls -d {} \\;").stdout.split("\n")
+  failing_files = command("find #{input('system_libraries').join(' ')} -type f -name '*.so*' ! -group root -exec stat -c '%n %G' {} +").stdout.split("\n")
 
   describe 'System libraries' do
     it 'should be group-owned by root' do

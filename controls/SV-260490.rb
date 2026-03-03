@@ -54,4 +54,14 @@ Restart the system for the changes to take effect.'
       expect(non_compliant_journal_dirs).to be_empty, "Failing directories:\n\t- #{non_compliant_journal_dirs.join("\n\t- ")}"
     end
   end
+
+  journal_files = command('sudo find /run/log/journal /var/log/journal  -type f -exec stat -c "%n" {} \;').stdout.split("\n")
+  file_mode = '0640'
+  non_compliant_journal_files = journal_files.select { |f| file(f).more_permissive_than?(file_mode) }
+
+  describe 'Journal files' do
+    it "have a mode of '#{file_mode}' or less permissive" do
+      expect(non_compliant_journal_files).to be_empty, "Failing files:\n\t- #{non_compliant_journal_files.join("\n\t- ")}"
+    end
+  end
 end

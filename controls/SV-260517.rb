@@ -61,7 +61,7 @@ Rate-limiting can also be done on an interface. An example of adding a rate limi
   }
 
   # Collect listening TCP/UDP ports in the form "<port>/<proto>" (e.g., "22/tcp", "53/udp")
-  ss_output = command('ss -H -lntu').stdout
+  ss_output = command('ss -l46utnH').stdout
   listening = ss_output.to_s.each_line.filter_map do |line|
     fields = line.split
     next nil unless fields && fields.length >= 5
