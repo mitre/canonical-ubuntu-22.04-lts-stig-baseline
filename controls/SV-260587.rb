@@ -28,21 +28,25 @@ The script must be located in the "/etc/cron.weekly" directory.'
   tag cci: ['CCI-001851']
   tag nist: ['AU-4 (1)']
 
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+  only_if('This control is Not Applicable to containers or airgapped systems', impact: 0.0) {
+    !virtualization.system.eql?('docker') && !input('airgapped_system')
   }
 
   cron_file = input('auditoffload_config_file')
-  cron_file_exists = file(cron_file).exist?
 
-  if cron_file_exists
-    describe file(cron_file) do
-      its('content') { should_not be_empty }
-    end
-  else
-    describe cron_file + ' exists' do
-      subject { cron_file_exists }
-      it { should be true }
-    end
+  describe file(cron_file) do
+    it { should exist }
+    it { should be_file }
+    it { should be_executable }
+    its('content') { should_not be_empty }
+  end
+
+  describe 'cron script path' do
+    subject { cron_file }
+    it { should start_with('/etc/cron.weekly/') }
+  end
+
+  describe 'Manual review - validate audit offload behavior' do
+    skip "Manual verification required: Confirm that the weekly script at #{cron_file} offloads audit events to external media."
   end
 end

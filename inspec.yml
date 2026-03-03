@@ -201,7 +201,12 @@ inputs:
     description: The system is not connected to the public internet or doesn't have access to a RPM package server
     type: Boolean
     value: false
-
+ 
+  - name: airgapped_system
+    description: System is airgapped (no network connectivity)
+    type: Boolean
+    value: false
+ 
   - name: use_fips
     description: "'(boolean)' Set to true if the system is required to use FIPS Encryption"
     type: Boolean
