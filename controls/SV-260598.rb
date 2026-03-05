@@ -47,7 +47,7 @@ Using the path of the directory containing the audit logs, configure the audit l
         its('owner') { should cmp 'root' }
       end
     else
-      describe('Audit log file ' + log_file + ' exists') do
+      describe("Audit log file #{log_file} exists") do
         subject { log_file_exists }
         it { should be true }
       end

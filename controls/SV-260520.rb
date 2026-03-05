@@ -68,7 +68,7 @@ Restart the chrony service:
       end
     end
   else
-    describe(file_path + ' exists') do
+    describe("#{file_path} exists") do
       subject { found_file.exist? }
       it { should be true }
     end

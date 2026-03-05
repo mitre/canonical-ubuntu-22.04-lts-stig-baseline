@@ -41,7 +41,7 @@ If "/etc/audit/audit.rules", "/etc/audit/auditd.conf", or "/etc/audit/rules.d/*"
         its('group') { should be_in admin_groups }
       end
     else
-      describe('Audit log file ' + log_file + ' exists') do
+      describe("Audit log file #{log_file} exists") do
         subject { log_file_exists }
         it { should be true }
       end

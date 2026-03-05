@@ -45,7 +45,7 @@ Reload the configuration file of the audit service to update the group ownership
         its('group') { should be_in admin_groups }
       end
     else
-      describe('Audit log file ' + log_file + ' exists') do
+      describe("Audit log file #{log_file} exists") do
         subject { log_file_exists }
         it { should be true }
       end
