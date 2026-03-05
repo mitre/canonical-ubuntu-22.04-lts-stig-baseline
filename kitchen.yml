@@ -6,7 +6,7 @@ verifier:
     - cli
     - json:spec/results/%{platform}_%{suite}.json
   inspec_tests:
-    - name: Ubuntu 22.04 LTS STIG v1r2
+    - name: Ubuntu 22.04 LTS STIG v2r7
       path: .
   input_files:
     - kitchen.inputs.yml

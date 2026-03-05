@@ -3,7 +3,7 @@
 The Ubuntu 22.04 LTS Security Technical Implementation Guide (Ubuntu 22 STIG) InSpec Profile can help programs automate their compliance checks of Ubuntu 22.04 LTS systems to Department of Defense (DoD) requirements.
 
 - Profile Version: `1.2.0`
-- Ubuntu 22.04 LTS Security Technical Implementation Guide v1r2
+- Ubuntu 22.04 LTS Security Technical Implementation Guide v2r7
 
 This profile was developed to reduce the time it takes to perform a security checks based upon the STIG Guidance from the Defense Information Systems Agency (DISA) in partnership between the DISA Services Directorate (SD) and the DISA Risk Management Executive (RME) office.
 
@@ -38,7 +38,7 @@ The Ubuntu 22.04 LTS STIG profile checks were developed to provide technical imp
 
 ### Source Guidance
 
-- Ubuntu 22.04 LTS Security Technical Implementation Guide v1r2
+- Ubuntu 22.04 LTS Security Technical Implementation Guide v2r7
 
 ### Current Profile Statistics
 
