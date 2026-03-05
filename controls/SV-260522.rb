@@ -39,7 +39,7 @@ If "1" is not the system's default value, add or update the following line in "/
   tag 'host'
 
   only_if('Control not applicable within a container', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   parameter = 'net.ipv4.tcp_syncookies'

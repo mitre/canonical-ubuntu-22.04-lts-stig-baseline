@@ -37,7 +37,7 @@ Note: The value of "retry" should be between "1" and "3".'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
 
-  if virtualization.system.eql?('docker')
+  if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
     impact 0.0
     describe 'Control not applicable to a container' do
       skip 'Control not applicable to a container'

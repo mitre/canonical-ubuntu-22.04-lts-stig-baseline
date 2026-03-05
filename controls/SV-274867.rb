@@ -61,7 +61,7 @@ ca_cert = /etc/ssl/certs/ca-certificates.crt'
   tag nist: ['IA-5 (2) (b) (1)', 'SC-17 b']
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   sssd_config = parse_config_file('/etc/sssd/sssd.conf')

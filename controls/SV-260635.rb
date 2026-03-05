@@ -45,7 +45,7 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
   audit_syscalls = ['truncate', 'ftruncate', 'creat', 'open', 'openat', 'open_by_handle_at']
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   describe 'Syscall' do

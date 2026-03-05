@@ -65,7 +65,7 @@ End timestamp: 2024-04-01 04:29:16 +1300 (run time: 9m 16s)'
   tag nist: ['SI-6 a']
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   describe package('aide') do

@@ -30,7 +30,7 @@ If there is no application installed to perform integrity checks, this is a find
   file_integrity_tool = input('file_integrity_tool')
 
   only_if('Control not applicable within a container', impact: 0.0) do
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   end
 
   if file_integrity_tool == 'aide'

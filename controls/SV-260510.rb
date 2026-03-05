@@ -25,7 +25,7 @@ If the "/var/log/syslog" file is not owned by "syslog", this is a finding.'
   tag nist: ['SI-11 b']
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   describe.one do

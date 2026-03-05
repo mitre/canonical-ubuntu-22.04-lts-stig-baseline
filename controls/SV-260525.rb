@@ -85,7 +85,7 @@ Restart the SSH daemon for the changes to take effect and then signal the SSH se
   tag 'host'
 
   only_if('Control not applicable - SSH is not installed within containerized Ubuntu', impact: 0.0) {
-    !virtualization.system.eql?('docker') || file('/etc/ssh/sshd_config').exist?
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest') || file('/etc/ssh/sshd_config').exist?
   }
 
   sshd_conf = file('/etc/ssh/sshd_config')

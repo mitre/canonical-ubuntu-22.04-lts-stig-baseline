@@ -36,7 +36,7 @@ Note: If the system is missing an "/etc/pam_pkcs11/" directory and an "/etc/pam_
   tag 'container'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   if input('pki_disabled')

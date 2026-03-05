@@ -24,7 +24,7 @@ auth     required     pam_faildelay.so     delay=4000000'
   tag 'host'
   tag 'container'
 
-  if virtualization.system.eql?('docker')
+  if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
     impact 0.0
     describe 'Control not applicable to a container' do
       skip 'Control not applicable to a container'

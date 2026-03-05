@@ -37,7 +37,7 @@ Restart the SSH daemon for the changes to take effect:
   gssapi_authentication = input('sshd_config_values')
   value = gssapi_authentication[setting]
   openssh_present = package('openssh-server').installed?
-  is_container = virtualization.system.eql?('docker')
+  is_container = (%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   allow_container_openssh = input('allow_container_openssh_server')
 
   only_if('This requirement is Not Applicable in the container without open-ssh installed', impact: 0.0) {

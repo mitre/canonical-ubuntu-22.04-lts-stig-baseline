@@ -58,7 +58,7 @@ Restart the "auditd.service" for the changes to take effect:
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   describe package('audispd-plugins') do

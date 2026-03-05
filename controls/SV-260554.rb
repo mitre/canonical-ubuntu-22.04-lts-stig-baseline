@@ -31,7 +31,7 @@ To set the timeout for the current sessions, execute the following command over 
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   timeout_setting = command("grep -E '\\bTMOUT=[0-9]+' /etc/bash.bashrc /etc/profile.d/*.sh 2>/dev/null | tail -n1").stdout.strip.match(/TMOUT=(?<timeout>\d+)/)

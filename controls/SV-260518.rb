@@ -43,7 +43,7 @@ To deny access to ports, protocols, or services, use:
   tag 'host'
 
   only_if('Control not applicable - containerized environment or external firewall in use per site policy', impact: 0.0) {
-    !virtualization.system.eql?('docker') && !input('external_firewall')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest') && !input('external_firewall')
   }
 
   ufw_status = command('ufw status').stdout.strip.lines.first

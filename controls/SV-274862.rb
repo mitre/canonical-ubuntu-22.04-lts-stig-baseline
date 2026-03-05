@@ -34,7 +34,7 @@ control 'SV-274862' do
   audited_paths = %w[/etc/cron.d /var/spool/cron]
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   audited_paths.each do |audit_path|

@@ -27,7 +27,7 @@ If the above command returns the status as "inactive" or any type of error, this
   tag nist: ['AC-17 (1)']
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   alternate_firewall_tool = input('alternate_firewall_tool')

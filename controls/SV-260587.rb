@@ -29,7 +29,7 @@ The script must be located in the "/etc/cron.weekly" directory.'
   tag nist: ['AU-4 (1)']
 
   only_if('This control is Not Applicable to containers or airgapped systems', impact: 0.0) {
-    !virtualization.system.eql?('docker') && !input('airgapped_system')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest') && !input('airgapped_system')
   }
 
   cron_file = input('auditoffload_config_file')

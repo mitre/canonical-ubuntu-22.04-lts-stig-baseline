@@ -34,7 +34,7 @@ $ sudo systemctl list-units --type=service | grep nfs'
   tag nist: ['CM-7 a']
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   nfs_packages = %w[nfs-common nfs-kernel-server]

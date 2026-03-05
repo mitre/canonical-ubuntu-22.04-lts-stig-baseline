@@ -37,7 +37,7 @@ Reload the system configuration files for the changes to take effect by using th
   tag 'host'
 
   only_if('Control not applicable within a container', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   parameter = 'kernel.randomize_va_space'

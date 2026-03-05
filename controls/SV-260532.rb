@@ -36,7 +36,7 @@ Restart the SSH server for the changes to take effect:
   tag 'container-conditional'
 
   only_if('Control not applicable - SSH is not installed within containerized Ubuntu', impact: 0.0) {
-    !virtualization.system.eql?('docker') || file('/etc/ssh/sshd_config').exist?
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest') || file('/etc/ssh/sshd_config').exist?
   }
 
   approved_macs = input('approved_openssh_server_conf')['macs']

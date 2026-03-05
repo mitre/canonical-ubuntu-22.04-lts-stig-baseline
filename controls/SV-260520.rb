@@ -47,7 +47,7 @@ Restart the chrony service:
   tag nist: ['AU-8 (1) (b)', 'SC-45 (1) (b)']
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   file_path = input('chrony_config_file')

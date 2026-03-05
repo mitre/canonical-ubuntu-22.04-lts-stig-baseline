@@ -25,7 +25,7 @@ If "Time zone" is not set to UTC, this is a finding.'
   tag nist: ['AU-8 b']
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   time_zone = command('timedatectl status | grep -i "time zone"').stdout.strip

@@ -36,7 +36,7 @@ Note: If system availability has been determined to be more important, and this 
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   disk_full_action = input('disk_full_action').map(&:upcase)

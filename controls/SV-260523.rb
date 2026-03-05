@@ -41,7 +41,7 @@ If the "openssh" server package is not installed, this is a finding.'
   tag 'container-conditional'
 
   openssh_present = package('openssh-server').installed?
-  is_container = virtualization.system.eql?('docker')
+  is_container = (%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   allow_container_openssh = input('allow_container_openssh_server')
 
   only_if('This requirement is Not Applicable in the container without open-ssh installed', impact: 0.0) {

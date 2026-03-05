@@ -21,7 +21,7 @@ ldap_user_certificate=userCertificate;binary'
   tag nist: ['IA-5 (2) (a) (2)']
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
   sssd_conf = '/etc/sssd/sssd.conf'

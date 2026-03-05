@@ -29,7 +29,7 @@ Restart the SSH daemon for the changes to take effect:
   tag 'container-conditional'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(virtualization.system.eql?('docker') && !file('/etc/ssh/sshd_config').exist?)
+    !((%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest') && !file('/etc/ssh/sshd_config').exist?)
   }
 
   describe sshd_config do
