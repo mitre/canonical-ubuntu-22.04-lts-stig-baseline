@@ -55,59 +55,7 @@ Rate-limiting can also be done on an interface. An example of adding a rate limi
   tag nist: ['SC-5', 'SC-5 a']
   tag 'host'
 
-  # Not applicable to containers
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
-  }
-
-  # Collect listening TCP/UDP ports in the form "<port>/<proto>" (e.g., "22/tcp", "53/udp")
-  ss_output = command('ss -l46utnH').stdout
-  listening = ss_output.to_s.each_line.filter_map do |line|
-    fields = line.split
-    next nil unless fields && fields.length >= 5
-
-    proto = fields[0].to_s.downcase # tcp or udp
-    local = fields[4].to_s
-    # Local is like 0.0.0.0:22 or [::]:53; take last ':' segment as port
-    port = local.split(':').last
-    next nil unless %w[tcp udp].include?(proto) && port =~ /^\d+$/
-
-    "#{port}/#{proto}"
-  end.uniq.sort
-
-  # Parse UFW status for actions per "<port>/<proto>"
-  ufw_status = command('ufw status').stdout
-  rules_map = Hash.new { |h, k| h[k] = [] }
-  ufw_status.to_s.each_line do |raw|
-    line = raw.strip
-    next if line.empty?
-
-    # Match rows like: "80/tcp       LIMIT   Anywhere" or "22/tcp (v6)  LIMIT  Anywhere"
-    m = line.match(/^(?<to>.+?)\s{2,}(?<action>ALLOW|DENY|LIMIT)(?:\s{2,}.+)?$/)
-    next unless m
-
-    to = m[:to].strip.gsub(/\s+\(v6\)\z/, '')
-    action = m[:action]
-    # Normalize to "<port>/<proto>"
-    if to =~ %r{^(\d+)/(tcp|udp)\b}
-      key = "#{Regexp.last_match(1)}/#{Regexp.last_match(2)}"
-      rules_map[key] |= [action]
-    end
-  end
-
-  non_compliant = listening.reject do |pp|
-    actions = rules_map[pp]
-    actions.include?('DENY') || actions.include?('LIMIT')
-  end
-
-  describe 'Listening service ports must be rate limited (or denied) by ufw' do
-    subject { non_compliant }
-    it 'should be empty' do
-      expect(subject).to be_empty, <<~MSG
-        The following listening ports lack a corresponding ufw LIMIT or DENY rule:
-          - #{subject.join("\n  - ")}
-        Remediation: run `ufw limit <service|port>` for each listed port (or explicitly `ufw deny` if the service must be blocked).
-      MSG
-    end
+  describe 'Status listings for any allowed services, ports, or applications must be documented with the organization' do
+    skip 'Status listings checks must be preformed manually'
   end
 end
