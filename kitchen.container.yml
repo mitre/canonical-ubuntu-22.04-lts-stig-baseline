@@ -24,7 +24,7 @@ suites:
   - name: hardened
     driver:
       image: <%= ENV['HARDENED_CONTAINER_IMAGE'] || "registry1.dso.mil/ironbank/canonical/ubuntu-pro-cis-fips-stig:22.04_stable" %>
-      creds_file: './creds.json'
+      # creds_file: './creds.json'
     verifier:
       input_files:
         - container.hardened.inputs.yml
