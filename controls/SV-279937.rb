@@ -37,7 +37,6 @@ $ sudo systemctl list-units --type=service | grep nfs'
     !virtualization.system.eql?('docker')
   }
 
-  # Validate that NFS server/client packages are not installed
   nfs_packages = %w[nfs-common nfs-kernel-server]
   installed = nfs_packages.select { |pkg| package(pkg).installed? }
 

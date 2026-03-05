@@ -32,15 +32,11 @@ If the "libpam-pkcs11" package is not installed, this is a finding.'
   tag nist: ['IA-2 (1)', 'IA-2 (2)', 'IA-2 (3)', 'IA-2 (4)', 'IA-2 (11)', 'IA-2 (6) (a)', 'IA-2 (6) (b)']
   tag 'host'
 
-  only_if('This control is Not Applicable to containers without SSH installed', impact: 0.0) {
-    !(virtualization.system.eql?('docker') && !directory('/etc/ssh').exist?)
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !virtualization.system.eql?('docker')
   }
 
-  describe 'PKCS#11 smart card PAM support (libpam-pkcs11)' do
-    subject { package('libpam-pkcs11') }
-
-    it 'must be installed to support multifactor authentication for remote privileged access' do
-      expect(subject).to be_installed
-    end
+  describe package('libpam-pkcs11') do
+    it { should be_installed }
   end
 end

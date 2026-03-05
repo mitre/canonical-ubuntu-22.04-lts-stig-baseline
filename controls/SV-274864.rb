@@ -63,7 +63,6 @@ $ sudo apt install libnss-sss'
     !virtualization.system.eql?('docker')
   }
 
-  # Validate required packages for SSSD and its PAM/NSS integration
   required_packages = %w[sssd libpam-sss libnss-sss]
   missing = required_packages.reject { |pkg| package(pkg).installed? }
 

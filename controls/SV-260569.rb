@@ -24,9 +24,10 @@ password [success=1 default=ignore] pam_unix.so obscure sha512 shadow rounds=100
   tag 'host'
   tag 'container'
 
+  expected_line = 'password [success=1 default=ignore] pam_unix.so obscure sha512'
   pam_auth_files = input('pam_auth_files')
 
   describe pam(pam_auth_files['system-auth']) do
-    its('lines') { should match_pam_rule('password [success=1 default=ignore] pam_unix.so obscure sha512').any_with_integer_arg('rounds', :>=, 100_000) }
+    its('lines') { should match_pam_rule(expected_line).any_with_integer_arg('rounds', :>=, input('password_hash_rounds')) }
   end
 end

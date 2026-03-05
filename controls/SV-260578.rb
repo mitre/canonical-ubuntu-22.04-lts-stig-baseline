@@ -33,20 +33,27 @@ If the system is missing an "/etc/pam_pkcs11/" directory and an "/etc/pam_pkcs11
     !virtualization.system.eql?('docker')
   }
 
-  pkcs11_conf = '/etc/pam_pkcs11/pam_pkcs11.conf'
-
-  # Determine applicability: treat as in use if pam_pkcs11 config exists or the module is referenced in PAM stack.
-  pki_used = file(pkcs11_conf).exist? || !command('grep -R "pam_pkcs11\\.so" /etc/pam.d 2>/dev/null | head -n1').stdout.strip.empty?
-
-  if !pki_used
+  if input('pki_disabled')
     impact 0.0
-    describe 'Smart card authentication usage' do
-      skip 'Smart card authentication (pam_pkcs11) is not in use on this system; this control is Not Applicable.'
+    describe 'This system is not using PKI for authentication so the controls is Not Applicable.' do
+      skip 'This system is not using PKI for authentication so the controls is Not Applicable.'
     end
   else
-    describe file(pkcs11_conf) do
-      it { should exist }
-      its('content') { should match(/^\s*cert_policy\s*=\s*[^#\n]*\b(crl_auto|crl_offline)\b[^#\n]*;/) }
+    config_file_exists = file('/etc/pam_pkcs11/pam_pkcs11.conf').exist?
+    if config_file_exists
+      describe.one do
+        describe parse_config_file('/etc/pam_pkcs11/pam_pkcs11.conf') do
+          its('cert_policy') { should include 'crl_auto' }
+        end
+        describe parse_config_file('/etc/pam_pkcs11/pam_pkcs11.conf') do
+          its('cert_policy') { should include 'crl_offline' }
+        end
+      end
+    else
+      describe '/etc/pam_pkcs11/pam_pkcs11.conf exists' do
+        subject { config_file_exists }
+        it { should be true }
+      end
     end
   end
 end

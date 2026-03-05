@@ -41,6 +41,6 @@ Update the "/etc/ssl/certs" directory by using the following command:
   done
   "''
   describe command(find_command) do
-    its('stdout') { should cmp allowed_ca_fingerprints_regex }
+    its('stdout') { should cmp '' }
   end
 end

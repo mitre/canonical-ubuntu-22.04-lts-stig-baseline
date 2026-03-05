@@ -809,7 +809,7 @@ inputs:
       '/etc/group'                    : 'identity',
       '/etc/sudoers'                  : 'identity',
       '/etc/sudoers.d'                : 'identity',
-      '/usr/bin/su'                   : 'privileged-priv_change',
+      '/bin/su'                       : 'privileged-priv_change',
       'setxattr'                      : 'perm_mod',
       'fsetxattr'                     : 'perm_mod',
       'lsetxattr'                     : 'perm_mod',
@@ -823,7 +823,7 @@ inputs:
       '/usr/bin/mount'                : 'privileged-mount',
       '/usr/bin/umount'               : 'privileged-mount',
       'mount'                         : 'privileged-mount',
-      '/usr/sbin/unix_update'         : 'privileged-unix-update',
+      '/sbin/unix_update'             : 'privileged-unix-update',
       '/usr/sbin/postdrop'            : 'privileged-unix-update',
       '/usr/sbin/postqueue'           : 'privileged-unix-update',
       '/usr/sbin/semanage'            : 'privileged-unix-update',
@@ -831,7 +831,7 @@ inputs:
       '/usr/sbin/userhelper'          : 'privileged-unix-update',
       '/usr/sbin/setsebool'           : 'privileged-unix-update',
       '/usr/sbin/unix_chkpwd'         : 'privileged-unix-update',
-      '/usr/libexec/openssh/ssh-keysign' : 'privileged-ssh',
+      '/usr/lib/openssh/ssh-keysign'  : 'privileged-ssh',
       '/usr/bin/setfacl'              : 'perm_mod',
       '/usr/sbin/pam_timestamp_check' : 'privileged-pam_timestamp_check',
       '/usr/bin/newgrp'               : 'priv_cmd',
@@ -872,10 +872,12 @@ inputs:
       '/usr/sbin/poweroff'            : 'privileged-poweroff',
       '/usr/sbin/reboot'              : 'privileged-reboot',
       '/usr/sbin/shutdown'            : 'privileged-shutdown',
-      '/usr/bin/umount'              : 'privileged-mount',
+      '/usr/bin/umount'               : 'privileged-mount',
       'umount2'                       : 'perm_mod',
       '/var/log/faillock'             : 'logins',
-      '/var/log/tallylog'             : 'logins'
+      '/var/log/tallylog'             : 'logins',
+      '/usr/sbin/fdisk'               : 'fdisk',
+      '/bin/kmod'                     : 'modules'
     }
 
   # Override values for expected keynames for all audit rules
@@ -925,12 +927,14 @@ inputs:
     value:
       - /dev/vmci
 
-  - name: approved_ppsm_clsa
-    description: Defines allowed ports, protocols, and services as defined in the approved site or program Ports, Protocols, and Services Management Component Local Service Assessment (PPSM CLSA)
+  - name: ufw_properties
+    description: Defines allowed UFW ports, protocols, and services approved by PPSM CLSA for this host
     type: Hash
     value:
-      ports: []
-      protocols: []
+      ports:
+        - 22
+      protocols:
+        - tcp
       services:
         - ssh
 
@@ -945,7 +949,7 @@ inputs:
   - name: password_hash_rounds
     description: Number of rounds for hashing passwords
     type: Numeric
-    value: 5000
+    value: 100000
 
   - name: expected_panic_value
     description: Expected value for the audit.rules '-f' flag
@@ -1088,3 +1092,9 @@ inputs:
     description: Array of groups that have administrative privileges
     type: Array
     value: ['root']
+
+  # SV-260484
+  - name: luks_exceptions
+    description: List of block devices/partitions that are permitted to be unencrypted
+    type: Array
+    value: []

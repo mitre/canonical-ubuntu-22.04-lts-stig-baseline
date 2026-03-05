@@ -26,20 +26,18 @@ ldap_user_certificate=userCertificate;binary'
 
   sssd_conf = '/etc/sssd/sssd.conf'
 
-  # Ensure the SSSD configuration file exists
   describe file(sssd_conf) do
     it 'exists' do
       expect(subject).to exist
     end
   end
 
-  # Validate that the required mapping directive is present exactly as specified
   describe 'SSSD PKI mapping setting' do
     subject { file(sssd_conf).content.to_s }
 
-    it "includes 'ldap_user_certificate=userCertificate;binary' exactly on a line" do
+    it "includes 'ldap_user_certificate=userCertificate;binary'" do
       expected = /^\s*ldap_user_certificate\s*=\s*userCertificate;binary\s*$/m
-      expect(subject).to match(expected), "Expected #{sssd_conf} to contain a line: ldap_user_certificate=userCertificate;binary"
+      expect(subject).to match(expected), "Expected #{sssd_conf} to contain: ldap_user_certificate=userCertificate;binary"
     end
   end
 end

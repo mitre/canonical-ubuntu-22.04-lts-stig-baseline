@@ -25,17 +25,24 @@ If the system is missing an "/etc/pam_pkcs11/" directory and an "/etc/pam_pkcs11
     !virtualization.system.eql?('docker')
   }
 
-  pkcs11_conf = '/etc/pam_pkcs11/pam_pkcs11.conf'
+  if input('pki_disabled')
+    impact 0.0
+    describe 'This system is not using PKI for authentication so the controls is Not Applicable.' do
+      skip 'This system is not using PKI for authentication so the controls is Not Applicable.'
+    end
+  else
+    config_file = '/etc/pam_pkcs11/pam_pkcs11.conf'
+    config_file_exists = file(config_file).exist?
 
-  describe file(pkcs11_conf) do
-    it { should exist }
-  end
-
-  describe 'pam_pkcs11 use_mappers includes pwent' do
-    subject { file(pkcs11_conf).content.to_s }
-    it do
-      expected = /(?mi)^\s*use_mappers\s*=\s*[^#\n]*\bpwent\b/
-      expect(subject).to match(expected), "Expected #{pkcs11_conf} to contain a non-comment line: use_mappers = ... pwent"
+    if config_file_exists
+      describe parse_config_file(config_file) do
+        its('use_mappers') { should cmp 'pwent' }
+      end
+    else
+      describe("#{config_file} exists") do
+        subject { config_file_exists }
+        it { should be true }
+      end
     end
   end
 end

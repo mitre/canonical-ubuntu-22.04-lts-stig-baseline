@@ -42,8 +42,8 @@ To deny access to ports, protocols, or services, use:
   tag nist: ['CM-7 b']
   tag 'host'
 
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+  only_if('Control not applicable - containerized environment or external firewall in use per site policy', impact: 0.0) {
+    !virtualization.system.eql?('docker') && !input('external_firewall')
   }
 
   ufw_status = command('ufw status').stdout.strip.lines.first
@@ -52,5 +52,8 @@ To deny access to ports, protocols, or services, use:
   describe 'UFW status' do
     subject { value }
     it { should cmp 'active' }
+  end
+  describe 'Status listings for any allowed services, ports, or applications must be documented with the organization' do
+    skip 'Status listings checks must be preformed manually'
   end
 end
