@@ -30,9 +30,19 @@ If the above command returns the status as "inactive" or any type of error, this
     !virtualization.system.eql?('docker')
   }
 
-  describe service('ufw') do
-    it { should be_installed }
-    it { should be_enabled }
-    it { should be_running }
+  alternate_firewall_tool = input('alternate_firewall_tool')
+
+  if alternate_firewall_tool == ''
+    describe service('ufw') do
+      it { should be_installed }
+      it { should be_enabled }
+      it { should be_running }
+    end
+  else
+    describe service(alternate_firewall_tool) do
+      it { should be_installed }
+      it { should be_enabled }
+      it { should be_running }
+    end
   end
 end

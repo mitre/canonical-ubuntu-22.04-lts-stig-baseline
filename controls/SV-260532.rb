@@ -35,21 +35,18 @@ Restart the SSH server for the changes to take effect:
   tag 'host'
   tag 'container-conditional'
 
-  # NOTE: At time of writing, the STIG baseline calls for two different values for the MACs option in the openssh.config file.
-  # SV-257990 calls for one set of MACs and SV-257991 calls for a mutually exclusive set.
-
   only_if('Control not applicable - SSH is not installed within containerized Ubuntu', impact: 0.0) {
     !virtualization.system.eql?('docker') || file('/etc/ssh/sshd_config').exist?
   }
 
   approved_macs = input('approved_openssh_server_conf')['macs']
 
-  effective_cmd = command("/usr/sbin/sshd -T 2>/dev/null | awk '$1==\"macs\"{print $2}'")
-  actual_macs = effective_cmd.stdout.strip
+  macs_cmd = command("/usr/sbin/sshd -T 2>/dev/null | awk '$1==\"macs\"{print $2}'")
+  actual_macs = macs_cmd.stdout.strip
 
-  describe 'Effective OpenSSH server MACs' do
+  describe 'OpenSSH server MACs' do
     it 'matches the approved list in exact order' do
-      expect(actual_macs).to eq(approved_macs), "Effective OpenSSH server MACs:\n\t#{actual_macs}\ndoes not match the expected value:\n\t#{approved_macs}"
+      expect(actual_macs).to eq(approved_macs), "OpenSSH server MACs:\n\t#{actual_macs}\ndoes not match the expected value:\n\t#{approved_macs}"
     end
   end
 end

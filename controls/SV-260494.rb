@@ -30,7 +30,7 @@ If any system commands directories are returned that are not Set Group ID up on 
 
   if system_commands.count > 0
     system_commands.each do |sys_cmd|
-      valid_system_commands = valid_system_commands << sys_cmd if file(sys_cmd).exist?
+      valid_system_commands << sys_cmd if file(sys_cmd).exist?
     end
   end
 
