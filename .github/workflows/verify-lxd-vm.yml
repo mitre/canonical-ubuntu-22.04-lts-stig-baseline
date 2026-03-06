@@ -1,7 +1,7 @@
-name: EC2 Testing Matrix
+name: LXD VM Testing Matrix
 
 on:
-  # pull_request:
+  pull_request:
   push:
     branches:
       - main
@@ -13,7 +13,7 @@ jobs:
     env:
       CHEF_LICENSE: accept-silent
       CHEF_LICENSE_KEY: ${{ secrets.SAF_CHEF_LICENSE_KEY }}
-      KITCHEN_LOCAL_YAML: kitchen.ec2.yml
+      KITCHEN_LOCAL_YAML: kitchen.lxd.yml
       SAF_PIPELINE_SUBNET: ${{ secrets.SAF_PIPELINE_SUBNET }}
       SAF_PIPELINE_SG: ${{ secrets.SAF_PIPELINE_SG }}
       PLATFORM: "ubuntu-22"
@@ -28,12 +28,20 @@ jobs:
           sudo apt-get update
           sudo apt-get -y install jq
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.SAF_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.SAF_AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.SAF_AWS_REGION }}
+      - name: Install LXD
+        run: |
+          sudo snap install lxd
+          # Wait for LXD daemon to start
+          echo "Waiting for LXD daemon to start..."
+          sleep 15
+          # Initialize LXD with default settings
+          sudo lxd init --auto
+          # Add runner to lxd group
+          sudo usermod -a -G lxd runner
+          # Fix socket permissions for CI environment
+          sudo chmod 666 /var/snap/lxd/common/lxd/unix.socket
+          # Test basic LXD functionality
+          sudo lxc list
 
       - name: Check out repository
         uses: actions/checkout@v4
@@ -66,6 +74,18 @@ jobs:
 
       - name: Vendor the Profile
         run: bundle exec inspec vendor . --overwrite
+
+      - name: Generate ephemeral SSH key for Kitchen
+        run: |
+          set -euo pipefail
+          KEY="$RUNNER_TEMP/kitchen_ed25519"
+          ssh-keygen -t ed25519 -a 64 -N "" -f "$KEY" -C "kitchen-ci-$(date -u +%Y%m%dT%H%M%SZ)" </dev/null
+          chmod 600 "$KEY"
+          chmod 644 "$KEY.pub"
+          {
+            echo "KITCHEN_SSH_KEY=$KEY"
+            echo "KITCHEN_SSH_PUBKEY=$(cat "$KEY.pub")"
+          } >> "$GITHUB_ENV"
 
       - name: Run kitchen test
         if: ${{ !contains(steps.commit.outputs.message, 'only-validate-profile') }}
@@ -110,3 +130,8 @@ jobs:
         uses: mitre/saf_action@v1.5.2
         with:
           command_string: "validate threshold -i spec/results/${{ env.PLATFORM }}_${{ matrix.suite }}.json -F ${{ matrix.suite }}.threshold.yml"
+          
+      - name: Cleanup ephemeral SSH key
+        if: always()
+        run: |
+          rm -f "$RUNNER_TEMP/kitchen_ed25519" "$RUNNER_TEMP/kitchen_ed25519.pub"
