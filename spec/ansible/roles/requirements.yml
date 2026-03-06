@@ -1,5 +1,5 @@
 roles:
-  - name: rhel9STIG
+  - name: ubuntu22STIG
     src: https://github.com/ansible-lockdown/UBUNTU22-STIG
     version: 1.0.0
 
