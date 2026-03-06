@@ -1,7 +1,7 @@
 name: LXD VM Testing Matrix
 
 on:
-  # pull_request:
+  pull_request:
   push:
     branches:
       - main
