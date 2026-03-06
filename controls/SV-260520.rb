@@ -45,6 +45,7 @@ Restart the chrony service:
   tag 'documentable'
   tag cci: ['CCI-002046', 'CCI-004926']
   tag nist: ['AU-8 (1) (b)', 'SC-45 (1) (b)']
+  tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')

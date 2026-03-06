@@ -23,6 +23,7 @@ If "Time zone" is not set to UTC, this is a finding.'
   tag 'documentable'
   tag cci: ['CCI-001890']
   tag nist: ['AU-8 b']
+  tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')

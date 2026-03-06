@@ -25,6 +25,7 @@ If the above command returns the status as "inactive" or any type of error, this
   tag 'documentable'
   tag cci: ['CCI-002314']
   tag nist: ['AC-17 (1)']
+  tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')

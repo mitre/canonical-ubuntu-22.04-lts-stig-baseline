@@ -43,6 +43,8 @@ Restart the system for the changes to take effect.'
   tag 'documentable'
   tag cci: ['CCI-001312']
   tag nist: ['SI-11 a']
+  tag 'host'
+  tag 'container'
 
   journal_dirs = command('sudo find /run/log/journal /var/log/journal  -type d -exec stat -c "%n" {} \;').stdout.split("\n")
   mode = '2750'

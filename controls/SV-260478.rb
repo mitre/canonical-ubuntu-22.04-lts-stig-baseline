@@ -21,6 +21,8 @@ If "libpam-pwquality" is not installed, this is a finding.'
   tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
+  tag 'host'
+  tag 'container'
 
   describe package('libpam-pwquality') do
     it { should be_installed }

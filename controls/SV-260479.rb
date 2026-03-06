@@ -24,7 +24,6 @@ If the "chrony" package is not installed, this is a finding.'
   tag cci: ['CCI-001891', 'CCI-000366']
   tag nist: ['AU-8 (1) (a)', 'CM-6 b']
   tag 'host'
-  tag 'container'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')

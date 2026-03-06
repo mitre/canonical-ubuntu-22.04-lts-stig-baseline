@@ -24,6 +24,8 @@ If any directories are found to be group-writable or world-writable, this is a f
   tag 'documentable'
   tag cci: ['CCI-001495']
   tag nist: ['AU-9']
+  tag 'host'
+  tag 'container'
 
   system_commands = command('find -L /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -perm /022 -type d').stdout.strip.split("\n").entries
   valid_system_commands = Set[]

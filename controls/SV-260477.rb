@@ -25,6 +25,8 @@ Unattended-Upgrade::Remove-Unused-Dependencies "true";'
   tag 'documentable'
   tag cci: ['CCI-002617']
   tag nist: ['SI-2 (6)']
+  tag 'host'
+  tag 'container'
 
   describe directory('/etc/apt/apt.conf.d') do
     it { should exist }

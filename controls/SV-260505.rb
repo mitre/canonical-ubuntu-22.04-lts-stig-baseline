@@ -23,6 +23,7 @@ If "journalctl" is not owned by "root", this is a finding.'
   tag 'documentable'
   tag cci: ['CCI-001314']
   tag nist: ['SI-11 b']
+  tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')

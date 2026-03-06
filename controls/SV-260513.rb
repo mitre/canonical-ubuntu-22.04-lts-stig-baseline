@@ -26,6 +26,8 @@ Set the sticky bit on all public directories using the following command, replac
   tag 'documentable'
   tag cci: ['CCI-001090']
   tag nist: ['SC-4']
+  tag 'host'
+  tag 'container'
 
   output = command('find / -xdev -type d  \( -perm -0002 -a ! -perm -1000 \) -print 2>/dev/null').stdout.strip.split("\n").entries
   if output.count > 0

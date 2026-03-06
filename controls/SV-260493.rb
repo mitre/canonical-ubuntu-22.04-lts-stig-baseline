@@ -24,6 +24,8 @@ If any system commands directories are returned, this is a finding.)
   tag 'documentable'
   tag cci: ['CCI-001495']
   tag nist: ['AU-9']
+  tag 'host'
+  tag 'container'
 
   system_commands = command('find /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin ! -user root -type d').stdout.strip.split("\n").entries
   valid_system_commands = Set[]
