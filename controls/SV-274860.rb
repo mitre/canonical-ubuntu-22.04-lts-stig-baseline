@@ -27,6 +27,7 @@ $ sudo find /etc/sudoers /etc/sudoers.d -type f -exec sed -i '/NOPASSWD/ s/^/# /
   tag 'documentable'
   tag cci: ['CCI-002038', 'CCI-004895']
   tag nist: ['IA-11', 'SC-11 b']
+  tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')

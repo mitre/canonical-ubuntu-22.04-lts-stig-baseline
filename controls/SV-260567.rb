@@ -36,6 +36,7 @@ Note: The value of "retry" should be between "1" and "3".'
   tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
+  tag 'host'
 
   if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
     impact 0.0

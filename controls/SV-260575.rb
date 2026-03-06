@@ -48,6 +48,7 @@ PubkeyAuthentication yes'
   tag 'documentable'
   tag cci: ['CCI-000765', 'CCI-000766', 'CCI-000767', 'CCI-000768', 'CCI-004047']
   tag nist: ['IA-2 (1)', 'IA-2 (2)', 'IA-2 (3)', 'IA-2 (4)', 'IA-2 (6) (b)']
+  tag 'host'
 
   if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
     impact 0.0

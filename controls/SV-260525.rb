@@ -83,6 +83,7 @@ Restart the SSH daemon for the changes to take effect and then signal the SSH se
   tag cci: ['CCI-000048', 'CCI-001384', 'CCI-001385', 'CCI-001386', 'CCI-001387', 'CCI-001388']
   tag nist: ['AC-8 a', 'AC-8 c 1', 'AC-8 c 2', 'AC-8 c 3']
   tag 'host'
+  tag 'container-conditional'
 
   only_if('Control not applicable - SSH is not installed within containerized Ubuntu', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest') || file('/etc/ssh/sshd_config').exist?

@@ -38,6 +38,7 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
   tag 'documentable'
   tag cci: ['CCI-000172', 'CCI-002884', 'CCI-004188']
   tag nist: ['AU-12 c', 'MA-4 (1) (a)', 'MA-3 (5)']
+  tag 'host'
 
   if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
     impact 0.0

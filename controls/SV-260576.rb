@@ -25,6 +25,7 @@ ocsp_on'
   tag 'documentable'
   tag cci: ['CCI-001954']
   tag nist: ['IA-2 (12)']
+  tag 'host'
 
   if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
     impact 0.0

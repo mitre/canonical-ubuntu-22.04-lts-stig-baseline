@@ -24,6 +24,7 @@ If "vlock" is not installed, this is a finding.'
   tag 'documentable'
   tag cci: ['CCI-000058', 'CCI-000060', 'CCI-000057']
   tag nist: ['AC-11 a', 'AC-11 (1)']
+  tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')

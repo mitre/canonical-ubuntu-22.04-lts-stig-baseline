@@ -25,6 +25,7 @@ If "/etc/audit/audit.rules", "/etc/audit/auditd.conf", or "/etc/audit/rules.d/*"
   tag 'documentable'
   tag cci: ['CCI-000171']
   tag nist: ['AU-12 b']
+  tag 'host'
 
   if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
     impact 0.0

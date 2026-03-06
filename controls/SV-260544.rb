@@ -27,6 +27,8 @@ $ sudo passwd -e <username>'
   tag 'documentable'
   tag cci: ['CCI-002041']
   tag nist: ['IA-5 (1) (f)']
+  tag 'host'
+  tag 'container'
 
   describe 'Manual verification required' do
     skip 'Manually verify if a policy exists to ensure that a method exists to force temporary

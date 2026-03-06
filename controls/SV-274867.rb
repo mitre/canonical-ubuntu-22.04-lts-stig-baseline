@@ -59,6 +59,7 @@ ca_cert = /etc/ssl/certs/ca-certificates.crt'
   tag 'documentable'
   tag cci: ['CCI-000185', 'CCI-004909']
   tag nist: ['IA-5 (2) (b) (1)', 'SC-17 b']
+  tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')

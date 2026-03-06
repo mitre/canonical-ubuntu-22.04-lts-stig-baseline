@@ -44,6 +44,7 @@ Note: AppArmor must have properly configured profiles for applications and home 
   tag 'documentable'
   tag cci: ['CCI-001764', 'CCI-001774', 'CCI-002235']
   tag nist: ['CM-7 (2)', 'CM-7 (5) (b)', 'AC-6 (10)']
+  tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')

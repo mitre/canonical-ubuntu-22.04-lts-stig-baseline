@@ -42,6 +42,8 @@ Copy it to the cron.daily directory:
   tag 'documentable'
   tag cci: ['CCI-002699']
   tag nist: ['SI-6 b']
+  tag 'host'
+  tag 'container'
 
   describe('Verify that the Advanced Intrusion Detection Environment (AIDE) default script used to check file integrity each 30 days or less is unchanged.') do
     skip('manual test')

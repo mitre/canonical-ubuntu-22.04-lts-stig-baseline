@@ -33,6 +33,7 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
   tag 'documentable'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
+  tag 'host'
 
   audit_command = '/var/log/journal'
 

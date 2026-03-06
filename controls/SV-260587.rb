@@ -27,6 +27,8 @@ The script must be located in the "/etc/cron.weekly" directory.'
   tag 'documentable'
   tag cci: ['CCI-001851']
   tag nist: ['AU-4 (1)']
+  tag 'host'
+  tag 'container-conditional'
 
   only_if('This control is Not Applicable to containers or airgapped systems', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest') && !input('airgapped_system')

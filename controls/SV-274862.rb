@@ -30,6 +30,7 @@ control 'SV-274862' do
   tag 'documentable'
   tag cci: ['CCI-000172']
   tag nist: ['AU-12 c']
+  tag 'host'
 
   audited_paths = %w[/etc/cron.d /var/spool/cron]
 

@@ -63,6 +63,7 @@ End timestamp: 2024-04-01 04:29:16 +1300 (run time: 9m 16s)'
   tag 'documentable'
   tag cci: ['CCI-002696']
   tag nist: ['SI-6 a']
+  tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')

@@ -22,7 +22,6 @@ auth     required     pam_faildelay.so     delay=4000000'
   tag cci: ['CCI-000366']
   tag nist: ['CM-6 b']
   tag 'host'
-  tag 'container'
 
   if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
     impact 0.0

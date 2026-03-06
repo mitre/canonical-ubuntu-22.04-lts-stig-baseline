@@ -33,7 +33,6 @@ Note: If the system is missing an "/etc/pam_pkcs11/" directory and an "/etc/pam_
   tag cci: ['CCI-000185', 'CCI-001991', 'CCI-004909']
   tag nist: ['IA-5 (2) (a)', 'IA-5 (2) (b) (1)', 'IA-5 (2) (d)', 'SC-17 b']
   tag 'host'
-  tag 'container'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')

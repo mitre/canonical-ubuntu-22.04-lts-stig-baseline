@@ -29,6 +29,8 @@ To remove a user from the sudo group, run:
   tag 'documentable'
   tag cci: ['CCI-001084']
   tag nist: ['SC-3']
+  tag 'host'
+  tag 'container'
 
   sudo_accounts = input('sudo_accounts')
 

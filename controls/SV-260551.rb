@@ -23,7 +23,6 @@ session     required     pam_lastlog.so     showfailed'
   tag cci: ['CCI-000366', 'CCI-000052']
   tag nist: ['CM-6 b', 'AC-9']
   tag 'host'
-  tag 'container'
 
   if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
     impact 0.0

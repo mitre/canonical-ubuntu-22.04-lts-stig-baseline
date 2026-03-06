@@ -24,6 +24,7 @@ password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5
   tag 'documentable'
   tag cci: ['CCI-000200']
   tag nist: ['IA-5 (1) (e)']
+  tag 'host'
 
   if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
     impact 0.0

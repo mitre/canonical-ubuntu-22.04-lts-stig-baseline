@@ -19,6 +19,7 @@ ldap_user_certificate=userCertificate;binary'
   tag 'documentable'
   tag cci: ['CCI-000187']
   tag nist: ['IA-5 (2) (a) (2)']
+  tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
