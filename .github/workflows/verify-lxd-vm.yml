@@ -167,7 +167,28 @@ jobs:
           fi
 
           echo "VM is ready for use!"
-
+ 
+      - name: Export VM IP for Kitchen (KITCHEN_HOST)
+        run: |
+          set -euo pipefail
+          NAME="${{ matrix.suite }}-${{ env.PLATFORM }}"
+          # Prefer IPv4 if available
+          ipv4=$(sudo lxc list "$NAME" --format=json | jq -r '.[0].state.network.eth0.addresses[]? | select(.family=="inet" and .scope=="global") | .address' | head -n1)
+          if [ -z "$ipv4" ]; then
+            ipv6=$(sudo lxc list "$NAME" --format=json | jq -r '.[0].state.network.eth0.addresses[]? | select(.family=="inet6" and .scope=="global") | .address' | head -n1)
+            if [ -n "$ipv6" ]; then
+              echo "Using IPv6 $ipv6 for KITCHEN_HOST"
+              echo "KITCHEN_HOST=$ipv6" >> "$GITHUB_ENV"
+            fi
+          else
+            echo "Using IPv4 $ipv4 for KITCHEN_HOST"
+            echo "KITCHEN_HOST=$ipv4" >> "$GITHUB_ENV"
+          fi
+          if ! grep -q '^KITCHEN_HOST=' "$GITHUB_ENV"; then
+            echo "Failed to discover a VM IP address"
+            exit 1
+          fi
+ 
       - name: Run kitchen test
         if: ${{ !contains(steps.commit.outputs.message, 'only-validate-profile') }}
         continue-on-error: true
