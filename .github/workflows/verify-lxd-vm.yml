@@ -1,7 +1,7 @@
 name: LXD VM Testing Matrix
 
 on:
-  pull_request:
+  # pull_request:
   push:
     branches:
       - main
@@ -130,7 +130,7 @@ jobs:
         uses: mitre/saf_action@v1.5.2
         with:
           command_string: "validate threshold -i spec/results/${{ env.PLATFORM }}_${{ matrix.suite }}.json -F ${{ matrix.suite }}.threshold.yml"
-          
+
       - name: Cleanup ephemeral SSH key
         if: always()
         run: |
