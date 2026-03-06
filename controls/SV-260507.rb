@@ -38,9 +38,10 @@ Replace "<audit_tool_name>" with each audit tool not owned by "root".'
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
-  audit_tools = ['/sbin/auditctl', '/sbin/aureport', '/sbin/ausearch', '/sbin/autrace', '/sbin/auditd', '/sbin/rsyslogd', '/sbin/augenrules']
+  audit_tools = ['/sbin/auditctl', '/sbin/aureport', '/sbin/ausearch', '/sbin/autrace', '/sbin/auditd', '/sbin/augenrules'] + Dir.glob('/sbin/audisp*')
 
-  failing_tools = audit_tools.reject { |at| file(at).owned_by?('root') }
+  existing_tools = audit_tools.select { |at| file(at).exist? }
+  failing_tools = existing_tools.reject { |at| file(at).owned_by?('root') }
 
   describe 'Audit executables' do
     it 'should be owned by root' do

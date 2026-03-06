@@ -24,7 +24,7 @@ password [success=1 default=ignore] pam_unix.so obscure sha512 shadow rounds=100
   tag 'host'
   tag 'container'
 
-  expected_line = 'password [success=1 default=ignore] pam_unix.so obscure sha512'
+  expected_line = 'password [success=1 default=ignore] pam_unix.so obscure sha512 shadow'
   pam_auth_files = input('pam_auth_files')
 
   describe pam(pam_auth_files['system-auth']) do

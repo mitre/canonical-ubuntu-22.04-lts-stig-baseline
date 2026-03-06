@@ -36,7 +36,7 @@ If kernel core dumps are required, document the need with the ISSO.'
     !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
   }
 
-  describe service('kdump') do
+  describe service('kdump-tools') do
     it { should_not be_enabled }
     it { should_not be_running }
     its('params.LoadState') { should cmp 'masked' }
