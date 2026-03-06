@@ -3,25 +3,10 @@ platforms:
   - name: ubuntu-22
 
 driver:
-  name: lxd
-  image: "ubuntu:22.04"
-  vm: true          
-  cloud_init:
-    user_data: |
-      #cloud-config
-      package_update: true
-      packages:
-        - openssh-server
-        - python3
-        - python3-pip
-      users:
-        - name: ubuntu
-          groups: [sudo]
-          sudo: ALL=(ALL) NOPASSWD:ALL
-          shell: /bin/bash
-          ssh_authorized_keys:
-            - <%= ENV.fetch("KITCHEN_SSH_PUBKEY") %>
-      ssh_pwauth: false
+  name: ssh
+  hostname: <%= ENV.fetch("KITCHEN_HOST") %>
+  username: ubuntu
+  ssh_key: <%= ENV.fetch("KITCHEN_SSH_KEY") %>
 
 provisioner:
   name: ansible_playbook

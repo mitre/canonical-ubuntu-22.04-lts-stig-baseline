@@ -86,6 +86,34 @@ jobs:
             echo "KITCHEN_SSH_KEY=$KEY"
             echo "KITCHEN_SSH_PUBKEY=$(cat "$KEY.pub")"
           } >> "$GITHUB_ENV"
+      
+      - name: Launch LXD VM with cloud-init enabling SSH
+        run: |
+          set -euo pipefail
+          NAME="${{ matrix.suite }}-${{ env.PLATFORM }}"
+
+          cat > user-data.yaml <<EOF
+          #cloud-config
+          package_update: true
+          packages: [openssh-server]
+          users:
+            - name: ubuntu
+              groups: [sudo]
+              sudo: ALL=(ALL) NOPASSWD:ALL
+              shell: /bin/bash
+              ssh_authorized_keys:
+                - ${KITCHEN_SSH_PUBKEY}
+          ssh_pwauth: false
+          EOF
+
+          sudo lxc launch ubuntu:22.04 "$NAME" --vm -c user.user-data="$(cat user-data.yaml)"
+
+          # Get VM IPv4 and export for kitchen-ssh
+          IP="$(sudo lxc list "$NAME" -c 4 --format=csv | awk '{print $1}')"
+          echo "KITCHEN_HOST=$IP" >> "$GITHUB_ENV"
+
+          # Wait for SSH
+          timeout 300 bash -lc "until nc -z $IP 22; do sleep 2; done"
 
       - name: Run kitchen test
         if: ${{ !contains(steps.commit.outputs.message, 'only-validate-profile') }}
