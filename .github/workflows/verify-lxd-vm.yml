@@ -108,11 +108,21 @@ jobs:
 
           sudo lxc launch ubuntu:22.04 "$NAME" --vm -c user.user-data="$(cat user-data.yaml)"
 
-          # Get VM IPv4 and export for kitchen-ssh
-          IP="$(sudo lxc list "$NAME" -c 4 --format=csv | awk '{print $1}')"
+          echo "Waiting for cloud-init..."
+          sudo lxc exec "$NAME" -- cloud-init status --wait || true
+
+          echo "Waiting for VM IP..."
+          for i in {1..60}; do
+            IP=$(sudo lxc info "$NAME" | awk '/inet / {print $2; exit}')
+            if [ -n "$IP" ]; then
+              break
+            fi
+            sleep 2
+          done
+
+          echo "VM IP: $IP"
           echo "KITCHEN_HOST=$IP" >> "$GITHUB_ENV"
 
-          # Wait for SSH
           timeout 300 bash -lc "until nc -z $IP 22; do sleep 2; done"
 
       - name: Run kitchen test
