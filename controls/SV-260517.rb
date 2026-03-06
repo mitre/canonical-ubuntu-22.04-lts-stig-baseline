@@ -55,7 +55,11 @@ Rate-limiting can also be done on an interface. An example of adding a rate limi
   tag nist: ['SC-5', 'SC-5 a']
   tag 'host'
 
-  describe 'Status listings for any allowed services, ports, or applications must be documented with the organization' do
-    skip 'Status listings checks must be preformed manually'
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+  }
+
+  describe 'Manual review required: correlate listening services from ss -l46ut with ufw status and confirm LIMIT is applied to each listening port unless explicitly DENY' do
+    skip 'Run ss -l46ut to list listening services. For each listening port not DENY, check sudo ufw status and ensure Action is LIMIT for that port or service. If any listening port not DENY lacks LIMIT, this is a finding.'
   end
 end
