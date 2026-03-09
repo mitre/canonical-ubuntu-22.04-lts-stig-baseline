@@ -30,7 +30,7 @@ Reload the configuration file of the audit service to update the group ownership
   tag nist: ['AU-9', 'AU-9 a', 'SI-11 b']
   tag 'host'
 
-  if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
+  if %w[docker podman kubepods lxc].include?(virtualization.system)
     impact 0.0
     describe 'Control not applicable to a container' do
       skip 'Control not applicable to a container'

@@ -44,7 +44,7 @@ $ sudo systemctl restart sshd.service'
     describe 'FIPS testing has been disabled' do
       skip 'This control has been set to Not Applicable, FIPS validation has been disabled with the `disable_fips` input'
     end
-  elsif %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
+  elsif %w[docker podman kubepods lxc].include?(virtualization.system)
     describe 'FIPS validation in a container must be reviewed manually' do
       skip 'FIPS validation in a container must be reviewed manually'
     end

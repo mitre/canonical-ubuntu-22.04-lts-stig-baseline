@@ -38,7 +38,7 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
   audit_command = '/var/log/journal'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   describe 'Command' do

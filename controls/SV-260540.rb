@@ -37,7 +37,7 @@ Configure Ubuntu 22.04 LTS to disable the ability to use USB mass storage device
   tag cci: ['CCI-001958', 'CCI-003959']
   tag nist: ['IA-3', 'CM-7 (9) (b)']
 
-  if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
+  if %w[docker podman kubepods lxc].include?(virtualization.system)
     impact 0.0
     describe 'Control not applicable to a container' do
       skip 'Control not applicable to a container'

@@ -24,7 +24,7 @@ If the ufw is not installed, ask the system administrator if another application
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   alternate_firewall_tool = input('alternate_firewall_tool')

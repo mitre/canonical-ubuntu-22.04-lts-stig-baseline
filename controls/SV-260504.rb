@@ -39,7 +39,7 @@ Restart the system for the changes to take effect.'
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   failing_files = command("find -L /run/log/journal /var/log/journal -type f ! -group systemd-journal -exec ls -d {} \\\; 2>/dev/null").stdout.split("\n").reject(&:empty?)

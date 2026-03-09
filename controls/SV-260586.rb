@@ -41,7 +41,7 @@ Add or modify the following lines in the "/etc/aide/aide.conf" file:
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   audit_tools = %w[/sbin/auditctl

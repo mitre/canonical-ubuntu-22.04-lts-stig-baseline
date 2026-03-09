@@ -56,7 +56,7 @@ Rate-limiting can also be done on an interface. An example of adding a rate limi
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   describe 'Manual review required: correlate listening services from ss -l46ut with ufw status and confirm LIMIT is applied to each listening port unless explicitly DENY' do

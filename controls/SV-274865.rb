@@ -22,7 +22,7 @@ ldap_user_certificate=userCertificate;binary'
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   sssd_conf = '/etc/sssd/sssd.conf'

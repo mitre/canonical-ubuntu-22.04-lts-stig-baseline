@@ -20,7 +20,7 @@ If there is not an Endpoint Security Solution deployed, this is a finding.'
   tag 'host'
 
   only_if('Control not applicable within a container', impact: 0.0) do
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   end
 
   if input('skip_endpoint_security_tool')

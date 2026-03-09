@@ -33,7 +33,7 @@ If the installed version of Ubuntu 22.04 LTS is not supported, this is a finding
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   # Verify distribution description indicates Ubuntu 22.04 LTS

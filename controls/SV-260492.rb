@@ -34,7 +34,7 @@ Replace "<audit_tool_name>" with the audit tool that does not have the correct p
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   audit_tools = input('audit_tools')

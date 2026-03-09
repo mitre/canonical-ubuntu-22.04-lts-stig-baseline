@@ -62,7 +62,7 @@ ca_cert = /etc/ssl/certs/ca-certificates.crt'
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   sssd_config = parse_config_file('/etc/sssd/sssd.conf')

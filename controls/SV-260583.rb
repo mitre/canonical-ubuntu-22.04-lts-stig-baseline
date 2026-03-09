@@ -66,7 +66,7 @@ End timestamp: 2024-04-01 04:29:16 +1300 (run time: 9m 16s)'
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   describe package('aide') do

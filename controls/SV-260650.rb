@@ -29,7 +29,7 @@ Note: Ubuntu Pro security certification instructions can be found at: https://ub
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   describe command('grep -i 1 /proc/sys/crypto/fips_enabled') do

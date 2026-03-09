@@ -44,7 +44,7 @@ Restart the "auditd" service for the changes take effect:
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
   describe auditd_conf do
     its('action_mail_acct') { should cmp 'root' }

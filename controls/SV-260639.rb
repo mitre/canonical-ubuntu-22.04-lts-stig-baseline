@@ -41,7 +41,7 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
   audit_syscalls = ['unlink', 'unlinkat', 'rename', 'renameat', 'rmdir']
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   describe 'Syscall' do

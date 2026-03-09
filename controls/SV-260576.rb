@@ -27,7 +27,7 @@ ocsp_on'
   tag nist: ['IA-2 (12)']
   tag 'host'
 
-  if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
+  if %w[docker podman kubepods lxc].include?(virtualization.system)
     impact 0.0
     describe 'Control not applicable to a container' do
       skip 'Control not applicable to a container'

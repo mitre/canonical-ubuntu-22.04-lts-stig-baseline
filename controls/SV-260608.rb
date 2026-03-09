@@ -35,7 +35,7 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
   tag nist: ['AU-12 c']
   tag 'host'
 
-  if %w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest'
+  if %w[docker podman kubepods lxc].include?(virtualization.system)
     impact 0.0
     describe 'Control not applicable to a container' do
       skip 'Control not applicable to a container'

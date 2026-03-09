@@ -26,7 +26,7 @@ If "journalctl" is not owned by "root", this is a finding.'
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc lxd].include?(virtualization.system) && virtualization.role == 'guest')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   describe file('/usr/bin/journalctl') do
