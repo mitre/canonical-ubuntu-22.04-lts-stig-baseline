@@ -42,23 +42,20 @@ suites:
 lifecycle:
   pre_converge:
     - remote: |
-        # Force APT to use IPv4 to avoid CI IPv6 routing issues
-        echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4 >/dev/null
-
         # echo "+++ Refreshing APT package cache +++"
         # sudo rm -rf /var/lib/apt/lists/*
         # sudo apt-get clean
-        sudo apt-get -o Acquire::ForceIPv4=true -y update
+        sudo apt-get -y update
         echo ""
         echo "+++ Updating APT Packages +++"
-        sudo DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::ForceIPv4=true -y upgrade
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
         echo ""
         echo "+++ Installing needed packages for workflow and utility +++\n\n"
-        sudo DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::ForceIPv4=true -y install bc dnsutils lsb-release vim git wget curl build-essential libssl-dev libffi-dev libbz2-dev
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -y install bc dnsutils lsb-release vim git wget curl build-essential libssl-dev libffi-dev libbz2-dev
         echo ""
         echo "+++ Installing Python and Ansible +++\n\n"
         export PATH=/usr/local/bin:$PATH
-        sudo DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::ForceIPv4=true -y install python3-pip
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -y install python3-pip
         python3 -m pip install --user --upgrade pip
         python3 -m pip install --user ansible jmespath
         echo ""
@@ -68,7 +65,7 @@ lifecycle:
         echo "+++ updating ubuntu sudo config for hardening phase +++\n\n"
         sudo chmod 600 /etc/sudoers && sudo sed -i "/^ubuntu\b/d" /etc/sudoers && sudo chmod 440 /etc/sudoers
         echo "+++ add cinc-auditor for local shell +++\n\n"
-        curl -4 -L https://omnitruck.cinc.sh/install.sh | sudo bash -s -- -P cinc-auditor
+        curl -L https://omnitruck.cinc.sh/install.sh | sudo bash -s -- -P cinc-auditor
 
 transport:
   name: ssh
