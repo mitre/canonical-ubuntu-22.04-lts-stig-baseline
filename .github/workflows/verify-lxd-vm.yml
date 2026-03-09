@@ -40,6 +40,23 @@ jobs:
           sudo usermod -a -G lxd runner
           # Fix socket permissions for CI environment
           sudo chmod 666 /var/snap/lxd/common/lxd/unix.socket
+
+          echo "Configuring LXD networking (lxdbr0 with IPv4 NAT, IPv6 disabled)"
+          # Ensure managed bridge exists and is configured for IPv4 NAT and DNS
+          sudo lxc network show lxdbr0 || true
+          sudo lxc network set lxdbr0 ipv4.address auto
+          sudo lxc network set lxdbr0 ipv4.nat true
+          sudo lxc network set lxdbr0 ipv6.address none || true
+          sudo lxc network set lxdbr0 ipv6.nat false || true
+          sudo lxc network set lxdbr0 dns.mode managed || true
+          sudo lxc network set lxdbr0 dns.domain lxd || true
+          sudo lxc network set lxdbr0 dns.nameservers 1.1.1.1,8.8.8.8 || true
+          # Make sure default profile attaches NIC to lxdbr0
+          sudo lxc profile device add default eth0 nic name=eth0 network=lxdbr0 || true
+
+          # Helpful sysctl in some CI hosts (usually already enabled by LXD rules)
+          sudo sysctl -w net.ipv4.ip_forward=1 || true
+
           # Test basic LXD functionality
           sudo lxc list
 
@@ -94,8 +111,14 @@ jobs:
 
           cat > user-data.yaml <<EOF
           #cloud-config
+          write_files:
+            - path: /etc/apt/apt.conf.d/99force-ipv4
+              permissions: '0644'
+              content: |
+                Acquire::ForceIPv4 "true";
           package_update: true
-          packages: [openssh-server]
+          packages:
+            - openssh-server
           users:
             - name: ubuntu
               groups: [sudo]
@@ -168,6 +191,19 @@ jobs:
 
           echo "VM is ready for use!"
  
+      - name: Diagnose VM networking
+        run: |
+          set -euo pipefail
+          NAME="${{ matrix.suite }}-${{ env.PLATFORM }}"
+
+          echo "=== Host network (lxdbr0) ==="
+          sudo lxc network show lxdbr0 || true
+          echo "=== Host routes ==="
+          ip -4 route || true
+
+          echo "=== VM network ==="
+          sudo lxc exec "$NAME" -- bash -lc 'set -x; ip -4 addr; ip route; cat /etc/resolv.conf; ping -c1 1.1.1.1 || true; curl -4 -I --max-time 5 http://archive.ubuntu.com || true; apt-get update -o Acquire::ForceIPv4=true || true'
+
       - name: Export VM IP for Kitchen (KITCHEN_HOST)
         run: |
           set -euo pipefail
