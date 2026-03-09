@@ -40,34 +40,21 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
   tag nist: ['AU-12 c', 'MA-4 (1) (a)', 'MA-3 (5)']
   tag 'host'
 
-  if %w[docker podman kubepods lxc].include?(virtualization.system)
-    impact 0.0
-    describe 'Control not applicable to a container' do
-      skip 'Control not applicable to a container'
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
+  }
+
+  audit_file = '/var/log/sudo.log'
+
+  if auditd.lines.nil? || auditd.lines.empty?
+    describe 'Audit rules' do
+      skip 'No audit rules loaded or auditd not configured'
     end
   else
-    @audit_file = '/var/log/sudo.log'
-
-    audit_lines_exist = !auditd.lines.index { |line| line.include?(@audit_file) }.nil?
-    if audit_lines_exist
-      describe auditd.file(@audit_file) do
-        its('permissions') { should_not cmp [] }
-        its('action') { should_not include 'never' }
-      end
-
-      @perms = auditd.file(@audit_file).permissions
-
-      @perms.each do |perm|
-        describe perm do
-          it { should include 'w' }
-          it { should include 'a' }
-        end
-      end
-    else
-      describe("Audit line(s) for #{@audit_file} exist") do
-        subject { audit_lines_exist }
-        it { should be true }
-      end
+    describe auditd.file(audit_file) do
+      it { should exist }
+      its('action') { should_not include 'never' }
+      its('permissions.flatten') { should include('w', 'a') }
     end
   end
 end

@@ -40,9 +40,18 @@ Using the path of the directory containing the audit logs, configure the audit l
     !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
-  log_dir = auditd_conf('/etc/audit/auditd.conf').log_file.split('/')[0..-2].join('/')
+  audit_conf = auditd_conf('/etc/audit/auditd.conf')
+  log_file = audit_conf.log_file
 
-  describe directory(log_dir) do
-    it { should_not be_more_permissive_than('0750') }
+  if log_file.nil? || log_file.strip.empty?
+    describe 'auditd log_file setting' do
+      skip "Unable to determine audit log directory: 'log_file' is not set in /etc/audit/auditd.conf"
+    end
+  else
+    log_dir = File.dirname(log_file)
+
+    describe directory(log_dir) do
+      it { should_not be_more_permissive_than('0750') }
+    end
   end
 end

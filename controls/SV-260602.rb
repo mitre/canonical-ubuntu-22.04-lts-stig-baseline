@@ -27,17 +27,20 @@ If "/etc/audit/audit.rules", "/etc/audit/auditd.conf", or "/etc/audit/rules.d/*"
   tag nist: ['AU-12 b']
   tag 'host'
 
-  if %w[docker podman kubepods lxc].include?(virtualization.system)
-    impact 0.0
-    describe 'Control not applicable to a container' do
-      skip 'Control not applicable to a container'
+  only_if('This control is Not Applicable to containers', impact: 0.0) {
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
+  }
+
+  files1 = command('find /etc/audit/ -type f \( -iname \*.rules -o -iname \*.conf \)').stdout.strip.split("\n").entries
+  files2 = command('find /etc/audit/rules.d/* -type f').stdout.strip.split("\n").entries
+
+  audit_conf_files = files1 + files2
+
+  if audit_conf_files.empty?
+    describe 'Audit configuration files' do
+      skip 'No audit configuration files found'
     end
   else
-    files1 = command('find /etc/audit/ -type f \( -iname \*.rules -o -iname \*.conf \)').stdout.strip.split("\n").entries
-    files2 = command('find /etc/audit/rules.d/* -type f').stdout.strip.split("\n").entries
-
-    audit_conf_files = files1 + files2
-
     audit_conf_files.each do |conf|
       describe file(conf) do
         its('owner') { should cmp 'root' }
