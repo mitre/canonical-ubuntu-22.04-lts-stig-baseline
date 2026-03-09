@@ -172,20 +172,43 @@ jobs:
         run: |
           set -euo pipefail
           NAME="${{ matrix.suite }}-${{ env.PLATFORM }}"
-          # Prefer IPv4 if available
-          ipv4=$(sudo lxc list "$NAME" --format=json | jq -r '.[0].state.network.eth0.addresses[]? | select(.family=="inet" and .scope=="global") | .address' | head -n1)
-          if [ -z "$ipv4" ]; then
-            ipv6=$(sudo lxc list "$NAME" --format=json | jq -r '.[0].state.network.eth0.addresses[]? | select(.family=="inet6" and .scope=="global") | .address' | head -n1)
-            if [ -n "$ipv6" ]; then
-              echo "Using IPv6 $ipv6 for KITCHEN_HOST"
-              echo "KITCHEN_HOST=$ipv6" >> "$GITHUB_ENV"
+
+          # Wait up to 120s for an IP address to appear and scan all interfaces, not just eth0
+          timeout=120
+          interval=5
+          ipv4=""
+          ipv6=""
+          elapsed=0
+          while [ $elapsed -lt $timeout ]; do
+            ipv4=$(sudo lxc list "$NAME" --format=json | jq -r '.[0].state.network | to_entries[] | .value.addresses[]? | select(.family=="inet" and .scope=="global") | .address' | head -n1 || true)
+            ipv6=$(sudo lxc list "$NAME" --format=json | jq -r '.[0].state.network | to_entries[] | .value.addresses[]? | select(.family=="inet6" and .scope=="global") | .address' | head -n1 || true)
+            if [ -n "$ipv4" ] || [ -n "$ipv6" ]; then
+              break
             fi
-          else
+            echo "Waiting for VM IP... ($elapsed/$timeout seconds)"
+            sleep $interval
+            elapsed=$((elapsed + interval))
+          done
+
+          # Fallback: query IPs from inside the VM if LXD hasn't reported them yet
+          if [ -z "$ipv4" ] && [ -z "$ipv6" ]; then
+            echo "Falling back to querying IPs from inside the VM..."
+            set +e
+            ipv4=$(sudo lxc exec "$NAME" -- bash -lc "ip -o -4 addr show scope global | awk '{print \$4}' | cut -d/ -f1 | head -n1" 2>/dev/null)
+            ipv6=$(sudo lxc exec "$NAME" -- bash -lc "ip -o -6 addr show scope global | awk '{print \$4}' | cut -d/ -f1 | head -n1" 2>/dev/null)
+            set -e
+          fi
+
+          if [ -n "$ipv4" ]; then
             echo "Using IPv4 $ipv4 for KITCHEN_HOST"
             echo "KITCHEN_HOST=$ipv4" >> "$GITHUB_ENV"
-          fi
-          if ! grep -q '^KITCHEN_HOST=' "$GITHUB_ENV"; then
+          elif [ -n "$ipv6" ]; then
+            echo "Using IPv6 $ipv6 for KITCHEN_HOST"
+            echo "KITCHEN_HOST=$ipv6" >> "$GITHUB_ENV"
+          else
             echo "Failed to discover a VM IP address"
+            sudo lxc list "$NAME"
+            sudo lxc info "$NAME" || true
             exit 1
           fi
  
