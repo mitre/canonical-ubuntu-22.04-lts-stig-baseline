@@ -20,7 +20,7 @@ jobs:
       LC_ALL: "en_US.UTF-8"
     strategy:
       matrix:
-        suite: ["vanilla"]
+        suite: ["vanilla", "hardened"]
       fail-fast: false
     steps:
       - name: add needed packages
