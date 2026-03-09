@@ -271,8 +271,8 @@ jobs:
           if [ -z "$ipv4" ] && [ -z "$ipv6" ]; then
             echo "Falling back to querying IPs from inside the VM..."
             set +e
-            ipv4=$(sudo lxc exec "$NAME" -- bash -lc "ip -o -4 addr show scope global | awk '{print \$4}' | cut -d/ -f1 | head -n1" 2>/dev/null)
-            ipv6=$(sudo lxc exec "$NAME" -- bash -lc "ip -o -6 addr show scope global | awk '{print \$4}' | cut -d/ -f1 | head -n1" 2>/dev/null)
+            ipv4=$(sudo lxc exec "$NAME" -- bash -lc "ip -o -4 addr show scope global | awk '{print \\4}' | cut -d/ -f1 | head -n1" 2>/dev/null)
+            ipv6=$(sudo lxc exec "$NAME" -- bash -lc "ip -o -6 addr show scope global | awk '{print \\4}' | cut -d/ -f1 | head -n1" 2>/dev/null)
             set -e
           fi
 
@@ -300,15 +300,20 @@ jobs:
           ip -4 route || true
 
           echo "=== VM network ==="
-          sudo lxc exec "$NAME" -- bash -lc 'set -x; ip -4 addr; ip route; cat /etc/resolv.conf; \
-            ping -c1 1.1.1.1 || true; \
-            echo "Testing HTTP (80) and HTTPS (443) reachability"; \
-            curl -4 -I --max-time 5 http://archive.ubuntu.com || true; \
-            curl -4 -I --max-time 5 https://archive.ubuntu.com || true; \
-            echo "Switching APT sources to HTTPS and forcing IPv4"; \
-            sudo sed -i -E "s|http://(archive\\.ubuntu\\.com/ubuntu)|https://\\1|g; s|http://(security\\.ubuntu\\.com/ubuntu)|https://\\1|g" /etc/apt/sources.list || true; \
-            sudo bash -lc "find /etc/apt/sources.list.d -type f -name \"*.list\" -print0 | xargs -0 -r sed -i -E 's|http://(archive\\.ubuntu\\.com/ubuntu)|https://\\1|g; s|http://(security\\.ubuntu\\.com/ubuntu)|https://\\1|g'" || true; \
-            apt-get -o Acquire::ForceIPv4=true update || true'
+          sudo lxc exec "$NAME" -- bash -s <<'VMNETSH'
+          set -x
+          ip -4 addr
+          ip route
+          cat /etc/resolv.conf
+          ping -c1 1.1.1.1 || true
+          echo "Testing HTTP (80) and HTTPS (443) reachability"
+          curl -4 -I --max-time 5 http://archive.ubuntu.com || true
+          curl -4 -I --max-time 5 https://archive.ubuntu.com || true
+          echo "Switching APT sources to HTTPS and forcing IPv4"
+          sed -i -E 's|http://(archive\.ubuntu\.com/ubuntu)|https://\1|g; s|http://(security\.ubuntu\.com/ubuntu)|https://\1|g' /etc/apt/sources.list || true
+          find /etc/apt/sources.list.d -type f -name '*.list' -print0 | xargs -0 -r sed -i -E 's|http://(archive\.ubuntu\.com/ubuntu)|https://\1|g; s|http://(security\.ubuntu\.com/ubuntu)|https://\1|g' || true
+          apt-get -o Acquire::ForceIPv4=true update || true
+          VMNETSH
 
       - name: Run kitchen test
         if: ${{ !contains(steps.commit.outputs.message, 'only-validate-profile') }}
