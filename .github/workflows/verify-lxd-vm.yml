@@ -54,40 +54,27 @@ jobs:
           # Make sure default profile attaches NIC to lxdbr0
           sudo lxc profile device add default eth0 nic name=eth0 network=lxdbr0 || true
 
-          # # Helpful sysctl in some CI hosts (usually already enabled by LXD rules)
-          # sudo sysctl -w net.ipv4.ip_forward=1 || true
-          # sudo sysctl -w net.ipv4.conf.all.forwarding=1 net.ipv4.conf.default.forwarding=1 || true
+          # Helpful sysctl in some CI hosts (usually already enabled by LXD rules)
+          sudo sysctl -w net.ipv4.ip_forward=1 || true
+          sudo sysctl -w net.ipv4.conf.all.forwarding=1 net.ipv4.conf.default.forwarding=1 || true
 
-          # # Ensure NAT and forwarding rules for lxdbr0 on CI hosts with restrictive FORWARD policies
-          # EXTIF=$(ip -4 route show default | awk '{print $5}' | head -n1)
-          # SUBNET=$(ip -4 addr show dev lxdbr0 | awk '/inet /{print $2}')
-          # echo "Ensuring iptables NAT and FORWARD rules for $SUBNET -> $EXTIF"
-          # sudo iptables -t nat -C POSTROUTING -s "$SUBNET" -o "$EXTIF" -j MASQUERADE 2>/dev/null || sudo iptables -t nat -A POSTROUTING -s "$SUBNET" -o "$EXTIF" -j MASQUERADE
-          # sudo iptables -C FORWARD -i lxdbr0 -o "$EXTIF" -j ACCEPT 2>/dev/null || sudo iptables -I FORWARD 1 -i lxdbr0 -o "$EXTIF" -j ACCEPT
-          # sudo iptables -C FORWARD -i "$EXTIF" -o lxdbr0 -m state --state RELATED,ESTABLISHED -j ACCEPT 2>/dev/null || sudo iptables -I FORWARD 1 -i "$EXTIF" -o lxdbr0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+          # Ensure NAT and forwarding rules for lxdbr0 on CI hosts with restrictive FORWARD policies
+          EXTIF=$(ip -4 route show default | awk '{print $5}' | head -n1)
+          SUBNET=$(ip -4 addr show dev lxdbr0 | awk '/inet /{print $2}')
+          echo "Ensuring iptables NAT and FORWARD rules for $SUBNET -> $EXTIF"
+          sudo iptables -t nat -C POSTROUTING -s "$SUBNET" -o "$EXTIF" -j MASQUERADE 2>/dev/null || sudo iptables -t nat -A POSTROUTING -s "$SUBNET" -o "$EXTIF" -j MASQUERADE
+          sudo iptables -C FORWARD -i lxdbr0 -o "$EXTIF" -j ACCEPT 2>/dev/null || sudo iptables -I FORWARD 1 -i lxdbr0 -o "$EXTIF" -j ACCEPT
+          sudo iptables -C FORWARD -i "$EXTIF" -o lxdbr0 -m state --state RELATED,ESTABLISHED -j ACCEPT 2>/dev/null || sudo iptables -I FORWARD 1 -i "$EXTIF" -o lxdbr0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 
-          # # Some hosts default to DROP on FORWARD; set ACCEPT and enable bridge nf hooks
-          # sudo modprobe br_netfilter || true
-          # sudo sysctl -w net.bridge.bridge-nf-call-iptables=1 net.bridge.bridge-nf-call-ip6tables=1 || true
-          # sudo iptables -P FORWARD ACCEPT || true
+          # Some hosts default to DROP on FORWARD; set ACCEPT and enable bridge nf hooks
+          sudo modprobe br_netfilter || true
+          sudo sysctl -w net.bridge.bridge-nf-call-iptables=1 net.bridge.bridge-nf-call-ip6tables=1 || true
+          sudo iptables -P FORWARD ACCEPT || true
 
-          # # Relax reverse path filtering that can drop forwarded replies in some clouds
-          # sudo sysctl -w net.ipv4.conf.all.rp_filter=0 net.ipv4.conf.default.rp_filter=0 || true
-          # sudo sysctl -w net.ipv4.conf.lxdbr0.rp_filter=0 || true
-          # sudo sysctl -w net.ipv4.conf.$EXTIF.rp_filter=0 || true
-
-          # # Also ensure nftables has equivalent rules (iptables may be mapped to nft but add explicit rules if missing)
-          # if sudo command -v nft >/dev/null 2>&1; then
-          #   sudo nft list table ip nat >/dev/null 2>&1 || sudo nft add table ip nat
-          #   sudo nft list chain ip nat POSTROUTING >/dev/null 2>&1 || sudo nft add chain ip nat POSTROUTING { type nat hook postrouting priority 100 \; }
-          #   sudo nft list table ip filter >/dev/null 2>&1 || sudo nft add table ip filter || true
-          #   sudo nft list chain ip filter forward >/dev/null 2>&1 || sudo nft add chain ip filter forward { type filter hook forward priority 0 \; }
-          #   # Add NAT masquerade if not present
-          #   sudo nft list ruleset | grep -q "oif \$EXTIF .* masquerade" || sudo nft add rule ip nat POSTROUTING oif "$EXTIF" ip saddr "$SUBNET" counter masquerade
-          #   # Add forward accept rules if not present
-          #   sudo nft list ruleset | grep -q "iif lxdbr0 oif \$EXTIF accept" || sudo nft add rule ip filter forward iif lxdbr0 oif "$EXTIF" counter accept
-          #   sudo nft list ruleset | grep -q "iif \$EXTIF oif lxdbr0 ct state related,established accept" || sudo nft add rule ip filter forward iif "$EXTIF" oif lxdbr0 ct state related,established counter accept
-          # fi
+          # Relax reverse path filtering that can drop forwarded replies in some clouds
+          sudo sysctl -w net.ipv4.conf.all.rp_filter=0 net.ipv4.conf.default.rp_filter=0 || true
+          sudo sysctl -w net.ipv4.conf.lxdbr0.rp_filter=0 || true
+          sudo sysctl -w net.ipv4.conf.$EXTIF.rp_filter=0 || true
 
           # Test basic LXD functionality
           sudo lxc list
