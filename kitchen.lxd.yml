@@ -4,7 +4,7 @@ platforms:
 
 driver:
   name: proxy
-  hostname: <%= ENV.fetch("KITCHEN_HOST") %>
+  host: <%= ENV.fetch("KITCHEN_HOST") %>
   username: ubuntu
   ssh_key: <%= ENV.fetch("KITCHEN_SSH_KEY") %>
 
