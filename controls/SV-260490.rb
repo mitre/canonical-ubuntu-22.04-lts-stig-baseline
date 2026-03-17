@@ -46,7 +46,7 @@ Restart the system for the changes to take effect.'
   tag 'host'
   tag 'container'
 
-  expected_mode = input('expected_modes', {})
+  expected_mode = input('expected_modes', default: {})
 
   journal_dirs = command('sudo find /run/log/journal /var/log/journal  -type d -exec stat -c "%n" {} \;').stdout.split("\n")
   dir_mode = expected_mode.fetch('journal_dir', '2750')

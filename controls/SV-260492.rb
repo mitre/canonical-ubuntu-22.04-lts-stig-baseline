@@ -37,8 +37,8 @@ Replace "<audit_tool_name>" with the audit tool that does not have the correct p
     !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
-  audit_tools = input('audit_tools', %w[/sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/audispd-zos-remote /sbin/augenrules])
-  audit_tool_mode = input('audit_tool_mode', '755')
+  audit_tools = input('audit_tools', default: %w[/sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/audispd-zos-remote /sbin/augenrules])
+  audit_tool_mode = input('audit_tool_mode', default: '0755')
 
   failing_tools = audit_tools.select { |at| file(at).more_permissive_than?(audit_tool_mode) }
 

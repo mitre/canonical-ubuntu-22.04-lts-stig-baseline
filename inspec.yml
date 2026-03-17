@@ -596,7 +596,7 @@ inputs:
   # SV-260492
   - name: audit_tools
     description: Paths to tools related to audit function
-    tpye: Array
+    type: Array
     value:
       - /sbin/auditctl
       - /sbin/aureport
@@ -605,7 +605,7 @@ inputs:
       - /sbin/auditd
       - /sbin/rsyslogd
       - /sbin/augenrules
-
+ 
   # SV-260498
   - name: required_system_accounts
     description: List of system accounts permitted to group-own system libraries

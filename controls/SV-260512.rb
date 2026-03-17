@@ -30,7 +30,7 @@ If "journalctl" is not set to "740", this is a finding.'
   }
 
   journalctl = '/usr/bin/journalctl'
-  expected_modes = input('expected_modes', value: {})
+  expected_modes = input('expected_modes', default: {})
   journalctl_mode = expected_modes.fetch(journalctl, '0740')
 
   describe file(journalctl) do

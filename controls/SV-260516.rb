@@ -27,7 +27,7 @@ If the ufw is not installed, ask the system administrator if another application
     !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
-  expected_firewall_package = input('expected_firewall_package', 'ufw')
+  expected_firewall_package = input('expected_firewall_package', default: 'ufw')
 
   describe package(expected_firewall_package) do
     it { should be_installed }
