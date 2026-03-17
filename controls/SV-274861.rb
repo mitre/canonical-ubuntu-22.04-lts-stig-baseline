@@ -36,7 +36,7 @@ ALL     ALL=(ALL:ALL) ALL'
   disallowed = sudo.rules.where {
     users == 'ALL' &&
       hosts == 'ALL' &&
-      (!run_as.nil? && (run_as == 'ALL' || run_as == 'ALL:ALL')) &&
+      !run_as.nil? && ['ALL', 'ALL:ALL'].include?(run_as) &&
       commands == 'ALL'
   }.entries
 

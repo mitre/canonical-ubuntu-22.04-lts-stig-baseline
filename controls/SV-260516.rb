@@ -27,19 +27,21 @@ If the ufw is not installed, ask the system administrator if another application
     !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
-  alternate_firewall_tool = input('alternate_firewall_tool')
+  expected_firewall_package = input('expected_firewall_package', 'ufw')
 
-  if alternate_firewall_tool != ''
-    describe package(alternate_firewall_tool) do
-      it { should be_installed }
-    end
-  else
-    describe package('ufw') do
-      it { should be_installed }
-    end
+  describe package(expected_firewall_package) do
+    it { should be_installed }
+  end
+
+  if expected_firewall_package == 'ufw'
     describe 'ufw service active state' do
       subject { command('systemctl is-active ufw.service').stdout.strip }
       it { should cmp 'active' }
+    end
+  else
+    describe service(expected_firewall_package) do
+      it { should be_enabled }
+      it { should be_running }
     end
   end
 end

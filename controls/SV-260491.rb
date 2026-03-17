@@ -26,7 +26,11 @@ If a value of "640" or less permissive is not returned, this is a finding.'
   tag 'host'
   tag 'container'
 
-  describe file('/var/log/syslog') do
-    it { should_not be_more_permissive_than('640') }
+  sys_log = '/var/log/syslog'
+  expected_modes = input('expected_modes', value: {})
+  sys_mode = expected_modes.fetch(sys_log, '0640')
+
+  describe file(sys_log) do
+    it { should_not be_more_permissive_than(sys_mode) }
   end
 end

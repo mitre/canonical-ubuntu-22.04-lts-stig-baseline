@@ -29,7 +29,11 @@ If "journalctl" is not set to "740", this is a finding.'
     !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
-  describe file('/usr/bin/journalctl') do
-    it { should_not be_more_permissive_than('0740') }
+  journalctl = '/usr/bin/journalctl'
+  expected_modes = input('expected_modes', value: {})
+  journalctl_mode = expected_modes.fetch(journalctl, '0740')
+
+  describe file(journalctl) do
+    it { should_not be_more_permissive_than(journalctl_mode) }
   end
 end

@@ -116,7 +116,10 @@ inputs:
       /etc/crontab: "0600"
       /etc/ssh/sshd_config: "0600"
       auditd_conf: "0640"
-      journal: "2640"
+      journal_dir: "2750"
+      journal_file: "0640"
+      /var/log/syslog: "0640"
+      /usr/bin/journalctl: "0740"
 
   - name: initialization_file_mode
     description: All initialization files (.bash_profile etc) should have permissions equal to or less than this octet
@@ -779,11 +782,11 @@ inputs:
     type: Boolean
     value: false
 
-  # SV-260516
-  - name: alternate_firewall_tool
-    description: Alternate firewall tool (other than firewalld) in use for the system - leave blank if using default OS tools
+  # SV-260515, SV-260516
+  - name: expected_firewall_package
+    description: Expected firewall package in use for the system - should not be left blank
     type: String
-    value: ""
+    value: "ufw"
 
   # SV-260541
   - name: wifi_hardware

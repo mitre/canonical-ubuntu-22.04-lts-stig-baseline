@@ -65,11 +65,19 @@ End timestamp: 2024-04-01 04:29:16 +1300 (run time: 9m 16s)'
   tag nist: ['SI-6 a']
   tag 'host'
 
-  only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !%w[docker podman kubepods lxc].include?(virtualization.system)
+  file_integrity_tool = input('file_integrity_tool')
+
+  only_if('This control is Not Applicable to containers or systesm without AIDE', impact: 0.0) {
+    !%w[docker podman kubepods lxc].include?(virtualization.system) && package('aide').installed?
   }
 
-  describe package('aide') do
+  if file_integrity_tool == 'aide'
+    describe command('sudo aide -c /etc/aide/aide.conf --check') do
+      its('exit_status') { should eq 0 }
+    end
+  end
+
+  describe package(file_integrity_tool) do
     it { should be_installed }
   end
 end
