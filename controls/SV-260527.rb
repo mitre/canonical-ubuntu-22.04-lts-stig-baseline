@@ -34,7 +34,7 @@ Restart the SSH daemon for the changes to take effect:
   tag 'container-conditional'
 
   only_if('SSH is not installed on the system this requirement is Not Applicable', impact: 0.0) {
-    (service('sshd').enabled? || package('openssh-server').installed?)
+    service('sshd').enabled? || package('openssh-server').installed?
   }
 
   client_alive_count = input('sshd_client_alive_count_max')

@@ -86,28 +86,29 @@ Restart the SSH daemon for the changes to take effect and then signal the SSH se
   tag 'container-conditional'
 
   only_if('Control not applicable - SSH is not installed within containerized Ubuntu', impact: 0.0) {
-    !%w[docker podman kubepods lxc].include?(virtualization.system) || file('/etc/ssh/sshd_config').exist?
+    !%w[docker podman kubepods lxc].include?(virtualization.system) || package('openssh-server').installed?
   }
 
-  sshd_conf = file('/etc/ssh/sshd_config')
-  banner_path = nil
-  if sshd_conf.exist?
-    match = sshd_conf.content.lines.find { |l| l =~ /^\s*Banner\s+/i }
-    banner_path = match ? match.split(/\s+/)[1] : '/etc/issue.net'
-  else
-    banner_path = '/etc/issue.net'
-  end
+  # Retrieve sshd config file.
+  cfg_paths_cmd = command("sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' '")
+  cfg_path = cfg_paths_cmd.stdout.to_s.strip.split(' ').first
+  sc = sshd_config(cfg_path)
 
+  # Determine banner file.
+  banner = sc.params['banner'] || sc.params['Banner']
+  banner_path = Array(banner).first.to_s.strip
   banner_file = file(banner_path)
 
-  describe banner_file do
-    it { should exist }
+  describe "File containing Banner Content (#{banner_file.path})" do
+    it 'should exist' do
+      expect(banner_file).to exist
+    end
   end
 
   if banner_file.exist?
     banner = banner_file.content.gsub(/[\r\n\s]/, '')
     expected_banner = input('banner_message_text_cli').gsub(/[\r\n\s]/, '')
-    describe 'The CLI Login Banner ' do
+    describe 'The CLI Login Banner' do
       it 'is set to the standard banner and has the correct text' do
         expect(banner).to eq(expected_banner), 'Banner does not match expected text'
       end
