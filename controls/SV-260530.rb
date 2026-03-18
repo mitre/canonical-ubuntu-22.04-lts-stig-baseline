@@ -29,10 +29,14 @@ Restart the SSH daemon for the changes to take effect:
   tag 'container-conditional'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !(%w[docker podman kubepods lxc].include?(virtualization.system) && !file('/etc/ssh/sshd_config').exist?)
+    !%w[docker podman kubepods lxc].include?(virtualization.system) || package('openssh-server').installed?
   }
 
-  describe sshd_config do
+  # Retrieve sshd config path.
+  cfg_paths_cmd = command("sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' '")
+  cfg_path = cfg_paths_cmd.stdout.to_s.strip.split(' ').first
+
+  describe sshd_config(cfg_path) do
     its('X11UseLocalhost') { should cmp 'yes' }
   end
 end

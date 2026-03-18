@@ -49,8 +49,12 @@ $ sudo systemctl restart sshd.service'
       skip 'FIPS validation in a container must be reviewed manually'
     end
   else
+    # Retrieve sshd config path.
+    cfg_paths_cmd = command("sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' '")
+    cfg_path = cfg_paths_cmd.stdout.to_s.strip.split(' ').first
+
     approved = %w[aes256-ctr aes256-gcm@openssh.com aes128-ctr aes128-gcm@openssh.com]
-    ciphers = inspec.sshd_config.params['ciphers']
+    ciphers = inspec.sshd_config(cfg_path).params['ciphers']
     ciphers = ciphers.first.split(',').map(&:strip) unless ciphers.nil?
 
     describe 'SSH ciphers' do

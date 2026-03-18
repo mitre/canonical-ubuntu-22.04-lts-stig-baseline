@@ -34,7 +34,11 @@ Restart the SSH server for changes to take effect:
       skip 'Control not applicable to a container'
     end
   else
-    describe sshd_config do
+    # Retrieve sshd config path.
+    cfg_paths_cmd = command("sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' '")
+    cfg_path = cfg_paths_cmd.stdout.to_s.strip.split(' ').first
+
+    describe sshd_config(cfg_path) do
       its('UsePAM') { should cmp 'yes' }
     end
   end

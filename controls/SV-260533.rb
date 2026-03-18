@@ -32,11 +32,9 @@ Restart the SSH server for changes to take effect:
   tag 'host'
   tag 'container-conditional'
 
-  openssh_present = package('openssh-server').installed?
-
   # Not applicable in containers when OpenSSH server is not installed
   only_if('This requirement is Not Applicable in the container without open-ssh installed', impact: 0.0) {
-    !(%w[docker podman kubepods lxc].include?(virtualization.system) && !openssh_present)
+    !%w[docker podman kubepods lxc].include?(virtualization.system) || package('openssh-server').installed?
   }
 
   expected_kex = %w[

@@ -41,7 +41,7 @@ Restart the SSH daemon for the changes to take effect:
   allow_container_openssh = input('allow_container_openssh_server')
 
   only_if('This requirement is Not Applicable in the container without open-ssh installed', impact: 0.0) {
-    !(is_container && !openssh_present)
+    !is_container || openssh_present
   }
 
   if is_container
@@ -51,9 +51,13 @@ Restart the SSH daemon for the changes to take effect:
       end
     end
   else
+    # Retrieve sshd config path.
+    cfg_paths_cmd = command("sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' '")
+    cfg_path = cfg_paths_cmd.stdout.to_s.strip.split(' ').first
+
     describe 'The OpenSSH Server configuration' do
       it "has the correct #{setting} configuration" do
-        expect(sshd_config.params[setting.downcase]).to cmp(value), "The #{setting} setting in the SSHD config is not correct. Please ensure it set to '#{value}'."
+        expect(sshd_config(cfg_path).params[setting.downcase]).to cmp(value), "The #{setting} setting in the SSHD config is not correct. Please ensure it set to '#{value}'."
       end
     end
   end

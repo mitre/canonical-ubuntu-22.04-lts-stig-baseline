@@ -33,7 +33,7 @@ Restart the SSH daemon for the changes to take effect:
   tag 'container-conditional'
 
   only_if('This requirement is Not Applicable inside a container, the containers host manages the containers filesystems', impact: 0.0) {
-    !%w[docker podman kubepods lxc].include?(virtualization.system) || file('/etc/ssh/sshd_config').exist?
+    !%w[docker podman kubepods lxc].include?(virtualization.system) || package('openssh-server').installed?
   }
 
   if input('x11_forwarding_required')
@@ -42,7 +42,11 @@ Restart the SSH daemon for the changes to take effect:
       skip "Profile inputs indicate that this parameter's setting is a documented operational requirement"
     end
   else
-    describe sshd_config do
+    # Retrieve sshd config path.
+    cfg_paths_cmd = command("sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' '")
+    cfg_path = cfg_paths_cmd.stdout.to_s.strip.split(' ').first
+
+    describe sshd_config(cfg_path) do
       its('X11Forwarding') { should cmp 'no' }
     end
   end
