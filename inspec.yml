@@ -362,6 +362,12 @@ inputs:
     type: String
     value: "aide"
 
+  # SV-260585
+  - name: expected_aide_sha1sum
+    description: SHA1 checksum of the default AIDE cron script from the aide-common package
+    type: String
+    value: "b71bb2cafaedf15ec3ac2f566f209d3260a37af0"
+
   # SV-260519
   - name: authoritative_timeserver
     description: Timeserver used in /etc/chrony.conf
