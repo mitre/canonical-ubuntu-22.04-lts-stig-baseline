@@ -46,10 +46,10 @@ Restart the system for the changes to take effect.'
   tag 'host'
   tag 'container'
 
-  expected_mode = input('expected_modes', default: {})
+  expected_modes = input('expected_modes')
 
   journal_dirs = command('sudo find /run/log/journal /var/log/journal  -type d -exec stat -c "%n" {} \;').stdout.split("\n")
-  dir_mode = expected_mode.fetch('journal_dir', '2750')
+  dir_mode = expected_modes['journal_dir']
   non_compliant_journal_dirs = journal_dirs.select { |dir| file(dir).more_permissive_than?(dir_mode) }
 
   describe 'All journal directories' do
@@ -59,7 +59,7 @@ Restart the system for the changes to take effect.'
   end
 
   journal_files = command('sudo find /run/log/journal /var/log/journal  -type f -exec stat -c "%n" {} \;').stdout.split("\n")
-  file_mode = expected_mode.fetch('journal_file', '640')
+  file_mode = expected_modes['journal_file']
   non_compliant_journal_files = journal_files.select { |f| file(f).more_permissive_than?(file_mode) }
 
   describe 'Journal files' do
