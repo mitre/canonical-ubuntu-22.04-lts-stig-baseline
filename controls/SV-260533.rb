@@ -37,12 +37,7 @@ Restart the SSH server for changes to take effect:
     !%w[docker podman kubepods lxc].include?(virtualization.system) || package('openssh-server').installed?
   }
 
-  expected_kex = %w[
-    ecdh-sha2-nistp256
-    ecdh-sha2-nistp384
-    ecdh-sha2-nistp521
-    diffie-hellman-group-exchange-sha256
-  ]
+  expected_kex = input('expected_kex')
 
   # Use `sshd -T` to evaluate the effective configuration as loaded by sshd
   sshd_t_output = command('/usr/sbin/sshd -T 2>/dev/null').stdout

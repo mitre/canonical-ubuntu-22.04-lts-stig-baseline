@@ -28,9 +28,7 @@ ldap_user_certificate=userCertificate;binary'
   sssd_conf = '/etc/sssd/sssd.conf'
 
   describe file(sssd_conf) do
-    it 'exists' do
-      expect(subject).to exist
-    end
+    it { should exist }
   end
 
   describe 'SSSD PKI mapping setting' do

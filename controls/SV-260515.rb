@@ -31,7 +31,7 @@ If the above command returns the status as "inactive" or any type of error, this
     !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
-  expected_firewall_package = input('expected_firewall_package', default: 'ufw')
+  expected_firewall_package = input('expected_firewall_package')
 
   describe service(expected_firewall_package) do
     it { should be_installed }

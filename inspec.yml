@@ -120,6 +120,7 @@ inputs:
       journal_file: "0640"
       /var/log/syslog: "0640"
       /usr/bin/journalctl: "0740"
+      /var/log/audit: "0750"
 
   - name: initialization_file_mode
     description: All initialization files (.bash_profile etc) should have permissions equal to or less than this octet
@@ -1066,6 +1067,26 @@ inputs:
     type: Boolean
     value: false
 
+  # SV-260531
+  - name: approved_ciphers
+    description: List of approved FIPS SSH ciphers for the Ciphers directive
+    type: Array
+    value:
+      - aes256-ctr
+      - aes256-gcm@openssh.com
+      - aes128-ctr
+      - aes128-gcm@openssh.com
+
+  # SV-260533
+  - name: expected_kex
+    description: Expected FIPS-validated SSH key exchange algorithms
+    type: Array
+    value:
+      - ecdh-sha2-nistp256
+      - ecdh-sha2-nistp384
+      - ecdh-sha2-nistp521
+      - diffie-hellman-group-exchange-sha256
+ 
   # SV-260559
   - name: sudo_accounts
     description: Array of users who need access to security functions are part of the sudo group.

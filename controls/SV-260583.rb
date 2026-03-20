@@ -72,7 +72,7 @@ End timestamp: 2024-04-01 04:29:16 +1300 (run time: 9m 16s)'
   }
 
   if file_integrity_tool == 'aide'
-    describe command('sudo aide -c /etc/aide/aide.conf --check') do
+    describe command('aide -c /etc/aide/aide.conf --check') do
       its('exit_status') { should eq 0 }
     end
   end

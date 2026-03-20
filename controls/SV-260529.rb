@@ -43,7 +43,7 @@ Restart the SSH daemon for the changes to take effect:
     end
   else
     # Retrieve sshd config path.
-    cfg_paths_cmd = command("sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' '")
+    cfg_paths_cmd = command("/usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' '")
     cfg_path = cfg_paths_cmd.stdout.to_s.strip.split(' ').first
 
     describe sshd_config(cfg_path) do

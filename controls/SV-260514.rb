@@ -34,7 +34,7 @@ If no application firewall is installed, this is a finding.'
     !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
-  expected_firewall_package = input('expected_firewall_package', default: 'ufw')
+  expected_firewall_package = input('expected_firewall_package')
 
   describe package(expected_firewall_package) do
     it { should be_installed }
