@@ -1,6 +1,6 @@
 ---
 platforms:
-  - name: rhel-9
+  - name: ubuntu-22
 
 driver:
   name: ec2
@@ -23,7 +23,7 @@ provisioner:
   hosts: all
   require_chef_for_busser: false
   require_ruby_for_busser: false
-  ansible_binary_path: /usr/local/bin
+  ansible_binary_path: /home/ubuntu/.local/bin
   # require_pip3: true
   ansible_verbose: true
   roles_path: spec/ansible/disa/roles
@@ -43,28 +43,26 @@ suites:
 lifecycle:
   pre_converge:
     - remote: |
-        # echo "+++ Refreshing DNF package cache +++"
-        # sudo dnf -y clean all
         echo ""
-        echo "+++ Updating DNF Packages +++"
-        sudo dnf -y update --nogpgcheck --nobest
+        echo "+++ Updating APT Packages +++"
+        sudo apt-get -y update
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
         echo ""
         echo "+++ Installing needed packages for workflow and utility +++\n\n"
-        sudo dnf -y install --nogpgcheck bc bind-utils redhat-lsb-core vim git wget gcc openssl-devel libffi-devel bzip2-devel
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -y install bc dnsutils lsb-release vim git wget curl build-essential libssl-dev libffi-dev libbz2-dev
         echo ""
-        echo "+++ Installing Python 3.9 and Ansible +++\n\n"
+        echo "+++ Installing Python and Ansible +++\n\n"
         export PATH=/usr/local/bin:$PATH
-        sudo dnf -y install python3.9
-        sudo dnf -y install python3-pip
-        sudo update-alternatives --set python3 /usr/bin/python3.9
-        sudo python3 -m pip install ansible jmespath
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -y install python3-pip
+        python3 -m pip install --user --upgrade pip
+        python3 -m pip install --user ansible jmespath
         echo ""
-        echo "+++ Updating the ec2-user to keep sudo working after hardening phase +++\n\n"
-        sudo chage -d $(( $( date +%s ) / 86400 )) ec2-user
+        echo "+++ Updating the ubuntu user to keep sudo working after hardening phase +++\n\n"
+        sudo chage -d $(( $( date +%s ) / 86400 )) ubuntu
         echo ""
-        echo "+++ updating ec2-user sudo config for hardening phase +++\n\n"
-        sudo chmod 600 /etc/sudoers && sudo sed -i'' "/ec2-user/d" /etc/sudoers && sudo chmod 400 /etc/sudoers
-        sudo dnf -y install git
+        echo "+++ updating ubuntu sudo config for hardening phase +++\n\n"
+        sudo chmod 600 /etc/sudoers && sudo sed -i'' "/^ubuntu\b/d" /etc/sudoers && sudo chmod 440 /etc/sudoers
+        sudo apt-get -y install git
 
 #https://github.com/neillturner/kitchen-ansible/issues/295
 transport:

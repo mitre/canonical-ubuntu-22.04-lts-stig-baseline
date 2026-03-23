@@ -1,42 +1,39 @@
 control 'SV-260531' do
   title 'Ubuntu 22.04 LTS must configure the SSH daemon to use FIPS 140-3-approved ciphers to prevent the unauthorized disclosure of information and/or detect changes to information during transmission.'
-  desc 'Without cryptographic integrity protections, information can be altered by unauthorized users without detection.   
-  
-Remote access (e.g., RDP) is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.   
-  
-Nonlocal maintenance and diagnostic activities are those activities conducted by individuals communicating through a network, either an external network (e.g., the internet) or an internal network.   
-  
-Local maintenance and diagnostic activities are those activities carried out by individuals physically present at the information system or information system component and not communicating across a network connection.   
-  
-Encrypting information for transmission protects information from unauthorized disclosure and modification. Cryptographic mechanisms implemented to protect information integrity include, for example, cryptographic hash functions which have common application in digital signatures, checksums, and message authentication codes.  
-  
-By specifying a cipher list with the order of ciphers being in a "strongest to weakest" orientation, the system will automatically attempt to use the strongest cipher for securing SSH connections.
+  desc 'Without cryptographic integrity protections, information can be altered by unauthorized users without detection.
 
-'
-  desc 'check', %q(Verify the SSH server is configured to only implement FIPS-approved ciphers with the following command: 
- 
-     $ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' ' | xargs sudo grep -iH 'ciphers' 
-     /etc/ssh/sshd_config:Ciphers aes256-ctr,aes256-gcm@openssh.com,aes192-ctr,aes128-ctr,aes128-gcm@openssh.com 
-  
-If "Ciphers" does not contain only the ciphers "aes256-ctr,aes256-gcm@openssh.com,aes192-ctr,aes128-ctr,aes128-gcm@openssh.com" in exact order, is commented out, is missing, or conflicting results are returned, this is a finding.)
-  desc 'fix', 'Configure the SSH server to only implement FIPS-approved ciphers.  
-  
-Add or modify the following line in the "/etc/ssh/sshd_config" file: 
-  
-Ciphers aes256-ctr,aes256-gcm@openssh.com,aes192-ctr,aes128-ctr,aes128-gcm@openssh.com 
-  
-Restart the SSH server for the changes to take effect:  
-  
-     $ sudo systemctl restart sshd.service'
+Remote access (e.g., RDP) is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.
+
+Nonlocal maintenance and diagnostic activities are those activities conducted by individuals communicating through a network, either an external network (e.g., the internet) or an internal network.
+
+Local maintenance and diagnostic activities are those activities carried out by individuals physically present at the information system or information system component and not communicating across a network connection.
+
+Encrypting information for transmission protects information from unauthorized disclosure and modification. Cryptographic mechanisms implemented to protect information integrity include, for example, cryptographic hash functions, which have common application in digital signatures, checksums, and message authentication codes.
+
+By specifying a cipher list with the order of ciphers being in a "strongest to weakest" orientation, the system will automatically attempt to use the strongest cipher for securing SSH connections.'
+  desc 'check', %q(Verify the SSH server is configured to only implement FIPS-approved ciphers with the following command:
+
+$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' ' | xargs sudo grep -iH 'ciphers'
+     /etc/ssh/sshd_config:Ciphers aes256-ctr,aes256-gcm@openssh.com,aes128-ctr,aes128-gcm@openssh.com
+
+If "Ciphers" does not contain only the ciphers "aes256-ctr,aes256-gcm@openssh.com,aes128-ctr,aes128-gcm@openssh.com", is commented out, is missing, or conflicting results are returned, this is a finding.)
+  desc 'fix', 'Configure the SSH server to only implement FIPS-approved ciphers.
+
+Add or modify the following line in the "/etc/ssh/sshd_config" file:
+
+Ciphers aes256-ctr,aes256-gcm@openssh.com,aes128-ctr,aes128-gcm@openssh.com
+
+Restart the SSH server for the changes to take effect:
+
+$ sudo systemctl restart sshd.service'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
-  tag check_id: 'C-64260r953404_chk'
+  tag check_id: 'C-64260r1155190_chk'
   tag severity: 'medium'
   tag gid: 'V-260531'
-  tag rid: 'SV-260531r953406_rule'
+  tag rid: 'SV-260531r1155212_rule'
   tag stig_id: 'UBTU-22-255050'
   tag gtitle: 'SRG-OS-000033-GPOS-00014'
-  tag fix_id: 'F-64168r953405_fix'
+  tag fix_id: 'F-64168r1155191_fix'
   tag satisfies: ['SRG-OS-000033-GPOS-00014', 'SRG-OS-000394-GPOS-00174', 'SRG-OS-000424-GPOS-00188']
   tag 'documentable'
   tag cci: ['CCI-000068', 'CCI-002421', 'CCI-003123']
@@ -47,17 +44,25 @@ Restart the SSH server for the changes to take effect:
     describe 'FIPS testing has been disabled' do
       skip 'This control has been set to Not Applicable, FIPS validation has been disabled with the `disable_fips` input'
     end
-  elsif virtualization.system.eql?('docker')
+  elsif %w[docker podman kubepods lxc].include?(virtualization.system)
     describe 'FIPS validation in a container must be reviewed manually' do
       skip 'FIPS validation in a container must be reviewed manually'
     end
   else
-    @ciphers_array = inspec.sshd_config.params['ciphers']
 
-    @ciphers_array = @ciphers_array.first.split(',') unless @ciphers_array.nil?
+    approved = input('approved_ciphers')
+    ciphers = inspec.sshd_active_config.params['ciphers']
+    ciphers = ciphers.first.split(',').map(&:strip) unless ciphers.nil?
 
-    describe @ciphers_array do
-      it { should be_in %w(aes256-ctr aes192-ctr aes128-ctr) }
+    describe 'SSH ciphers' do
+      it 'should contain only approved FIPS ciphers' do
+        unapproved_ciphers = ciphers.nil? ? [] : (ciphers - approved)
+        missing_approved_ciphers = ciphers.nil? ? approved : (approved - ciphers)
+
+        expect(ciphers).to_not be_nil, 'Ciphers directive missing from sshd_config'
+        expect(unapproved_ciphers).to eq([]), "Non-approved ciphers present (#{unapproved_ciphers.length}): #{unapproved_ciphers.join(', ')}"
+        expect(missing_approved_ciphers).to eq([]), "Approved ciphers missing (#{missing_approved_ciphers.length}): #{missing_approved_ciphers.join(', ')}"
+      end
     end
   end
 end

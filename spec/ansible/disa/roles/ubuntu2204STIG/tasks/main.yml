@@ -1,0 +1,988 @@
+- name: populate package facts
+  package_facts:
+- name: install auditd
+  apt:
+    name: auditd
+    state: present
+  register: apt_status
+  until: apt_status is success
+  retries: 12
+  delay: 10
+- name: touch stig.rules
+  file:
+    path: /etc/audit/rules.d/stig.rules
+    state: touch
+    mode: '0640'
+    modification_time: preserve
+    access_time: preserve
+# R-260473 UBTU-22-213015
+- name: check if kdump-tools.service is installed
+  shell: ! systemctl list-unit-files | grep "^kdump-tools.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260473_kdump_tools_disable
+  service:
+    name: kdump-tools.service
+    enabled: "{{ ubuntu2204STIG_stigrule_260473_kdump_tools_disable_Enabled }}"
+  when:
+    - ubuntu2204STIG_stigrule_260473_Manage
+    - result.rc == 0
+# R-260473 UBTU-22-213015
+- name: check if kdump-tools.service is installed
+  shell: ! systemctl list-unit-files | grep "^kdump-tools.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260473_kdump_tools_mask
+  service:
+    name: kdump-tools.service
+  when:
+    - ubuntu2204STIG_stigrule_260473_Manage
+    - result.rc == 0
+# R-260476 UBTU-22-214010
+- name: stigrule_260476__etc_apt_apt_conf_d_01_vendor_ubuntu
+  lineinfile:
+    path: /etc/apt/apt.conf.d/01-vendor-ubuntu
+    regexp: '^APT::Get::AllowUnauthenticated'
+    line: "{{ ubuntu2204STIG_stigrule_260476__etc_apt_apt_conf_d_01_vendor_ubuntu_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260476_Manage
+# R-260477 UBTU-22-214015
+- name: stigrule_260477__etc_apt_apt_conf_d_50unattended_upgrades_Remove_Unused_Dependencies
+  lineinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    regexp: '^Unattended-Upgrade::Remove-Unused-Dependencies'
+    line: "{{ ubuntu2204STIG_stigrule_260477__etc_apt_apt_conf_d_50unattended_upgrades_Remove_Unused_Dependencies_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260477_Manage
+# R-260477 UBTU-22-214015
+- name: stigrule_260477__etc_apt_apt_conf_d_50unattended_upgrades_Remove_Unused_Kernel_Packages
+  lineinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    regexp: '^Unattended-Upgrade::Remove-Unused-Kernel-Packages'
+    line: "{{ ubuntu2204STIG_stigrule_260477__etc_apt_apt_conf_d_50unattended_upgrades_Remove_Unused_Kernel_Packages_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260477_Manage
+# R-260482 UBTU-22-215030
+- name: stigrule_260482_rsh_server
+  apt:
+    name: rsh-server
+    state: "{{ ubuntu2204STIG_stigrule_260482_rsh_server_State }}"
+    update_cache: yes
+  when: ubuntu2204STIG_stigrule_260482_Manage
+# R-260483 UBTU-22-215035
+- name: stigrule_260483_telnetd
+  apt:
+    name: telnetd
+    state: "{{ ubuntu2204STIG_stigrule_260483_telnetd_State }}"
+    update_cache: yes
+  when: ubuntu2204STIG_stigrule_260483_Manage
+# R-260514 UBTU-22-251010
+- name: stigrule_260514_ufw
+  apt:
+    name: ufw
+    state: "{{ ubuntu2204STIG_stigrule_260514_ufw_State }}"
+    update_cache: yes
+  when: ubuntu2204STIG_stigrule_260514_Manage
+# R-260516 UBTU-22-251020
+- name: check if ufw.service is installed
+  shell: ! systemctl list-unit-files | grep "^ufw.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260516_ufw_enable
+  service:
+    name: ufw.service
+    enabled: "{{ ubuntu2204STIG_stigrule_260516_ufw_enable_Enabled }}"
+  when:
+    - ubuntu2204STIG_stigrule_260516_Manage
+    - result.rc == 0
+# R-260516 UBTU-22-251020
+- name: check if ufw.service is installed
+  shell: ! systemctl list-unit-files | grep "^ufw.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260516_ufw_start
+  service:
+    name: ufw.service
+    state: "{{ ubuntu2204STIG_stigrule_260516_ufw_start_State }}"
+  when:
+    - ubuntu2204STIG_stigrule_260516_Manage
+    - result.rc == 0
+# R-260522 UBTU-22-253010
+- name: stigrule_260522_net_ipv4_tcp_syncookies
+  sysctl:
+    name: net.ipv4.tcp_syncookies
+    value: "{{ ubuntu2204STIG_stigrule_260522_net_ipv4_tcp_syncookies_Value }}"
+  when:
+    - ubuntu2204STIG_stigrule_260522_Manage
+# R-260522 UBTU-22-253010
+- name: stigrule_260522__etc_sysctl_conf
+  lineinfile:
+    path: /etc/sysctl.conf
+    regexp: '^\s*net.ipv4.tcp_syncookies'
+    line: "{{ ubuntu2204STIG_stigrule_260522__etc_sysctl_conf_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260522_Manage
+# R-260523 UBTU-22-255010
+- name: stigrule_260523_ssh
+  apt:
+    name: ssh
+    state: "{{ ubuntu2204STIG_stigrule_260523_ssh_State }}"
+    update_cache: yes
+  when: ubuntu2204STIG_stigrule_260523_Manage
+# R-260524 UBTU-22-255015
+- name: check if sshd.service is installed
+  shell: ! systemctl list-unit-files | grep "^sshd.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260524_sshd_active
+  service:
+    name: sshd.service
+    enabled: "{{ ubuntu2204STIG_stigrule_260524_sshd_active_Enabled }}"
+  when:
+    - ubuntu2204STIG_stigrule_260524_Manage
+    - result.rc == 0
+# R-260524 UBTU-22-255015
+- name: check if sshd.service is installed
+  shell: ! systemctl list-unit-files | grep "^sshd.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260524_sshd_start
+  service:
+    name: sshd.service
+    state: "{{ ubuntu2204STIG_stigrule_260524_sshd_start_State }}"
+  when:
+    - ubuntu2204STIG_stigrule_260524_Manage
+    - result.rc == 0
+# R-260525 UBTU-22-255020
+- name: stigrule_260525_banner
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(?i)^\s*banner\s+'
+    line: "{{ ubuntu2204STIG_stigrule_260525_banner_Line }}"
+  notify: ssh_restart
+  when:
+    - ubuntu2204STIG_stigrule_260525_Manage
+    - packages['openssh-server'] is defined
+# R-260525 UBTU-22-255020
+- name: stigrule_260525__etc_issue_net
+  copy:
+    dest: "{{ ubuntu2204STIG_stigrule_260525__etc_issue_net_Dest }}"
+    content: "{{ ubuntu2204STIG_stigrule_260525__etc_issue_net_Content }}"
+  when:
+    - ubuntu2204STIG_stigrule_260525_Manage
+# R-260526 UBTU-22-255025
+- name: stigrule_260526_PermitEmptyPasswords
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(?i)^\s*PermitEmptyPasswords\s+'
+    line: "{{ ubuntu2204STIG_stigrule_260526_PermitEmptyPasswords_Line }}"
+  notify: ssh_restart
+  when:
+    - ubuntu2204STIG_stigrule_260526_Manage
+    - packages['openssh-server'] is defined
+# R-260526 UBTU-22-255025
+- name: stigrule_260526_PermitUserEnvironment
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(?i)^\s*PermitUserEnvironment\s+'
+    line: "{{ ubuntu2204STIG_stigrule_260526_PermitUserEnvironment_Line }}"
+  notify: ssh_restart
+  when:
+    - ubuntu2204STIG_stigrule_260526_Manage
+    - packages['openssh-server'] is defined
+# R-260527 UBTU-22-255030
+- name: stigrule_260527_ClientAliveCountMax
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(?i)^\s*ClientAliveCountMax\s+'
+    line: "{{ ubuntu2204STIG_stigrule_260527_ClientAliveCountMax_Line }}"
+  notify: ssh_restart
+  when:
+    - ubuntu2204STIG_stigrule_260527_Manage
+    - packages['openssh-server'] is defined
+# R-260528 UBTU-22-255035
+- name: stigrule_260528_ClientAliveInterval
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(?i)^\s*ClientAliveInterval\s+'
+    line: "{{ ubuntu2204STIG_stigrule_260528_ClientAliveInterval_Line }}"
+  notify: ssh_restart
+  when:
+    - ubuntu2204STIG_stigrule_260528_Manage
+    - packages['openssh-server'] is defined
+# R-260529 UBTU-22-255040
+- name: stigrule_260529_X11Forwarding
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(?i)^\s*X11Forwarding\s+'
+    line: "{{ ubuntu2204STIG_stigrule_260529_X11Forwarding_Line }}"
+  notify: ssh_restart
+  when:
+    - ubuntu2204STIG_stigrule_260529_Manage
+    - packages['openssh-server'] is defined
+# R-260530 UBTU-22-255045
+- name: stigrule_260530_X11UseLocalhost
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(?i)^\s*X11UseLocalhost\s+'
+    line: "{{ ubuntu2204STIG_stigrule_260530_X11UseLocalhost_Line }}"
+  notify: ssh_restart
+  when:
+    - ubuntu2204STIG_stigrule_260530_Manage
+    - packages['openssh-server'] is defined
+# R-260531 UBTU-22-255050
+- name: stigrule_260531_Ciphers
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(?i)^\s*Ciphers\s+'
+    line: "{{ ubuntu2204STIG_stigrule_260531_Ciphers_Line }}"
+  notify: ssh_restart
+  when:
+    - ubuntu2204STIG_stigrule_260531_Manage
+    - packages['openssh-server'] is defined
+# R-260532 UBTU-22-255055
+- name: stigrule_260532_MACs
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(?i)^\s*MACs\s+'
+    line: "{{ ubuntu2204STIG_stigrule_260532_MACs_Line }}"
+  notify: ssh_restart
+  when:
+    - ubuntu2204STIG_stigrule_260532_Manage
+    - packages['openssh-server'] is defined
+# R-260535 UBTU-22-271010
+- name: stigrule_260535__etc_gdm3_greeter_dconf_defaults_enable
+  ini_file:
+    path: /etc/gdm3/greeter.dconf-defaults
+    section: org/gnome/login-screen
+    option: banner-message-enable
+    value: "{{ ubuntu2204STIG_stigrule_260535__etc_gdm3_greeter_dconf_defaults_enable_Value }}"
+    no_extra_spaces: yes
+  notify: dconf_update
+  when:
+    - ubuntu2204STIG_stigrule_260535_Manage
+    - packages['gdm3'] is defined
+# R-260536 UBTU-22-271015
+- name: stigrule_260536__etc_gdm3_greeter_dconf_defaults_text
+  ini_file:
+    path: /etc/gdm3/greeter.dconf-defaults
+    section: org/gnome/login-screen
+    option: banner-message-text
+    value: "{{ ubuntu2204STIG_stigrule_260536__etc_gdm3_greeter_dconf_defaults_text_Value }}"
+    no_extra_spaces: yes
+  notify: dconf_update
+  when:
+    - ubuntu2204STIG_stigrule_260536_Manage
+    - packages['gdm3'] is defined
+# R-260545 UBTU-22-411025
+- name: stigrule_260545__etc_login_defs
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_MIN_DAYS'
+    line: "{{ ubuntu2204STIG_stigrule_260545__etc_login_defs_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260545_Manage
+# R-260546 UBTU-22-411030
+- name: stigrule_260546__etc_login_defs
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_MAX_DAYS'
+    line: "{{ ubuntu2204STIG_stigrule_260546__etc_login_defs_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260546_Manage
+# R-260552 UBTU-22-412020
+- name: stigrule_260552__etc_security_limits_conf
+  lineinfile:
+    path: /etc/security/limits.conf
+    regexp: '^\* hard maxlogins'
+    line: "{{ ubuntu2204STIG_stigrule_260552__etc_security_limits_conf_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260552_Manage
+# R-260553 UBTU-22-412025
+- name: stigrule_260553_vlock
+  apt:
+    name: vlock
+    state: "{{ ubuntu2204STIG_stigrule_260553_vlock_State }}"
+    update_cache: yes
+  when: ubuntu2204STIG_stigrule_260553_Manage
+# R-260554 UBTU-22-412030
+- name: stigrule_260554__etc_profile_d_99_terminal_tmout_sh
+  copy:
+    dest: "{{ ubuntu2204STIG_stigrule_260554__etc_profile_d_99_terminal_tmout_sh_Dest }}"
+    content: "{{ ubuntu2204STIG_stigrule_260554__etc_profile_d_99_terminal_tmout_sh_Content }}"
+  when:
+    - ubuntu2204STIG_stigrule_260554_Manage
+# R-260555 UBTU-22-412035
+- name: stigrule_260555__etc_login_defs
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^UMASK'
+    line: "{{ ubuntu2204STIG_stigrule_260555__etc_login_defs_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260555_Manage
+# R-260556 UBTU-22-431010
+- name: stigrule_260556_apparmor
+  apt:
+    name: apparmor
+    state: "{{ ubuntu2204STIG_stigrule_260556_apparmor_State }}"
+    update_cache: yes
+  when: ubuntu2204STIG_stigrule_260556_Manage
+# R-260557 UBTU-22-431015
+- name: check if apparmor.service is installed
+  shell: ! systemctl list-unit-files | grep "^apparmor.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260557_apparmor_enable
+  service:
+    name: apparmor.service
+    enabled: "{{ ubuntu2204STIG_stigrule_260557_apparmor_enable_Enabled }}"
+  when:
+    - ubuntu2204STIG_stigrule_260557_Manage
+    - result.rc == 0
+# R-260557 UBTU-22-431015
+- name: check if apparmor.service is installed
+  shell: ! systemctl list-unit-files | grep "^apparmor.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260557_apparmor_start
+  service:
+    name: apparmor.service
+    state: "{{ ubuntu2204STIG_stigrule_260557_apparmor_start_State }}"
+  when:
+    - ubuntu2204STIG_stigrule_260557_Manage
+    - result.rc == 0
+# R-260560 UBTU-22-611010
+- name: stigrule_260560__etc_security_pwquality_conf
+  lineinfile:
+    path: /etc/security/pwquality.conf
+    regexp: '^\s*ucredit'
+    line: "{{ ubuntu2204STIG_stigrule_260560__etc_security_pwquality_conf_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260560_Manage
+# R-260561 UBTU-22-611015
+- name: stigrule_260561__etc_security_pwquality_conf
+  lineinfile:
+    path: /etc/security/pwquality.conf
+    regexp: '^\s*lcredit'
+    line: "{{ ubuntu2204STIG_stigrule_260561__etc_security_pwquality_conf_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260561_Manage
+# R-260562 UBTU-22-611020
+- name: stigrule_260562__etc_security_pwquality_conf
+  lineinfile:
+    path: /etc/security/pwquality.conf
+    regexp: '^\s*dcredit'
+    line: "{{ ubuntu2204STIG_stigrule_260562__etc_security_pwquality_conf_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260562_Manage
+# R-260563 UBTU-22-611025
+- name: stigrule_260563__etc_security_pwquality_conf
+  lineinfile:
+    path: /etc/security/pwquality.conf
+    regexp: '^\s*ocredit'
+    line: "{{ ubuntu2204STIG_stigrule_260563__etc_security_pwquality_conf_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260563_Manage
+# R-260564 UBTU-22-611030
+- name: stigrule_260564__etc_security_pwquality_conf
+  lineinfile:
+    path: /etc/security/pwquality.conf
+    regexp: '^\s*dictcheck'
+    line: "{{ ubuntu2204STIG_stigrule_260564__etc_security_pwquality_conf_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260564_Manage
+# R-260565 UBTU-22-611035
+- name: stigrule_260565__etc_security_pwquality_conf
+  lineinfile:
+    path: /etc/security/pwquality.conf
+    regexp: '^\s*minlen'
+    line: "{{ ubuntu2204STIG_stigrule_260565__etc_security_pwquality_conf_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260565_Manage
+# R-260566 UBTU-22-611040
+- name: stigrule_260566__etc_security_pwquality_conf
+  lineinfile:
+    path: /etc/security/pwquality.conf
+    regexp: '^\s*difok'
+    line: "{{ ubuntu2204STIG_stigrule_260566__etc_security_pwquality_conf_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260566_Manage
+# R-260572 UBTU-22-611070
+- name: stigrule_260572__etc_login_defs
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^ENCRYPT_METHOD'
+    line: "{{ ubuntu2204STIG_stigrule_260572__etc_login_defs_Line }}"
+    create: yes
+  when:
+    - ubuntu2204STIG_stigrule_260572_Manage
+# R-260573 UBTU-22-612010
+- name: stigrule_260573_libpam_pkcs11
+  apt:
+    name: libpam-pkcs11
+    state: "{{ ubuntu2204STIG_stigrule_260573_libpam_pkcs11_State }}"
+    update_cache: yes
+  when: ubuntu2204STIG_stigrule_260573_Manage
+# R-260574 UBTU-22-612015
+- name: stigrule_260574_opensc_pkcs11
+  apt:
+    name: opensc-pkcs11
+    state: "{{ ubuntu2204STIG_stigrule_260574_opensc_pkcs11_State }}"
+    update_cache: yes
+  when: ubuntu2204STIG_stigrule_260574_Manage
+# R-260588 UBTU-22-652010
+- name: stigrule_260588_rsyslog
+  apt:
+    name: rsyslog
+    state: "{{ ubuntu2204STIG_stigrule_260588_rsyslog_State }}"
+    update_cache: yes
+  when: ubuntu2204STIG_stigrule_260588_Manage
+# R-260588 UBTU-22-652010
+- name: check if rsyslog.service is installed
+  shell: ! systemctl list-unit-files | grep "^rsyslog.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260588_rsyslog_enable
+  service:
+    name: rsyslog.service
+    enabled: "{{ ubuntu2204STIG_stigrule_260588_rsyslog_enable_Enabled }}"
+  when:
+    - ubuntu2204STIG_stigrule_260588_Manage
+    - result.rc == 0
+# R-260588 UBTU-22-652010
+- name: check if rsyslog.service is installed
+  shell: ! systemctl list-unit-files | grep "^rsyslog.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260588_rsyslog_start
+  service:
+    name: rsyslog.service
+    state: "{{ ubuntu2204STIG_stigrule_260588_rsyslog_start_State }}"
+  when:
+    - ubuntu2204STIG_stigrule_260588_Manage
+    - result.rc == 0
+# R-260590 UBTU-22-653010
+- name: stigrule_260590_auditd
+  apt:
+    name: auditd
+    state: "{{ ubuntu2204STIG_stigrule_260590_auditd_State }}"
+    update_cache: yes
+  when: ubuntu2204STIG_stigrule_260590_Manage
+# R-260591 UBTU-22-653015
+- name: check if auditd.service is installed
+  shell: ! systemctl list-unit-files | grep "^auditd.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260591_auditd_enable
+  service:
+    name: auditd.service
+    enabled: "{{ ubuntu2204STIG_stigrule_260591_auditd_enable_Enabled }}"
+  when:
+    - ubuntu2204STIG_stigrule_260591_Manage
+    - result.rc == 0
+# R-260591 UBTU-22-653015
+- name: check if auditd.service is installed
+  shell: ! systemctl list-unit-files | grep "^auditd.service[ \t]\+"
+  changed_when: False
+  check_mode: no
+  register: result
+  failed_when: result.rc > 1
+- name: stigrule_260591_auditd_enable
+  service:
+    name: auditd.service
+    state: "{{ ubuntu2204STIG_stigrule_260591_auditd_enable_State }}"
+  when:
+    - ubuntu2204STIG_stigrule_260591_Manage
+    - result.rc == 0
+# R-260593 UBTU-22-653025
+# Change root to an account for security personnel.
+- name: stigrule_260593__etc_audit_auditd_conf
+  lineinfile:
+    path: /etc/audit/auditd.conf
+    regexp: '^action_mail_acct = '
+    line: "{{ ubuntu2204STIG_stigrule_260593__etc_audit_auditd_conf_Line }}"
+    create: yes
+  notify: auditd_restart
+  when:
+    - ubuntu2204STIG_stigrule_260593_Manage
+# R-260594 UBTU-22-653030
+- name: stigrule_260594__etc_audit_auditd_conf
+  lineinfile:
+    path: /etc/audit/auditd.conf
+    regexp: '^disk_full_action = '
+    line: "{{ ubuntu2204STIG_stigrule_260594__etc_audit_auditd_conf_Line }}"
+    create: yes
+  notify: auditd_restart
+  when:
+    - ubuntu2204STIG_stigrule_260594_Manage
+# R-260604 UBTU-22-654010
+- name: stigrule_260604__etc_audit_rules_d_stig_rules__sbin_apparmor_parser
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/sbin/apparmor_parser -F perm=x -F auid>=1000 -F auid!=unset -k perm_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260604__etc_audit_rules_d_stig_rules__sbin_apparmor_parser_Line }}"
+  when: ubuntu2204STIG_stigrule_260604_Manage
+# R-260605 UBTU-22-654015
+- name: stigrule_260605__etc_audit_rules_d_stig_rules__usr_bin_chacl
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/chacl -F perm=x -F auid>=1000 -F auid!=unset -k perm_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260605__etc_audit_rules_d_stig_rules__usr_bin_chacl_Line }}"
+  when: ubuntu2204STIG_stigrule_260605_Manage
+# R-260606 UBTU-22-654020
+- name: stigrule_260606__etc_audit_rules_d_stig_rules__usr_bin_chage
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/chage -F perm=x -F auid>=1000 -F auid!=unset -k privileged-chage$'
+    line: "{{ ubuntu2204STIG_stigrule_260606__etc_audit_rules_d_stig_rules__usr_bin_chage_Line }}"
+  when: ubuntu2204STIG_stigrule_260606_Manage
+# R-260607 UBTU-22-654025
+- name: stigrule_260607__etc_audit_rules_d_stig_rules__usr_bin_chcon
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/chcon -F perm=x -F auid>=1000 -F auid!=unset -k perm_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260607__etc_audit_rules_d_stig_rules__usr_bin_chcon_Line }}"
+  when: ubuntu2204STIG_stigrule_260607_Manage
+# R-260608 UBTU-22-654030
+- name: stigrule_260608__etc_audit_rules_d_stig_rules__usr_bin_chfn
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/chfn -F perm=x -F auid>=1000 -F auid!=unset -k privileged-chfn$'
+    line: "{{ ubuntu2204STIG_stigrule_260608__etc_audit_rules_d_stig_rules__usr_bin_chfn_Line }}"
+  when: ubuntu2204STIG_stigrule_260608_Manage
+# R-260609 UBTU-22-654035
+- name: stigrule_260609__etc_audit_rules_d_stig_rules__usr_bin_chsh
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/chsh -F perm=x -F auid>=1000 -F auid!=unset -k priv_cmd$'
+    line: "{{ ubuntu2204STIG_stigrule_260609__etc_audit_rules_d_stig_rules__usr_bin_chsh_Line }}"
+  when: ubuntu2204STIG_stigrule_260609_Manage
+# R-260610 UBTU-22-654040
+- name: stigrule_260610__etc_audit_rules_d_stig_rules__usr_bin_crontab
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/crontab -F perm=x -F auid>=1000 -F auid!=unset -k privileged-crontab$'
+    line: "{{ ubuntu2204STIG_stigrule_260610__etc_audit_rules_d_stig_rules__usr_bin_crontab_Line }}"
+  when: ubuntu2204STIG_stigrule_260610_Manage
+# R-260611 UBTU-22-654045
+- name: stigrule_260611__etc_audit_rules_d_stig_rules__usr_sbin_fdisk
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /usr/sbin/fdisk -p x -k fdisk $'
+    line: "{{ ubuntu2204STIG_stigrule_260611__etc_audit_rules_d_stig_rules__usr_sbin_fdisk_Line }}"
+  when: ubuntu2204STIG_stigrule_260611_Manage
+# R-260612 UBTU-22-654050
+- name: stigrule_260612__etc_audit_rules_d_stig_rules__usr_bin_gpasswd
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/gpasswd -F perm=x -F auid>=1000 -F auid!=unset -k privileged-gpasswd$'
+    line: "{{ ubuntu2204STIG_stigrule_260612__etc_audit_rules_d_stig_rules__usr_bin_gpasswd_Line }}"
+  when: ubuntu2204STIG_stigrule_260612_Manage
+# R-260613 UBTU-22-654055
+- name: stigrule_260613__etc_audit_rules_d_stig_rules__bin_kmod
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /bin/kmod -p x -k modules$'
+    line: "{{ ubuntu2204STIG_stigrule_260613__etc_audit_rules_d_stig_rules__bin_kmod_Line }}"
+  when: ubuntu2204STIG_stigrule_260613_Manage
+# R-260614 UBTU-22-654060
+- name: stigrule_260614__etc_audit_rules_d_stig_rules__sbin_modprobe
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /sbin/modprobe -p x -k modules$'
+    line: "{{ ubuntu2204STIG_stigrule_260614__etc_audit_rules_d_stig_rules__sbin_modprobe_Line }}"
+  when: ubuntu2204STIG_stigrule_260614_Manage
+# R-260615 UBTU-22-654065
+- name: stigrule_260615__etc_audit_rules_d_stig_rules__usr_bin_mount
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/mount -F perm=x -F auid>=1000 -F auid!=unset -k privileged-mount$'
+    line: "{{ ubuntu2204STIG_stigrule_260615__etc_audit_rules_d_stig_rules__usr_bin_mount_Line }}"
+  when: ubuntu2204STIG_stigrule_260615_Manage
+# R-260616 UBTU-22-654070
+- name: stigrule_260616__etc_audit_rules_d_stig_rules__usr_bin_newgrp
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/newgrp -F perm=x -F auid>=1000 -F auid!=unset -k priv_cmd$'
+    line: "{{ ubuntu2204STIG_stigrule_260616__etc_audit_rules_d_stig_rules__usr_bin_newgrp_Line }}"
+  when: ubuntu2204STIG_stigrule_260616_Manage
+# R-260617 UBTU-22-654075
+- name: stigrule_260617__etc_audit_rules_d_stig_rules__usr_sbin_pam_timestamp_check
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/sbin/pam_timestamp_check -F perm=x -F auid>=1000 -F auid!=unset -k privileged-pam_timestamp_check$'
+    line: "{{ ubuntu2204STIG_stigrule_260617__etc_audit_rules_d_stig_rules__usr_sbin_pam_timestamp_check_Line }}"
+  when: ubuntu2204STIG_stigrule_260617_Manage
+# R-260618 UBTU-22-654080
+- name: stigrule_260618__etc_audit_rules_d_stig_rules__usr_bin_passwd
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/passwd -F perm=x -F auid>=1000 -F auid!=unset -k privileged-passwd$'
+    line: "{{ ubuntu2204STIG_stigrule_260618__etc_audit_rules_d_stig_rules__usr_bin_passwd_Line }}"
+  when: ubuntu2204STIG_stigrule_260618_Manage
+# R-260619 UBTU-22-654085
+- name: stigrule_260619__etc_audit_rules_d_stig_rules__usr_bin_setfacl
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/setfacl -F perm=x -F auid>=1000 -F auid!=unset -k perm_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260619__etc_audit_rules_d_stig_rules__usr_bin_setfacl_Line }}"
+  when: ubuntu2204STIG_stigrule_260619_Manage
+# R-260620 UBTU-22-654090
+- name: stigrule_260620__etc_audit_rules_d_stig_rules__usr_bin_ssh_agent
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/ssh-agent -F perm=x -F auid>=1000 -F auid!=unset -k privileged-ssh$'
+    line: "{{ ubuntu2204STIG_stigrule_260620__etc_audit_rules_d_stig_rules__usr_bin_ssh_agent_Line }}"
+  when: ubuntu2204STIG_stigrule_260620_Manage
+# R-260621 UBTU-22-654095
+- name: stigrule_260621__etc_audit_rules_d_stig_rules__usr_lib_openssh_ssh_keysign
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/lib/openssh/ssh-keysign -F perm=x -F auid>=1000 -F auid!=unset -k privileged-ssh$'
+    line: "{{ ubuntu2204STIG_stigrule_260621__etc_audit_rules_d_stig_rules__usr_lib_openssh_ssh_keysign_Line }}"
+  when: ubuntu2204STIG_stigrule_260621_Manage
+# R-260622 UBTU-22-654100
+- name: stigrule_260622__etc_audit_rules_d_stig_rules__bin_su
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/bin/su -F perm=x -F auid>=1000 -F auid!=unset -k privileged-priv_change$'
+    line: "{{ ubuntu2204STIG_stigrule_260622__etc_audit_rules_d_stig_rules__bin_su_Line }}"
+  when: ubuntu2204STIG_stigrule_260622_Manage
+# R-260623 UBTU-22-654105
+- name: stigrule_260623__etc_audit_rules_d_stig_rules__usr_bin_sudo
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/sudo -F perm=x -F auid>=1000 -F auid!=unset -k priv_cmd$'
+    line: "{{ ubuntu2204STIG_stigrule_260623__etc_audit_rules_d_stig_rules__usr_bin_sudo_Line }}"
+  when: ubuntu2204STIG_stigrule_260623_Manage
+# R-260624 UBTU-22-654110
+- name: stigrule_260624__etc_audit_rules_d_stig_rules__usr_bin_sudoedit
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/sudoedit -F perm=x -F auid>=1000 -F auid!=unset -k priv_cmd$'
+    line: "{{ ubuntu2204STIG_stigrule_260624__etc_audit_rules_d_stig_rules__usr_bin_sudoedit_Line }}"
+  when: ubuntu2204STIG_stigrule_260624_Manage
+# R-260625 UBTU-22-654115
+- name: stigrule_260625__etc_audit_rules_d_stig_rules__usr_bin_umount
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/bin/umount -F perm=x -F auid>=1000 -F auid!=unset -k privileged-umount$'
+    line: "{{ ubuntu2204STIG_stigrule_260625__etc_audit_rules_d_stig_rules__usr_bin_umount_Line }}"
+  when: ubuntu2204STIG_stigrule_260625_Manage
+# R-260626 UBTU-22-654120
+- name: stigrule_260626__etc_audit_rules_d_stig_rules__sbin_unix_update
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/sbin/unix_update -F perm=x -F auid>=1000 -F auid!=unset -k privileged-unix-update$'
+    line: "{{ ubuntu2204STIG_stigrule_260626__etc_audit_rules_d_stig_rules__sbin_unix_update_Line }}"
+  when: ubuntu2204STIG_stigrule_260626_Manage
+# R-260627 UBTU-22-654125
+- name: stigrule_260627__etc_audit_rules_d_stig_rules__usr_sbin_usermod
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F path=/usr/sbin/usermod -F perm=x -F auid>=1000 -F auid!=unset -k privileged-usermod$'
+    line: "{{ ubuntu2204STIG_stigrule_260627__etc_audit_rules_d_stig_rules__usr_sbin_usermod_Line }}"
+  when: ubuntu2204STIG_stigrule_260627_Manage
+# R-260628 UBTU-22-654130
+- name: stigrule_260628__etc_audit_rules_d_stig_rules__etc_group
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /etc/group -p wa -k usergroup_modification$'
+    line: "{{ ubuntu2204STIG_stigrule_260628__etc_audit_rules_d_stig_rules__etc_group_Line }}"
+  when: ubuntu2204STIG_stigrule_260628_Manage
+# R-260629 UBTU-22-654135
+- name: stigrule_260629__etc_audit_rules_d_stig_rules__etc_gshadow
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /etc/gshadow -p wa -k usergroup_modification$'
+    line: "{{ ubuntu2204STIG_stigrule_260629__etc_audit_rules_d_stig_rules__etc_gshadow_Line }}"
+  when: ubuntu2204STIG_stigrule_260629_Manage
+# R-260630 UBTU-22-654140
+- name: stigrule_260630__etc_audit_rules_d_stig_rules__etc_security_opasswd
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /etc/security/opasswd -p wa -k usergroup_modification$'
+    line: "{{ ubuntu2204STIG_stigrule_260630__etc_audit_rules_d_stig_rules__etc_security_opasswd_Line }}"
+  when: ubuntu2204STIG_stigrule_260630_Manage
+# R-260631 UBTU-22-654145
+- name: stigrule_260631__etc_audit_rules_d_stig_rules__etc_passwd
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /etc/passwd -p wa -k usergroup_modification$'
+    line: "{{ ubuntu2204STIG_stigrule_260631__etc_audit_rules_d_stig_rules__etc_passwd_Line }}"
+  when: ubuntu2204STIG_stigrule_260631_Manage
+# R-260632 UBTU-22-654150
+- name: stigrule_260632__etc_audit_rules_d_stig_rules__etc_shadow
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /etc/shadow -p wa -k usergroup_modification$'
+    line: "{{ ubuntu2204STIG_stigrule_260632__etc_audit_rules_d_stig_rules__etc_shadow_Line }}"
+  when: ubuntu2204STIG_stigrule_260632_Manage
+# R-260633 UBTU-22-654155
+- name: stigrule_260633__etc_audit_rules_d_stig_rules_b32_chmod_fchmod_fchmodat
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b32 -S chmod,fchmod,fchmodat -F auid>=1000 -F auid!=unset -k perm_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260633__etc_audit_rules_d_stig_rules_b32_chmod_fchmod_fchmodat_Line }}"
+  when: ubuntu2204STIG_stigrule_260633_Manage
+# R-260633 UBTU-22-654155
+- name: stigrule_260633__etc_audit_rules_d_stig_rules_b64_chmod_fchmod_fchmodat
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b64 -S chmod,fchmod,fchmodat -F auid>=1000 -F auid!=unset -k perm_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260633__etc_audit_rules_d_stig_rules_b64_chmod_fchmod_fchmodat_Line }}"
+  when: ubuntu2204STIG_stigrule_260633_Manage
+# R-260634 UBTU-22-654160
+- name: stigrule_260634__etc_audit_rules_d_stig_rules_b32_chown_fchown_fchownat_lchown
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b32 -S chown,fchown,fchownat,lchown -F auid>=1000 -F auid!=unset -k perm_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260634__etc_audit_rules_d_stig_rules_b32_chown_fchown_fchownat_lchown_Line }}"
+  when: ubuntu2204STIG_stigrule_260634_Manage
+# R-260634 UBTU-22-654160
+- name: stigrule_260634__etc_audit_rules_d_stig_rules_b64_chown_fchown_fchownat_lchown
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b64 -S chown,fchown,fchownat,lchown -F auid>=1000 -F auid!=unset -k perm_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260634__etc_audit_rules_d_stig_rules_b64_chown_fchown_fchownat_lchown_Line }}"
+  when: ubuntu2204STIG_stigrule_260634_Manage
+# R-260635 UBTU-22-654165
+- name: stigrule_260635__etc_audit_rules_d_stig_rules_b32_creat_open_openat_open_by_handle_at_truncate_ftruncate_EPERM
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b32 -S creat,open,openat,open_by_handle_at,truncate,ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=unset -k perm_access$'
+    line: "{{ ubuntu2204STIG_stigrule_260635__etc_audit_rules_d_stig_rules_b32_creat_open_openat_open_by_handle_at_truncate_ftruncate_EPERM_Line }}"
+  when: ubuntu2204STIG_stigrule_260635_Manage
+# R-260635 UBTU-22-654165
+- name: stigrule_260635__etc_audit_rules_d_stig_rules_b32_creat_open_openat_open_by_handle_at_truncate_ftruncate_EACCES
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b32 -S creat,open,openat,open_by_handle_at,truncate,ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=unset -k perm_access$'
+    line: "{{ ubuntu2204STIG_stigrule_260635__etc_audit_rules_d_stig_rules_b32_creat_open_openat_open_by_handle_at_truncate_ftruncate_EACCES_Line }}"
+  when: ubuntu2204STIG_stigrule_260635_Manage
+# R-260635 UBTU-22-654165
+- name: stigrule_260635__etc_audit_rules_d_stig_rules_b64_creat_open_openat_open_by_handle_at_truncate_ftruncat_EPERM
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b64 -S creat,open,openat,open_by_handle_at,truncate,ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=unset -k perm_access$'
+    line: "{{ ubuntu2204STIG_stigrule_260635__etc_audit_rules_d_stig_rules_b64_creat_open_openat_open_by_handle_at_truncate_ftruncat_EPERM_Line }}"
+  when: ubuntu2204STIG_stigrule_260635_Manage
+# R-260635 UBTU-22-654165
+- name: stigrule_260635__etc_audit_rules_d_stig_rules_b64_creat_open_openat_open_by_handle_at_truncate_ftruncat_EACCES
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b64 -S creat,open,openat,open_by_handle_at,truncate,ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=unset -k perm_access$'
+    line: "{{ ubuntu2204STIG_stigrule_260635__etc_audit_rules_d_stig_rules_b64_creat_open_openat_open_by_handle_at_truncate_ftruncat_EACCES_Line }}"
+  when: ubuntu2204STIG_stigrule_260635_Manage
+# R-260636 UBTU-22-654170
+- name: stigrule_260636__etc_audit_rules_d_stig_rules_delete_module_b32
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b32 -S delete_module -F auid>=1000 -F auid!=unset -k module_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260636__etc_audit_rules_d_stig_rules_delete_module_b32_Line }}"
+  when: ubuntu2204STIG_stigrule_260636_Manage
+# R-260636 UBTU-22-654170
+- name: stigrule_260636__etc_audit_rules_d_stig_rules_delete_module_b64
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b64 -S delete_module -F auid>=1000 -F auid!=unset -k module_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260636__etc_audit_rules_d_stig_rules_delete_module_b64_Line }}"
+  when: ubuntu2204STIG_stigrule_260636_Manage
+# R-260637 UBTU-22-654175
+- name: stigrule_260637__etc_audit_rules_d_stig_rules_b32_init_module_finit_module
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b32 -S init_module,finit_module -F auid>=1000 -F auid!=unset -k module_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260637__etc_audit_rules_d_stig_rules_b32_init_module_finit_module_Line }}"
+  when: ubuntu2204STIG_stigrule_260637_Manage
+# R-260637 UBTU-22-654175
+- name: stigrule_260637__etc_audit_rules_d_stig_rules_b64_init_module_finit_module
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b64 -S init_module,finit_module -F auid>=1000 -F auid!=unset -k module_chng$'
+    line: "{{ ubuntu2204STIG_stigrule_260637__etc_audit_rules_d_stig_rules_b64_init_module_finit_module_Line }}"
+  when: ubuntu2204STIG_stigrule_260637_Manage
+# R-260638 UBTU-22-654180
+- name: stigrule_260638__etc_audit_rules_d_stig_rules_b32_setxattr_fsetxattr_lsetxattr_removexattr_fremovexattr_lremovexattr_1
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b32 -S setxattr,fsetxattr,lsetxattr,removexattr,fremovexattr,lremovexattr -F auid>=1000 -F auid!=unset -k perm_mod$'
+    line: "{{ ubuntu2204STIG_stigrule_260638__etc_audit_rules_d_stig_rules_b32_setxattr_fsetxattr_lsetxattr_removexattr_fremovexattr_lremovexattr_1_Line }}"
+  when: ubuntu2204STIG_stigrule_260638_Manage
+# R-260638 UBTU-22-654180
+- name: stigrule_260638__etc_audit_rules_d_stig_rules_b32_setxattr_fsetxattr_lsetxattr_removexattr_fremovexattr_lremovexattr_2
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b32 -S setxattr,fsetxattr,lsetxattr,removexattr,fremovexattr,lremovexattr -F auid=0 -k perm_mod$'
+    line: "{{ ubuntu2204STIG_stigrule_260638__etc_audit_rules_d_stig_rules_b32_setxattr_fsetxattr_lsetxattr_removexattr_fremovexattr_lremovexattr_2_Line }}"
+  when: ubuntu2204STIG_stigrule_260638_Manage
+# R-260638 UBTU-22-654180
+- name: stigrule_260638__etc_audit_rules_d_stig_rules_b64_setxattr_fsetxattr_lsetxattr_removexattr_fremovexattr_lremovexattr_1
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b64 -S setxattr,fsetxattr,lsetxattr,removexattr,fremovexattr,lremovexattr -F auid>=1000 -F auid!=unset -k perm_mod$'
+    line: "{{ ubuntu2204STIG_stigrule_260638__etc_audit_rules_d_stig_rules_b64_setxattr_fsetxattr_lsetxattr_removexattr_fremovexattr_lremovexattr_1_Line }}"
+  when: ubuntu2204STIG_stigrule_260638_Manage
+# R-260638 UBTU-22-654180
+- name: stigrule_260638__etc_audit_rules_d_stig_rules_b64_setxattr_fsetxattr_lsetxattr_removexattr_fremovexattr_lremovexattr_2
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b64 -S setxattr,fsetxattr,lsetxattr,removexattr,fremovexattr,lremovexattr -F auid=0 -k perm_mod$'
+    line: "{{ ubuntu2204STIG_stigrule_260638__etc_audit_rules_d_stig_rules_b64_setxattr_fsetxattr_lsetxattr_removexattr_fremovexattr_lremovexattr_2_Line }}"
+  when: ubuntu2204STIG_stigrule_260638_Manage
+# R-260639 UBTU-22-654185
+- name: stigrule_260639__etc_audit_rules_d_stig_rules_b64_unlink_unlinkat_rename_renameat_rmdir
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b64 -S unlink,unlinkat,rename,renameat,rmdir -F auid>=1000 -F auid!=unset -k delete$'
+    line: "{{ ubuntu2204STIG_stigrule_260639__etc_audit_rules_d_stig_rules_b64_unlink_unlinkat_rename_renameat_rmdir_Line }}"
+  when: ubuntu2204STIG_stigrule_260639_Manage
+# R-260639 UBTU-22-654185
+- name: stigrule_260639__etc_audit_rules_d_stig_rules_b32_unlink_unlinkat_rename_renameat_rmdir
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b32 -S unlink,unlinkat,rename,renameat,rmdir -F auid>=1000 -F auid!=unset -k delete$'
+    line: "{{ ubuntu2204STIG_stigrule_260639__etc_audit_rules_d_stig_rules_b32_unlink_unlinkat_rename_renameat_rmdir_Line }}"
+  when: ubuntu2204STIG_stigrule_260639_Manage
+# R-260640 UBTU-22-654190
+- name: stigrule_260640__etc_audit_rules_d_stig_rules__var_log_journal
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /var/log/journal -p wa -k systemd_journal$'
+    line: "{{ ubuntu2204STIG_stigrule_260640__etc_audit_rules_d_stig_rules__var_log_journal_Line }}"
+  when: ubuntu2204STIG_stigrule_260640_Manage
+# R-260641 UBTU-22-654195
+- name: stigrule_260641__etc_audit_rules_d_stig_rules__var_log_btmp
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /var/log/btmp -p wa -k logins$'
+    line: "{{ ubuntu2204STIG_stigrule_260641__etc_audit_rules_d_stig_rules__var_log_btmp_Line }}"
+  when: ubuntu2204STIG_stigrule_260641_Manage
+# R-260642 UBTU-22-654200
+- name: stigrule_260642__etc_audit_rules_d_stig_rules__var_log_wtmp
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /var/log/wtmp -p wa -k logins$'
+    line: "{{ ubuntu2204STIG_stigrule_260642__etc_audit_rules_d_stig_rules__var_log_wtmp_Line }}"
+  when: ubuntu2204STIG_stigrule_260642_Manage
+# R-260643 UBTU-22-654205
+- name: stigrule_260643__etc_audit_rules_d_stig_rules__var_run_utmp
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /var/run/utmp -p wa -k logins$'
+    line: "{{ ubuntu2204STIG_stigrule_260643__etc_audit_rules_d_stig_rules__var_run_utmp_Line }}"
+  when: ubuntu2204STIG_stigrule_260643_Manage
+# R-260644 UBTU-22-654210
+- name: stigrule_260644__etc_audit_rules_d_stig_rules__var_log_faillog
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /var/log/faillog -p wa -k logins$'
+    line: "{{ ubuntu2204STIG_stigrule_260644__etc_audit_rules_d_stig_rules__var_log_faillog_Line }}"
+  when: ubuntu2204STIG_stigrule_260644_Manage
+# R-260645 UBTU-22-654215
+- name: stigrule_260645__etc_audit_rules_d_stig_rules__var_log_lastlog
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /var/log/lastlog -p wa -k logins$'
+    line: "{{ ubuntu2204STIG_stigrule_260645__etc_audit_rules_d_stig_rules__var_log_lastlog_Line }}"
+  when: ubuntu2204STIG_stigrule_260645_Manage
+# R-260646 UBTU-22-654220
+- name: stigrule_260646__etc_audit_rules_d_stig_rules__etc_sudoers
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /etc/sudoers -p wa -k privilege_modification$'
+    line: "{{ ubuntu2204STIG_stigrule_260646__etc_audit_rules_d_stig_rules__etc_sudoers_Line }}"
+  when: ubuntu2204STIG_stigrule_260646_Manage
+# R-260647 UBTU-22-654225
+- name: stigrule_260647__etc_audit_rules_d_stig_rules__etc_sudoers_d
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /etc/sudoers.d -p wa -k privilege_modification$'
+    line: "{{ ubuntu2204STIG_stigrule_260647__etc_audit_rules_d_stig_rules__etc_sudoers_d_Line }}"
+  when: ubuntu2204STIG_stigrule_260647_Manage
+# R-260648 UBTU-22-654230
+- name: stigrule_260648__etc_audit_rules_d_stig_rules_execve_b64_euid
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -F key=execpriv$'
+    line: "{{ ubuntu2204STIG_stigrule_260648__etc_audit_rules_d_stig_rules_execve_b64_euid_Line }}"
+  when: ubuntu2204STIG_stigrule_260648_Manage
+# R-260648 UBTU-22-654230
+- name: stigrule_260648__etc_audit_rules_d_stig_rules_execve_b64_egid
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -F key=execpriv$'
+    line: "{{ ubuntu2204STIG_stigrule_260648__etc_audit_rules_d_stig_rules_execve_b64_egid_Line }}"
+  when: ubuntu2204STIG_stigrule_260648_Manage
+# R-260648 UBTU-22-654230
+- name: stigrule_260648__etc_audit_rules_d_stig_rules_execve_b32_euid
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -F key=execpriv$'
+    line: "{{ ubuntu2204STIG_stigrule_260648__etc_audit_rules_d_stig_rules_execve_b32_euid_Line }}"
+  when: ubuntu2204STIG_stigrule_260648_Manage
+# R-260648 UBTU-22-654230
+- name: stigrule_260648__etc_audit_rules_d_stig_rules_execve_b32_egid
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -F key=execpriv$'
+    line: "{{ ubuntu2204STIG_stigrule_260648__etc_audit_rules_d_stig_rules_execve_b32_egid_Line }}"
+  when: ubuntu2204STIG_stigrule_260648_Manage
+# R-260649 UBTU-22-654235
+- name: stigrule_260649__etc_audit_rules_d_stig_rules__var_log_sudo_log
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /var/log/sudo.log -p wa -k maintenance$'
+    line: "{{ ubuntu2204STIG_stigrule_260649__etc_audit_rules_d_stig_rules__var_log_sudo_log_Line }}"
+  when: ubuntu2204STIG_stigrule_260649_Manage
+# R-274862 UBTU-22-654041
+- name: stigrule_274862__etc_audit_rules_d_stig_rules__etc_cron_d__cronjobs
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /etc/cron.d/ -p wa -k cronjobs$'
+    line: "{{ ubuntu2204STIG_stigrule_274862__etc_audit_rules_d_stig_rules__etc_cron_d__cronjobs_Line }}"
+  when: ubuntu2204STIG_stigrule_274862_Manage
+# R-274862 UBTU-22-654041
+- name: stigrule_274862__etc_audit_rules_d_stig_rules__var_spool_cron__cronjobs
+  lineinfile:
+    path: /etc/audit/rules.d/stig.rules
+    regexp: '^-w /var/spool/cron/ -p wa -k cronjobs$'
+    line: "{{ ubuntu2204STIG_stigrule_274862__etc_audit_rules_d_stig_rules__var_spool_cron__cronjobs_Line }}"
+  when: ubuntu2204STIG_stigrule_274862_Manage

@@ -1,10 +1,10 @@
-name: UBI9 Testing Matrix
+name: Ubuntu 22 Container Testing Matrix
 
 on:
-  # pull_request:
-  # push:
-  #   branches:
-  #     - main
+  pull_request:
+  push:
+    branches:
+      - main
 
 jobs:
   validate:
@@ -15,9 +15,9 @@ jobs:
       CHEF_LICENSE_KEY: ${{ secrets.SAF_CHEF_LICENSE_KEY }}
       KITCHEN_LOCAL_YAML: kitchen.container.yml
       LC_ALL: "en_US.UTF-8"
-      PLATFORM: "ubi9"
-      HARDENED_CONTAINER_IMAGE: "registry1.dso.mil/ironbank/redhat/ubi/ubi9"
-      VANILLA_CONTAINER_IMAGE: "registry.access.redhat.com/ubi9/ubi:9.3-1610"
+      PLATFORM: "ubuntu-22"
+      HARDENED_CONTAINER_IMAGE: "registry1.dso.mil/ironbank/canonical/ubuntu-pro-cis-fips-stig:22.04_stable"
+      VANILLA_CONTAINER_IMAGE: "ubuntu:22.04"
     strategy:
       matrix:
         suite: ["vanilla", "hardened"]
@@ -109,4 +109,4 @@ jobs:
         if: ${{ !contains(steps.commit.outputs.message, 'only-validate-profile') }}
         uses: mitre/saf_action@v1.5.2
         with:
-          command_string: "validate threshold -i spec/results/${{ env.PLATFORM }}_${{ matrix.suite }}.json -F ubi9_${{ matrix.suite }}.threshold.yml"
+          command_string: "validate threshold -i spec/results/${{ env.PLATFORM }}_${{ matrix.suite }}.json -F ubuntu22_${{ matrix.suite }}.threshold.yml"

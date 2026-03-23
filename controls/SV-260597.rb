@@ -1,33 +1,32 @@
 control 'SV-260597' do
   title 'Ubuntu 22.04 LTS must be configured so that audit log files are not read- or write-accessible by unauthorized users.'
-  desc 'Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.  
-  
+  desc 'Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.
+
 Audit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit operating system activity.'
-  desc 'check', 'Verify that the audit log files have a mode of "600" or less permissive.  
-  
-Determine where the audit logs are stored by using the following command:  
-  
-     $ sudo grep -iw log_file /etc/audit/auditd.conf 
-     log_file = /var/log/audit/audit.log 
-  
-Using the path of the directory containing the audit logs, determine if the audit log files have a mode of "600" or less by using the following command:  
-  
-     $ sudo stat -c "%n %a" /var/log/audit/* 
-     /var/log/audit/audit.log 600 
-  
+  desc 'check', 'Verify that the audit log files have a mode of "600" or less permissive.
+
+Determine where the audit logs are stored by using the following command:
+
+     $ sudo grep -iw log_file /etc/audit/auditd.conf
+     log_file = /var/log/audit/audit.log
+
+Using the path of the directory containing the audit logs, determine if the audit log files have a mode of "600" or less by using the following command:
+
+     $ sudo stat -c "%n %a" /var/log/audit/*
+     /var/log/audit/audit.log 600
+
 If the audit log files have a mode more permissive than "600", this is a finding.'
-  desc 'fix', 'Configure the audit log files to have a mode of "600" or less permissive.  
-  
-Using the path of the directory containing the audit logs, configure the audit log files to have a mode of "600" or less permissive by using the following command:  
-  
+  desc 'fix', 'Configure the audit log files to have a mode of "600" or less permissive.
+
+Using the path of the directory containing the audit logs, configure the audit log files to have a mode of "600" or less permissive by using the following command:
+
      $ sudo chmod 600 /var/log/audit/*'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'medium'
   tag gtitle: 'SRG-OS-000057-GPOS-00027'
   tag satisfies: ['SRG-OS-000057-GPOS-00027', 'SRG-OS-000058-GPOS-00028', 'SRG-OS-000059-GPOS-00029', 'SRG-OS-000206-GPOS-00084']
   tag gid: 'V-260597'
-  tag rid: 'SV-260597r953604_rule'
+  tag rid: 'SV-260597r958434_rule'
   tag stig_id: 'UBTU-22-653045'
   tag fix_id: 'F-64234r953603_fix'
   tag cci: ['CCI-000162', 'CCI-000163', 'CCI-000164', 'CCI-001314']
@@ -35,7 +34,7 @@ Using the path of the directory containing the audit logs, configure the audit l
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   log_file = auditd_conf('/etc/audit/auditd.conf').log_file

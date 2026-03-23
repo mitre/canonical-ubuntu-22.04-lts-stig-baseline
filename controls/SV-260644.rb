@@ -1,33 +1,32 @@
 control 'SV-260644' do
   title 'Ubuntu 22.04 LTS must generate audit records for the use and modification of faillog file.'
-  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.  
-  
+  desc 'Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.
+
 Audit records can be generated from various components within the information system (e.g., module or policy filter).'
-  desc 'check', 'Verify Ubuntu 22.04 LTS generates an audit record upon successful/unsuccessful modifications to the "faillog" file by using the following command: 
-  
-     $ sudo auditctl -l | grep faillog  
-     -w /var/log/faillog -p wa -k logins  
-  
-If the command does not return a line that matches the example or the line is commented out, this is a finding.  
-  
+  desc 'check', 'Verify Ubuntu 22.04 LTS generates an audit record upon successful/unsuccessful modifications to the "faillog" file by using the following command:
+
+     $ sudo auditctl -l | grep faillog
+     -w /var/log/faillog -p wa -k logins
+
+If the command does not return a line that matches the example or the line is commented out, this is a finding.
+
 Note: The "-k" value is arbitrary and can be different from the example output above.'
-  desc 'fix', 'Configure the audit system to generate an audit event for any successful/unsuccessful modifications to the "faillog" file.   
-  
-Add or modify the following line in the "/etc/audit/rules.d/stig.rules" file:  
-  
--w /var/log/faillog -p wa -k logins  
-    
-To reload the rules file, issue the following command:  
-  
-     $ sudo augenrules --load 
- 
+  desc 'fix', 'Configure the audit system to generate an audit event for any successful/unsuccessful modifications to the "faillog" file.
+
+Add or modify the following line in the "/etc/audit/rules.d/stig.rules" file:
+
+-w /var/log/faillog -p wa -k logins
+
+To reload the rules file, issue the following command:
+
+     $ sudo augenrules --load
+
 Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning to help during an audit investigation. The <keyname> does not need to match the example above.'
   impact 0.5
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag check_id: 'C-64373r953743_chk'
   tag severity: 'medium'
   tag gid: 'V-260644'
-  tag rid: 'SV-260644r953745_rule'
+  tag rid: 'SV-260644r958446_rule'
   tag stig_id: 'UBTU-22-654210'
   tag gtitle: 'SRG-OS-000064-GPOS-00033'
   tag fix_id: 'F-64281r953744_fix'
@@ -38,10 +37,10 @@ Note: The "-k <keyname>" at the end of the line gives the rule a unique meaning 
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
-  audit_command = '/var/log/faillock'
+  audit_command = '/var/log/faillog'
 
   describe 'Command' do
     it "#{audit_command} is audited properly" do

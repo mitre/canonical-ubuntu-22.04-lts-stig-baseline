@@ -12,19 +12,19 @@ transport:
   name: dokken
 
 platforms:
-  - name: ubi9
+  - name: ubuntu-22
 
 suites:
   - name: vanilla
     driver:
-      image: <%= ENV['VANILLA_CONTAINER_IMAGE'] || "registry.access.redhat.com/ubi9/ubi:9.3-1610" %>
+      image: <%= ENV['VANILLA_CONTAINER_IMAGE'] || "ubuntu:22.04" %>
     verifier:
       input_files:
         - container.vanilla.inputs.yml
   - name: hardened
     driver:
-      image: <%= ENV['HARDENED_CONTAINER_IMAGE'] || "registry1.dso.mil/ironbank/redhat/ubi/ubi9" %>
+      image: <%= ENV['HARDENED_CONTAINER_IMAGE'] || "registry1.dso.mil/ironbank/canonical/ubuntu-pro-cis-fips-stig:22.04_stable" %>
+      # creds_file: './creds.json'
     verifier:
       input_files:
         - container.hardened.inputs.yml
-      # creds_file: './creds.json'

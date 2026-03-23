@@ -16,25 +16,24 @@ can be accomplished by physical means (e.g., employing physical distribution
 systems) or by logical means (e.g., employing cryptographic techniques). If
 physical means of protection are employed, then logical means (cryptography) do
 not have to be employed, and vice versa.'
-  desc 'check', 'Verify the "ssh.service" is enabled and active by using the following commands:  
-  
-     $ sudo systemctl is-enabled ssh 
-     enabled 
- 
-     $ sudo systemctl is-active ssh 
-     active 
- 
+  desc 'check', 'Verify the "ssh.service" is enabled and active by using the following commands:
+
+     $ sudo systemctl is-enabled ssh
+     enabled
+
+     $ sudo systemctl is-active ssh
+     active
+
 If "ssh.service" is not enabled and active, this is a finding.'
-  desc 'fix', 'Enable and start the "ssh.service" by using the following command:  
-  
+  desc 'fix', 'Enable and start the "ssh.service" by using the following command:
+
      $ sudo systemctl enable ssh.service --now'
   impact 0.7
-  ref 'DPMS Target Canonical Ubuntu 22.04 LTS'
   tag severity: 'high'
   tag gtitle: 'SRG-OS-000423-GPOS-00187'
   tag satisfies: ['SRG-OS-000423-GPOS-00187', 'SRG-OS-000424-GPOS-00188', 'SRG-OS-000425-GPOS-00189', 'SRG-OS-000426-GPOS-00190']
   tag gid: 'V-260524'
-  tag rid: 'SV-260524r953385_rule'
+  tag rid: 'SV-260524r958908_rule'
   tag stig_id: 'UBTU-22-255015'
   tag fix_id: 'F-64161r953384_fix'
   tag cci: ['CCI-002418', 'CCI-002420', 'CCI-002421', 'CCI-002422']
@@ -42,7 +41,7 @@ If "ssh.service" is not enabled and active, this is a finding.'
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !virtualization.system.eql?('docker')
+    !%w[docker podman kubepods lxc].include?(virtualization.system)
   }
 
   describe systemd_service('sshd.service') do
