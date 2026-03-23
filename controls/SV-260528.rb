@@ -51,13 +51,9 @@ Restart the SSH daemon for the changes to take effect:
       end
     end
   else
-    # Retrieve sshd config path.
-    cfg_paths_cmd = command("/usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' '")
-    cfg_path = cfg_paths_cmd.stdout.to_s.strip.split(' ').first
-
     describe 'The OpenSSH Server configuration' do
       it "has the correct #{setting} configuration" do
-        expect(sshd_config(cfg_path).params[setting.downcase]).to cmp(value)
+        expect(sshd_active_config.params[setting.downcase]).to cmp(value)
       end
     end
   end

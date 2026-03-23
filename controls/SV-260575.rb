@@ -69,11 +69,7 @@ PubkeyAuthentication yes'
       its('lines') { should match_pam_rule('auth [success=3 default=ignore] pam_pkcs11.so') }
     end
 
-    # Retrieve sshd config path.
-    cfg_paths_cmd = command("/usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' '")
-    cfg_path = cfg_paths_cmd.stdout.to_s.strip.split(' ').first
-
-    describe sshd_config(cfg_path) do
+    describe sshd_active_config do
       its('PubkeyAuthentication') { should cmp 'yes' }
     end
   end

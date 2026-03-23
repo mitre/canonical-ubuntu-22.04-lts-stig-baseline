@@ -45,13 +45,9 @@ Restart the SSH daemon for the changes to take effect:
       skip 'SSH configuration does not apply inside containers. This control is Not Applicable.'
     end
   else
-    # Retrieve sshd config path.
-    cfg_paths_cmd = command("/usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\r' | tr '\n' ' '")
-    cfg_path = cfg_paths_cmd.stdout.to_s.strip.split(' ').first
-
     describe 'SSH ClientAliveCountMax configuration' do
       it "should be set to #{client_alive_count}" do
-        expect(sshd_config(cfg_path).ClientAliveCountMax).to(cmp(client_alive_count), "SSH ClientAliveCountMax is commented out or not set to the expected value (#{client_alive_count})")
+        expect(sshd_active_config.ClientAliveCountMax).to(cmp(client_alive_count), "SSH ClientAliveCountMax is commented out or not set to the expected value (#{client_alive_count})")
       end
     end
   end
