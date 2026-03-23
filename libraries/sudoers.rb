@@ -20,6 +20,7 @@ class SudoersUserSpecTable
       parsed_line = line.match(/^(?<users>\S+)\s+(?<hosts>[^=\s]+)=(\((?<run_as>.+)\))?\s*(?<tags>(#{tags.join(':|')}:)+)*\s*(?<commands>.*)$/)
 
       # tried just using `.named_captures` to construct the hash, but that gives hash keys that are strings, which confuses filtertable
+      # TODO: figure out how to handle optional fields like `tags`, which seem to have weird interactions with `.where`
       unless parsed_line.nil?
         line_hash[:users] = parsed_line['users']
         line_hash[:hosts] = parsed_line['hosts']
@@ -54,6 +55,9 @@ class Sudoers < Inspec.resource(1)
 
   def initialize(sudoers_files="/etc/sudoers")
 
+    # TODO - figure out precendence for different sudo files; do we need to account for that?
+    # TODO - catch if the user is not root, which will make them unable to read sudoers files
+
     # allow user to pass a single file or a list of a bunch of sudoers files
     sudoers_files = [sudoers_files] if sudoers_files.is_a?(String)
 
@@ -84,6 +88,8 @@ class Sudoers < Inspec.resource(1)
   private
 
   def settings_hash(settings_lines)
+
+    # TODO: allow for sorting by type of alias (Cmnd_Alias, User_Alias, etc.)
 
       parse_options = {
           assignment_regex: /^\s*([^=]*?)\s*\+?=\s*(.*?)\s*$/,
