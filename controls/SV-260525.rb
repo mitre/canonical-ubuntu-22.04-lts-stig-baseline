@@ -89,8 +89,9 @@ Restart the SSH daemon for the changes to take effect and then signal the SSH se
     !%w[docker podman kubepods lxc].include?(virtualization.system) || package('openssh-server').installed?
   }
 
-  # Determine banner file.
-  banner_file = sshd_active_config.banner
+  sc = sshd_active_config
+  banner_path = sc.banner
+  banner_file = file(banner_path)
 
   describe "File containing Banner Content (#{banner_file.path})" do
     it 'should exist' do
