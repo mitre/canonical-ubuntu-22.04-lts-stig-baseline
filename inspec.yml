@@ -10,6 +10,8 @@ inspec_version: ">= 6.0"
 supports:
   - platform-name: ubuntu
     release: 22.*
+  - platform-name: debian
+    release: 12.*
 
 ### INPUTS ###
 # Inputs are variables that can be referenced by any control in the profile, 
