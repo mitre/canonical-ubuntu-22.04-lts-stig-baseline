@@ -68,7 +68,7 @@ End timestamp: 2024-04-01 04:29:16 +1300 (run time: 9m 16s)'
   file_integrity_tool = input('file_integrity_tool')
 
   only_if('This control is Not Applicable to containers or systesm without AIDE', impact: 0.0) {
-    !%w[docker podman kubepods lxc].include?(virtualization.system) && package('aide').installed?
+    !virtualization.container_system? && package('aide').installed?
   }
 
   if file_integrity_tool == 'aide'

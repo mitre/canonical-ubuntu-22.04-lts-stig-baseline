@@ -31,7 +31,7 @@ To set the timeout for the current sessions, execute the following command over 
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !%w[docker podman kubepods lxc].include?(virtualization.system)
+    !virtualization.container_system?
   }
 
   content = command('cat /etc/bash.bashrc /etc/profile.d/*.sh 2>/dev/null').stdout

@@ -29,7 +29,7 @@ If the "apparmor" package is not installed, this is a finding.'
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !%w[docker podman kubepods lxc].include?(virtualization.system)
+    !virtualization.container_system?
   }
 
   describe service('apparmor') do

@@ -39,7 +39,7 @@ Restart the SSH daemon for the changes to take effect:
 
   client_alive_count = input('sshd_client_alive_count_max')
 
-  if %w[docker podman kubepods lxc].include?(virtualization.system)
+  if virtualization.container_system?
     impact 0.0
     describe 'skip' do
       skip 'SSH configuration does not apply inside containers. This control is Not Applicable.'
