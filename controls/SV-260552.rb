@@ -26,7 +26,7 @@ Add or modify the following line at the top of the "/etc/security/limits.conf" f
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !%w[docker podman kubepods lxc].include?(virtualization.system)
+    !virtualization.container_system?
   }
 
   setting = 'maxlogins'

@@ -39,7 +39,7 @@ Restart the system for the changes to take effect.'
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !%w[docker podman kubepods lxc].include?(virtualization.system)
+    !virtualization.container_system?
   }
 
   journal_bases  = %w[/run/log/journal /var/log/journal]

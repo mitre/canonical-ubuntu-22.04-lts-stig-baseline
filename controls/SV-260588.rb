@@ -38,7 +38,7 @@ Enable and activate the log service by using the following command:
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !%w[docker podman kubepods lxc].include?(virtualization.system)
+    !virtualization.container_system?
   }
 
   if input('alternative_logging_method') != ''

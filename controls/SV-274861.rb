@@ -28,7 +28,7 @@ ALL     ALL=(ALL:ALL) ALL'
   tag 'host'
 
   only_if('This control is Not Applicable to containers', impact: 0.0) {
-    !%w[docker podman kubepods lxc].include?(virtualization.system)
+    !virtualization.container_system?
   }
 
   sudo = sudoers(input('sudoers_config_files'))

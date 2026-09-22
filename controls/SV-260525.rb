@@ -86,7 +86,7 @@ Restart the SSH daemon for the changes to take effect and then signal the SSH se
   tag 'container-conditional'
 
   only_if('Control not applicable - SSH is not installed within containerized Ubuntu', impact: 0.0) {
-    !%w[docker podman kubepods lxc].include?(virtualization.system) || package('openssh-server').installed?
+    !virtualization.container_system? || package('openssh-server').installed?
   }
 
   sc = sshd_active_config
